@@ -1,0 +1,76 @@
+# Configuration files with sensitive data
+/config/config.php
+
+# Composer dependencies
+/vendor/
+
+# Logs and temporary files
+/storage/logs/*
+!storage/logs/.gitkeep
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Test files
+test*.php
+*test.php
+debug*.php
+check*.php
+
+# Backup files
+*.bak
+*.backup
+*.old
+*.orig
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Database dumps
+*.sql
+!migrations/*.sql
+
+# MercadoPago credentials
+mercadopago_config.php
+
+# Session files
+/storage/sessions/*
+!storage/sessions/.gitkeep
+
+# Cache files
+/storage/cache/*
+!storage/cache/.gitkeep
+
+# Uploaded files (if any)
+/public/uploads/*
+!public/uploads/.gitkeep
+
+# Node modules (if added in future)
+node_modules/
+
+# Build files
+/dist/
+/build/
+
+# Documentation build
+/docs/_build/
+
+# PHP CS Fixer
+.php_cs.cache
+.php-cs-fixer.cache
+
+# PHPUnit
+.phpunit.result.cache
+phpunit.xml
+
+# System files
+desktop.ini
+.directory

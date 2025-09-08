@@ -1,0 +1,393 @@
+/* AgendaFlow - Responsive Design Improvements */
+
+/* Mobile First Approach */
+
+/* Extra Small Devices (phones, less than 576px) */
+@media (max-width: 575.98px) {
+    /* Login & Register Pages */
+    .row.justify-content-center > .col-md-5,
+    .row.justify-content-center > .col-md-6 {
+        padding: 0 15px;
+    }
+    
+    /* Cards on mobile */
+    .card {
+        margin-bottom: 1rem;
+        border-radius: 0.5rem;
+    }
+    
+    /* Forms */
+    .form-control, .form-select {
+        font-size: 16px; /* Prevent zoom on iOS */
+    }
+    
+    /* Navigation */
+    .navbar-brand {
+        font-size: 1.1rem;
+    }
+    
+    /* Dashboard cards */
+    .col-md-3.mb-4 {
+        margin-bottom: 1rem !important;
+    }
+    
+    /* Appointments view */
+    .btn-group {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+    
+    .btn-group .btn {
+        flex: 1;
+    }
+    
+    /* Date navigation */
+    .col-md-4 {
+        margin-bottom: 1rem;
+        text-align: center !important;
+    }
+    
+    /* Table responsive */
+    .table-responsive {
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Appointment cards */
+    .col-md-6.mb-3 {
+        padding: 0 0.5rem;
+    }
+    
+    /* Modal dialogs */
+    .modal-dialog {
+        margin: 0.5rem;
+    }
+    
+    /* Buttons */
+    .btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.95rem;
+    }
+    
+    /* FAB button */
+    .fab-button {
+        bottom: 1rem !important;
+        right: 1rem !important;
+        width: 48px !important;
+        height: 48px !important;
+    }
+    
+    /* Trial banner */
+    .trial-banner, .bg-danger {
+        padding: 0.75rem !important;
+        font-size: 0.85rem;
+    }
+    
+    /* Dropdown menus */
+    .dropdown-menu {
+        width: 100%;
+    }
+    
+    /* Service cards */
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Client list */
+    .table td {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+    }
+    
+    /* Settings form */
+    .settings-form .row {
+        margin: 0;
+    }
+    
+    /* Reports charts */
+    canvas {
+        max-width: 100% !important;
+        height: auto !important;
+    }
+    
+    /* Footer */
+    footer {
+        padding: 1rem !important;
+        font-size: 0.85rem;
+    }
+    
+    /* Date picker on appointments */
+    input[type="date"] {
+        width: 100% !important;
+        margin-bottom: 0.5rem;
+    }
+    
+    /* Time slots grid */
+    .time-slots {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.5rem;
+    }
+    
+    /* Alert messages */
+    .alert {
+        margin: 0.5rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Small Devices (landscape phones, 576px and up) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+    .container {
+        max-width: 100%;
+        padding: 0 1rem;
+    }
+    
+    /* Cards layout */
+    .col-sm-6 {
+        padding: 0 0.5rem;
+    }
+    
+    /* Navigation improvements */
+    .navbar-nav {
+        text-align: center;
+    }
+    
+    /* Form controls */
+    .form-control, .form-select {
+        font-size: 16px;
+    }
+}
+
+/* Medium Devices (tablets, 768px and up) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+    /* Dashboard layout */
+    .col-md-3 {
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+    
+    /* Appointment cards */
+    .col-md-6 {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+    
+    /* Navigation */
+    .navbar-nav .nav-item {
+        padding: 0 0.25rem;
+    }
+    
+    .navbar-nav .nav-link {
+        font-size: 0.9rem;
+        padding: 0.5rem 0.75rem;
+    }
+}
+
+/* Large Devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+    /* Keep default Bootstrap behavior */
+}
+
+/* Utility Classes for Mobile */
+@media (max-width: 575.98px) {
+    /* Text alignment */
+    .text-xs-center {
+        text-align: center !important;
+    }
+    
+    /* Spacing */
+    .mt-xs-3 {
+        margin-top: 1rem !important;
+    }
+    
+    .mb-xs-3 {
+        margin-bottom: 1rem !important;
+    }
+    
+    .p-xs-2 {
+        padding: 0.5rem !important;
+    }
+    
+    /* Display */
+    .d-xs-none {
+        display: none !important;
+    }
+    
+    .d-xs-block {
+        display: block !important;
+    }
+    
+    /* Width */
+    .w-xs-100 {
+        width: 100% !important;
+    }
+}
+
+/* Specific Page Fixes */
+
+/* Login/Register pages on mobile */
+@media (max-width: 575.98px) {
+    .auth-container {
+        padding: 1rem;
+    }
+    
+    .auth-container .card {
+        box-shadow: none;
+        border: 1px solid rgba(0,0,0,0.125);
+    }
+    
+    .auth-container h1 {
+        font-size: 1.5rem;
+    }
+    
+    .auth-container .btn-primary {
+        width: 100%;
+        padding: 0.75rem;
+    }
+}
+
+/* Appointments page on mobile */
+@media (max-width: 575.98px) {
+    /* Week view - horizontal scroll */
+    .appointments-week-view {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .appointments-week-view table {
+        min-width: 600px;
+    }
+    
+    /* Day view improvements */
+    .appointment-card {
+        margin-bottom: 1rem;
+    }
+    
+    .appointment-card .dropdown {
+        position: static;
+    }
+    
+    .appointment-card .dropdown-menu {
+        width: 100%;
+        position: relative !important;
+        transform: none !important;
+        margin-top: 0.25rem;
+    }
+}
+
+/* Dashboard on mobile */
+@media (max-width: 575.98px) {
+    .dashboard-stats .card {
+        margin-bottom: 1rem;
+    }
+    
+    .dashboard-stats .card-body {
+        padding: 1rem;
+    }
+    
+    .dashboard-stats h3 {
+        font-size: 1.75rem;
+    }
+    
+    .dashboard-chart {
+        margin-top: 1rem;
+    }
+}
+
+/* Services page on mobile */
+@media (max-width: 575.98px) {
+    .service-card {
+        margin-bottom: 1rem;
+    }
+    
+    .service-actions {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+    }
+    
+    .service-actions .btn {
+        flex: 1;
+        padding: 0.5rem;
+        font-size: 0.85rem;
+    }
+}
+
+/* Settings page on mobile */
+@media (max-width: 575.98px) {
+    .settings-nav-tabs {
+        display: flex;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin-bottom: 1rem;
+    }
+    
+    .settings-nav-tabs .nav-link {
+        white-space: nowrap;
+        padding: 0.5rem 1rem;
+    }
+    
+    .business-hours-grid {
+        display: block;
+    }
+    
+    .business-hours-grid .row {
+        margin-bottom: 1rem;
+    }
+}
+
+/* Fix Bootstrap modal on iOS */
+@media (max-width: 575.98px) {
+    .modal-open {
+        position: fixed;
+        overflow: hidden;
+    }
+    
+    .modal {
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    .modal-backdrop {
+        position: fixed;
+    }
+}
+
+/* Improve touch targets */
+@media (max-width: 767.98px) {
+    /* Minimum 44x44px touch targets */
+    .btn, 
+    .form-control, 
+    .form-select,
+    .nav-link,
+    .dropdown-item {
+        min-height: 44px;
+        line-height: 1.5;
+    }
+    
+    .form-check-input {
+        width: 20px;
+        height: 20px;
+        margin-top: 0.25rem;
+    }
+    
+    .form-check-label {
+        padding-left: 0.5rem;
+        line-height: 1.5;
+    }
+}
+
+/* Print styles */
+@media print {
+    .navbar,
+    .fab-button,
+    .btn-group,
+    .dropdown,
+    footer {
+        display: none !important;
+    }
+    
+    .card {
+        border: 1px solid #000 !important;
+        page-break-inside: avoid;
+    }
+}
