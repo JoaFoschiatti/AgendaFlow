@@ -81,8 +81,16 @@ $router->post('/subscription/cancel', 'SubscriptionController@cancel', 'subscrip
 $router->get('/reports', 'ReportController@index', 'reports');
 $router->get('/reports/export', 'ReportController@export', 'reports.export');
 
+// Payment routes
+$router->post('/api/payment/preference', 'PaymentController@createPreference', 'payment.preference');
+$router->get('/payment/success', 'PaymentController@success', 'payment.success');
+$router->get('/payment/failure', 'PaymentController@failure', 'payment.failure');
+$router->get('/payment/pending', 'PaymentController@pending', 'payment.pending');
+$router->get('/payment/history', 'PaymentController@history', 'payment.history');
+
 // Webhooks
 $router->post('/webhook/mercadopago', 'WebhookController@mercadopago', 'webhook.mercadopago');
+$router->post('/webhook/payment', 'PaymentController@webhook', 'webhook.payment');
 
 // API endpoints (for AJAX)
 $router->get('/api/appointments/check-overlap', 'AppointmentController@checkOverlap');

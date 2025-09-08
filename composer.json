@@ -3,7 +3,8 @@
     "description": "Fluye con tu agenda digital - Sistema de turnos web para profesionales",
     "type": "project",
     "require": {
-        "php": ">=7.4"
+        "php": ">=7.4",
+        "mercadopago/dx-php": "^2.5"
     },
     "autoload": {
         "psr-4": {

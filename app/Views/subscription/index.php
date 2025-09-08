@@ -142,12 +142,16 @@ $config = require dirname(__DIR__, 3) . '/config/config.php';
                 </ul>
                 
                 <?php if ($user['subscription_status'] !== 'active'): ?>
-                    <form method="POST" action="/AgendaFlow/public/subscription/checkout">
-                        <?php echo \App\Core\CSRF::field(); ?>
-                        <button type="submit" class="btn btn-primary btn-lg">
-                            <i class="bi bi-credit-card"></i> Activar Suscripción
-                        </button>
-                    </form>
+                    <?php echo \App\Core\CSRF::field(); ?>
+                    <button type="button" id="checkout-btn" class="btn btn-primary btn-lg" onclick="initMercadoPagoCheckout()">
+                        <i class="bi bi-credit-card"></i> Activar Suscripción
+                    </button>
+                    
+                    <div id="checkout-loading" class="d-none">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Cargando...</span>
+                        </div>
+                    </div>
                     
                     <p class="mt-3 mb-0">
                         <img src="https://http2.mlstatic.com/storage/logos-api-admin/a5f047d0-9be0-11ec-aad4-c3381f368aaf-m.svg" 
@@ -295,3 +299,72 @@ $config = require dirname(__DIR__, 3) . '/config/config.php';
     </div>
 </div>
 <?php endif; ?>
+
+<!-- MercadoPago Checkout Pro Integration -->
+<script src="https://sdk.mercadopago.com/js/v2"></script>
+<script>
+async function initMercadoPagoCheckout() {
+    const checkoutBtn = document.getElementById('checkout-btn');
+    const loadingDiv = document.getElementById('checkout-loading');
+    
+    // Show loading
+    checkoutBtn.classList.add('d-none');
+    loadingDiv.classList.remove('d-none');
+    
+    try {
+        // Get CSRF token
+        const csrfToken = document.querySelector('input[name="_token"]').value;
+        
+        // Create preference
+        const response = await fetch('/AgendaFlow/public/api/payment/preference', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-Token': csrfToken
+            },
+            body: JSON.stringify({})
+        });
+        
+        if (!response.ok) {
+            throw new Error('Error al crear la preferencia de pago');
+        }
+        
+        const data = await response.json();
+        
+        if (data.error) {
+            throw new Error(data.error);
+        }
+        
+        // Initialize MercadoPago
+        const mp = new MercadoPago(data.public_key, {
+            locale: 'es-AR'
+        });
+        
+        // Create checkout
+        mp.checkout({
+            preference: {
+                id: data.preference_id
+            },
+            render: {
+                container: '.cho-container', // This will open in modal/redirect
+                label: 'Pagar con MercadoPago'
+            },
+            theme: {
+                elementsColor: '#4F46E5',
+                headerColor: '#4F46E5'
+            }
+        });
+        
+        // Redirect to checkout
+        window.location.href = data.init_point;
+        
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error al procesar el pago. Por favor, intenta nuevamente.');
+        
+        // Hide loading and show button again
+        checkoutBtn.classList.remove('d-none');
+        loadingDiv.classList.add('d-none');
+    }
+}
+</script>
