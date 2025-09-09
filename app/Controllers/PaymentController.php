@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
+use App\Core\CSRF;
 use App\Models\Payment;
 use App\Models\User;
 use App\Models\Subscription;
@@ -28,9 +29,23 @@ class PaymentController extends Controller
     {
         $this->requireAuth();
         
-        if (!$this->validateCSRF()) {
-            $this->json(['error' => 'Token de seguridad inválido'], 403);
-            return;
+        // Check for JSON request
+        $isJsonRequest = strpos($_SERVER['CONTENT_TYPE'] ?? '', 'application/json') !== false;
+        
+        if ($isJsonRequest) {
+            // For AJAX JSON requests, check CSRF in header
+            $headers = getallheaders();
+            $csrfToken = $headers['X-CSRF-Token'] ?? $headers['x-csrf-token'] ?? '';
+            if (!CSRF::validate($csrfToken)) {
+                $this->json(['error' => 'Token de seguridad inválido'], 403);
+                return;
+            }
+        } else {
+            // For regular form requests
+            if (!$this->validateCSRF()) {
+                $this->json(['error' => 'Token de seguridad inválido'], 403);
+                return;
+            }
         }
         
         try {
@@ -59,7 +74,7 @@ class PaymentController extends Controller
             $preference->items = [$item];
             $preference->payer = $payer;
             
-            // Set return URLs
+            // Set return URLs - REQUIRED for auto_return
             $baseUrl = $config['app']['url'] . '/public';
             $preference->back_urls = [
                 'success' => $baseUrl . '/payment/success',
@@ -67,7 +82,7 @@ class PaymentController extends Controller
                 'pending' => $baseUrl . '/payment/pending'
             ];
             
-            // Additional configuration
+            // Additional configuration - auto_return ONLY works if back_urls are defined
             $preference->auto_return = 'approved';
             $preference->binary_mode = true; // Only approved or rejected
             $preference->statement_descriptor = 'AgendaFlow';
@@ -84,7 +99,14 @@ class PaymentController extends Controller
             ];
             
             // Save preference
-            $preference->save();
+            $saved = $preference->save();
+            
+            // Check if preference was saved successfully
+            if (!$preference->id) {
+                // Log the error for debugging
+                error_log('MercadoPago Preference Error: ' . json_encode($preference->error ?? 'Unknown error'));
+                throw new \Exception('No se pudo crear la preferencia de pago. Verifica las credenciales y configuración.');
+            }
             
             // Create payment record
             $paymentId = $this->paymentModel->create([
@@ -96,20 +118,50 @@ class PaymentController extends Controller
                 'raw_data' => json_encode($preference)
             ]);
             
-            // Log event
-            $this->paymentModel->logEvent($paymentId, 'preference_created', [
-                'preference_id' => $preference->id,
-                'external_reference' => $preference->external_reference
-            ]);
+            // Log event only if payment was created successfully
+            if ($paymentId) {
+                $this->paymentModel->logEvent($paymentId, 'preference_created', [
+                    'preference_id' => $preference->id,
+                    'external_reference' => $preference->external_reference
+                ]);
+                
+                $this->auditLog('payment_preference_created', 'payment', $paymentId, [
+                    'preference_id' => $preference->id
+                ]);
+            } else {
+                // Log error but continue - payment record is optional for preference creation
+                error_log('Payment record could not be created, but preference was successful');
+            }
             
-            $this->auditLog('payment_preference_created', 'payment', $paymentId, [
-                'preference_id' => $preference->id
-            ]);
+            // IMPORTANTE: Para cuentas TEST, SIEMPRE usar sandbox_init_point
+            // Determinar qué URL usar
+            $initPoint = null;
+            
+            // Primero intentar con sandbox_init_point (para cuentas TEST)
+            if (!empty($preference->sandbox_init_point)) {
+                $initPoint = $preference->sandbox_init_point;
+                error_log('Using sandbox_init_point: ' . $initPoint);
+            }
+            // Si no hay sandbox URL, usar la normal
+            elseif (!empty($preference->init_point)) {
+                $initPoint = $preference->init_point;
+                error_log('Using init_point: ' . $initPoint);
+            }
+            
+            // Si no hay ninguna URL, hay un problema
+            if (!$initPoint) {
+                error_log('No init_point available. Preference dump: ' . json_encode([
+                    'id' => $preference->id,
+                    'init_point' => $preference->init_point,
+                    'sandbox_init_point' => $preference->sandbox_init_point
+                ]));
+                throw new \Exception('No se pudo obtener la URL de pago');
+            }
             
             // Return preference data
             $this->json([
                 'preference_id' => $preference->id,
-                'init_point' => $config['mercadopago']['sandbox'] ? $preference->sandbox_init_point : $preference->init_point,
+                'init_point' => $initPoint,
                 'public_key' => $config['mercadopago']['public_key']
             ]);
             

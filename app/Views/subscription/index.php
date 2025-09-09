@@ -325,37 +325,40 @@ async function initMercadoPagoCheckout() {
             body: JSON.stringify({})
         });
         
-        if (!response.ok) {
-            throw new Error('Error al crear la preferencia de pago');
+        // Primero obtener el texto de la respuesta
+        const responseText = await response.text();
+        console.log('Respuesta raw:', responseText);
+        
+        // Intentar parsear como JSON
+        let data;
+        try {
+            data = JSON.parse(responseText);
+        } catch (parseError) {
+            console.error('Error parseando JSON:', parseError);
+            console.error('Respuesta recibida:', responseText.substring(0, 500));
+            throw new Error('La respuesta del servidor no es JSON válido. Revisa la consola para más detalles.');
         }
         
-        const data = await response.json();
+        if (!response.ok) {
+            throw new Error(data.error || 'Error al crear la preferencia de pago');
+        }
         
         if (data.error) {
             throw new Error(data.error);
         }
         
-        // Initialize MercadoPago
-        const mp = new MercadoPago(data.public_key, {
-            locale: 'es-AR'
+        // Verificar que tenemos los datos necesarios
+        if (!data.preference_id || !data.init_point) {
+            console.error('Datos recibidos:', data);
+            throw new Error('No se recibió ID de preferencia o URL de pago');
+        }
+        
+        console.log('Preferencia creada:', {
+            id: data.preference_id,
+            url: data.init_point
         });
         
-        // Create checkout
-        mp.checkout({
-            preference: {
-                id: data.preference_id
-            },
-            render: {
-                container: '.cho-container', // This will open in modal/redirect
-                label: 'Pagar con MercadoPago'
-            },
-            theme: {
-                elementsColor: '#4F46E5',
-                headerColor: '#4F46E5'
-            }
-        });
-        
-        // Redirect to checkout
+        // Redirigir directamente al checkout
         window.location.href = data.init_point;
         
     } catch (error) {
