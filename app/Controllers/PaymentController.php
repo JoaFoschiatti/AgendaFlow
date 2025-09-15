@@ -75,6 +75,7 @@ class PaymentController extends Controller
             $preference->payer = $payer;
             
             // Set return URLs - REQUIRED for auto_return
+            // Corregido: el config['app']['url'] ya incluye /AgendaFlow, solo agregar /public
             $baseUrl = $config['app']['url'] . '/public';
             $preference->back_urls = [
                 'success' => $baseUrl . '/payment/success',
@@ -82,8 +83,10 @@ class PaymentController extends Controller
                 'pending' => $baseUrl . '/payment/pending'
             ];
             
-            // Additional configuration - auto_return ONLY works if back_urls are defined
-            $preference->auto_return = 'approved';
+            // Additional configuration - auto_return removido por problemas con el API
+            // NOTA: auto_return está causando errores con el SDK actual, 
+            // así que lo omitimos y el usuario tendrá que hacer click en "Volver al sitio"
+            // $preference->auto_return = 'approved'; 
             $preference->binary_mode = true; // Only approved or rejected
             $preference->statement_descriptor = 'AgendaFlow';
             $preference->external_reference = 'user_' . $this->user['id'] . '_' . time();
