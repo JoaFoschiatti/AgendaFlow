@@ -12,26 +12,36 @@ class Client extends Model
     protected array $fillable = [
         'user_id',
         'name',
+        'email',
         'phone',
-        'notes'
+        'address',
+        'notes',
+        'birth_date'
     ];
     
     public function getByUser(int $userId): array
     {
-        return $this->all(['user_id' => $userId], ['name' => 'ASC']);
+        return parent::all(['user_id' => $userId]);
+    }
+
+    // Method to support findAll calls from controllers
+    public function findAll(array $conditions = [], array $orderBy = []): array
+    {
+        return parent::all($conditions, $orderBy);
     }
     
     public function search(int $userId, string $query): array
     {
         $sql = "SELECT * FROM {$this->table} 
                 WHERE user_id = :user_id 
-                AND (name LIKE :query OR phone LIKE :query2)
+                AND (name LIKE :query OR phone LIKE :query2 OR email LIKE :query3)
                 ORDER BY name ASC";
         
         $stmt = DB::query($sql, [
             'user_id' => $userId,
             'query' => "%{$query}%",
-            'query2' => "%{$query}%"
+            'query2' => "%{$query}%",
+            'query3' => "%{$query}%"
         ]);
         
         return $stmt->fetchAll();

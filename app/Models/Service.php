@@ -7,26 +7,33 @@ use App\Core\Model;
 class Service extends Model
 {
     protected string $table = 'services';
-    
+
     protected array $fillable = [
         'user_id',
         'name',
-        'price_default',
-        'duration_min',
+        'description',
+        'price',
+        'duration',
         'color',
-        'active'
+        'is_active'
     ];
-    
+
     public function getActiveByUser(int $userId): array
     {
-        return $this->all([
+        return parent::all([
             'user_id' => $userId,
-            'active' => 1
-        ], ['name' => 'ASC']);
+            'is_active' => 1
+        ]);
     }
-    
+
     public function getAllByUser(int $userId): array
     {
-        return $this->all(['user_id' => $userId], ['name' => 'ASC']);
+        return parent::all(['user_id' => $userId]);
+    }
+
+    // Method to support findAll calls from controllers
+    public function findAll(array $conditions = [], array $orderBy = []): array
+    {
+        return parent::all($conditions, $orderBy);
     }
 }

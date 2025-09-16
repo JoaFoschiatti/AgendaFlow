@@ -1,10 +1,15 @@
 # Rewrite engine for front controller
 RewriteEngine On
 
-# Redirect all requests to index.php
+# API requests go to api.php
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php?$1 [QSA,L]
+RewriteRule ^api/(.*)$ api.php [QSA,L]
+
+# All other requests go to index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [QSA,L]
 
 # Prevent directory listing
 Options -Indexes
