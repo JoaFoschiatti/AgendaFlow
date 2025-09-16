@@ -196,4 +196,57 @@ class Appointment extends Model
         
         return $result;
     }
+
+    public function getByUserAndDate(int $userId, string $date): array
+    {
+        $startDate = $date . ' 00:00:00';
+        $endDate = $date . ' 23:59:59';
+
+        $sql = "SELECT * FROM {$this->table}
+                WHERE user_id = :user_id
+                AND starts_at >= :start_date
+                AND starts_at <= :end_date
+                AND status IN ('scheduled', 'completed')
+                ORDER BY starts_at ASC";
+
+        $stmt = DB::query($sql, [
+            'user_id' => $userId,
+            'start_date' => $startDate,
+            'end_date' => $endDate
+        ]);
+
+        return $stmt->fetchAll();
+    }
+
+    public function getByUserWithDetails(int $userId, ?string $startDate = null, ?string $endDate = null): array
+    {
+        $sql = "SELECT a.*, s.name as service_name, s.color as service_color,
+                       s.duration as service_duration, c.name as saved_client_name
+                FROM {$this->table} a
+                LEFT JOIN services s ON a.service_id = s.id
+                LEFT JOIN clients c ON a.client_id = c.id
+                WHERE a.user_id = :user_id";
+
+        $params = ['user_id' => $userId];
+
+        if ($startDate) {
+            $sql .= " AND a.starts_at >= :start_date";
+            $params['start_date'] = $startDate;
+        }
+
+        if ($endDate) {
+            $sql .= " AND a.starts_at <= :end_date";
+            $params['end_date'] = $endDate;
+        }
+
+        $sql .= " ORDER BY a.starts_at DESC";
+
+        $stmt = DB::query($sql, $params);
+        return $stmt->fetchAll();
+    }
+
+    public function hasOverlap(int $userId, string $startsAt, string $endsAt, ?int $excludeId = null): bool
+    {
+        return $this->checkOverlap($userId, $startsAt, $endsAt, $excludeId);
+    }
 }

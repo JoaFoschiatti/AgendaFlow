@@ -26,6 +26,11 @@ class Router
     {
         $this->addRoute('DELETE', $path, $handler, $name);
     }
+
+    public function patch(string $path, $handler, ?string $name = null): void
+    {
+        $this->addRoute('PATCH', $path, $handler, $name);
+    }
     
     private function addRoute(string $method, string $path, $handler, ?string $name = null): void
     {
@@ -73,16 +78,22 @@ class Router
         
         if (is_string($handler) && strpos($handler, '@') !== false) {
             [$controller, $method] = explode('@', $handler);
-            
-            $controllerClass = "\\App\\Controllers\\{$controller}";
-            
+
+            // Support namespaced controllers (e.g., Api\AuthApiController)
+            if (strpos($controller, '\\') !== false) {
+                $controllerClass = "\\App\\Controllers\\{$controller}";
+            } else {
+                $controllerClass = "\\App\\Controllers\\{$controller}";
+            }
+
             if (!class_exists($controllerClass)) {
                 throw new \Exception("Controller {$controllerClass} not found");
             }
-            
-            // Validate that the controller extends the base Controller class
-            if (!is_subclass_of($controllerClass, \App\Core\Controller::class)) {
-                throw new \Exception("Invalid controller: {$controller} must extend Controller");
+
+            // Validate that the controller extends the base Controller or ApiController class
+            if (!is_subclass_of($controllerClass, \App\Core\Controller::class) &&
+                !is_subclass_of($controllerClass, \App\Core\ApiController::class)) {
+                throw new \Exception("Invalid controller: {$controller} must extend Controller or ApiController");
             }
             
             $instance = new $controllerClass();

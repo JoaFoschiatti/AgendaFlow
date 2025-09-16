@@ -96,6 +96,40 @@ $router->post('/webhook/payment', 'PaymentController@webhook', 'webhook.payment'
 $router->get('/api/appointments/check-overlap', 'AppointmentController@checkOverlap');
 $router->get('/api/services/{id}/price', 'ServiceController@getPrice');
 
+// REST API Routes
+// Authentication
+$router->post('/api/auth/login', 'Api\AuthApiController@login');
+$router->post('/api/auth/register', 'Api\AuthApiController@register');
+$router->post('/api/auth/refresh', 'Api\AuthApiController@refresh');
+$router->get('/api/auth/me', 'Api\AuthApiController@me');
+
+// Services API
+$router->get('/api/services', 'Api\ServiceApiController@index');
+$router->get('/api/services/{id}', 'Api\ServiceApiController@show');
+$router->post('/api/services', 'Api\ServiceApiController@store');
+$router->put('/api/services/{id}', 'Api\ServiceApiController@update');
+$router->delete('/api/services/{id}', 'Api\ServiceApiController@destroy');
+$router->get('/api/services/{id}/stats', 'Api\ServiceApiController@stats');
+
+// Clients API
+$router->get('/api/clients', 'Api\ClientApiController@index');
+$router->get('/api/clients/{id}', 'Api\ClientApiController@show');
+$router->post('/api/clients', 'Api\ClientApiController@store');
+$router->put('/api/clients/{id}', 'Api\ClientApiController@update');
+$router->delete('/api/clients/{id}', 'Api\ClientApiController@destroy');
+$router->get('/api/clients/{id}/appointments', 'Api\ClientApiController@appointments');
+
+// Appointments API
+$router->get('/api/appointments', 'Api\AppointmentApiController@index');
+$router->get('/api/appointments/{id}', 'Api\AppointmentApiController@show');
+$router->post('/api/appointments', 'Api\AppointmentApiController@store');
+$router->put('/api/appointments/{id}', 'Api\AppointmentApiController@update');
+$router->delete('/api/appointments/{id}', 'Api\AppointmentApiController@destroy');
+$router->get('/api/appointments/by-date/{date}', 'Api\AppointmentApiController@byDate');
+$router->get('/api/appointments/availability', 'Api\AppointmentApiController@checkAvailability');
+$router->patch('/api/appointments/{id}/status', 'Api\AppointmentApiController@updateStatus');
+$router->patch('/api/appointments/{id}/cancel', 'Api\AppointmentApiController@cancel');
+
 // Dispatch the request
 $method = $_SERVER['REQUEST_METHOD'];
 $uri = $_SERVER['REQUEST_URI'];
