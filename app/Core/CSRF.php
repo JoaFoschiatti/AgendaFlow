@@ -61,9 +61,8 @@ class CSRF
             $token = $_SESSION['csrf_token'];
         }
         
-        $config = require dirname(__DIR__, 2) . '/config/config.php';
-        $fieldName = $config['security']['csrf_token_name'];
-        
+        $fieldName = Config::get('security.csrf_token_name', '_token');
+
         return '<input type="hidden" name="' . $fieldName . '" value="' . $token . '">';
     }
 }

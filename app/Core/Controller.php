@@ -9,7 +9,7 @@ abstract class Controller
     
     public function __construct()
     {
-        $this->config = require dirname(__DIR__, 2) . '/config/config.php';
+        $this->config = Config::get();
         
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
@@ -30,14 +30,48 @@ abstract class Controller
     
     protected function redirect(string $url): void
     {
-        // Si la URL comienza con /, agregar el prefijo de la aplicación
-        if (strpos($url, '/') === 0) {
-            $config = require dirname(__DIR__, 2) . '/config/config.php';
-            $baseUrl = $config['app']['url'] . '/public';
-            $url = $baseUrl . $url;
-        }
-        header("Location: {$url}");
+        $target = $this->prepareRedirectUrl($url);
+
+        header("Location: {$target}");
         exit;
+    }
+
+    private function prepareRedirectUrl(string $url): string
+    {
+        if (filter_var($url, FILTER_VALIDATE_URL)) {
+            return $url;
+        }
+
+        $path = $url;
+
+        if ($path === '' || $path === null) {
+            $path = '/';
+        } elseif ($path[0] !== '/') {
+            $path = '/' . ltrim($path, '/');
+        }
+
+        $basePath = $this->resolveBasePath();
+
+        if ($basePath === '') {
+            return $path;
+        }
+
+        return rtrim($basePath, '/') . $path;
+    }
+
+    protected function resolveBasePath(): string
+    {
+        $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
+
+        if ($scriptName !== '') {
+            $directory = str_replace('\\', '/', dirname($scriptName));
+
+            if ($directory !== '/' && $directory !== '\\' && $directory !== '.') {
+                return rtrim($directory, '/');
+            }
+        }
+
+        return '';
     }
     
     protected function json(array $data, int $statusCode = 200): void

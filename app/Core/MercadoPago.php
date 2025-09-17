@@ -10,9 +10,9 @@ class MercadoPago
     
     public function __construct()
     {
-        $config = require dirname(__DIR__, 2) . '/config/config.php';
-        $this->accessToken = $config['mercadopago']['access_token'];
-        $this->sandbox = $config['mercadopago']['sandbox'];
+        $config = Config::get('mercadopago');
+        $this->accessToken = $config['access_token'];
+        $this->sandbox = $config['sandbox'];
         $this->baseUrl = 'https://api.mercadopago.com';
     }
     
@@ -59,8 +59,7 @@ class MercadoPago
     
     public function validateWebhookSignature(string $signature, string $requestId, string $dataId): bool
     {
-        $config = require dirname(__DIR__, 2) . '/config/config.php';
-        $secret = $config['mercadopago']['webhook_secret'] ?? '';
+        $secret = Config::get('mercadopago.webhook_secret', '');
         
         if (empty($secret)) {
             // If no secret is configured, skip validation (development only)
