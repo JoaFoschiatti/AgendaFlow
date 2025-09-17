@@ -49,6 +49,8 @@ cp config/config.example.php config/config.php
 # Editar config/config.php con tus credenciales
 ```
 
+> **Nota:** Sin este archivo personalizado la app usará automáticamente `config/config.example.php`, pero deberías completar tus propios datos antes de desplegarla.
+
 4. **Ejecutar migraciones**
 ```bash
 php migrate.php

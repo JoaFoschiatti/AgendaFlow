@@ -17,9 +17,7 @@
 .DS_Store
 Thumbs.db
 
-# Test files
-test*.php
-*test.php
+# Legacy helper scripts
 debug*.php
 check*.php
 

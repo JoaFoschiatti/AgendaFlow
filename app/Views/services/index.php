@@ -55,17 +55,17 @@ $title = 'Servicios - AgendaFlow';
                                 </div>
                             </td>
                             <td>
-                                <?php echo \App\Core\Helpers::formatPrice($service['price_default']); ?>
+                                <?php echo \App\Core\Helpers::formatPrice($service['price']); ?>
                             </td>
                             <td>
-                                <?php if ($service['duration_min']): ?>
-                                    <?php echo $service['duration_min']; ?> min
+                                <?php if ($service['duration']): ?>
+                                    <?php echo $service['duration']; ?> min
                                 <?php else: ?>
                                     <span class="text-muted">-</span>
                                 <?php endif; ?>
                             </td>
                             <td>
-                                <?php if ($service['active']): ?>
+                                <?php if ($service['is_active']): ?>
                                     <span class="badge bg-success">Activo</span>
                                 <?php else: ?>
                                     <span class="badge bg-secondary">Inactivo</span>

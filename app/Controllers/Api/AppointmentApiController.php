@@ -50,6 +50,7 @@ class AppointmentApiController extends ApiController
             $startDate,
             $endDate
         );
+        $appointments = array_map(fn($apt) => $this->appendClientPhone($apt), $appointments);
 
         // Filter by specific date if provided
         if ($date) {
@@ -80,6 +81,8 @@ class AppointmentApiController extends ApiController
             $appointment['client'] = $this->clientModel->find($appointment['client_id']);
         }
 
+        $appointment = $this->appendClientPhone($appointment);
+
         $this->successResponse($appointment, 'Appointment retrieved');
     }
 
@@ -98,11 +101,13 @@ class AppointmentApiController extends ApiController
             'service_id' => (int)$this->requestData['service_id'],
             'client_id' => isset($this->requestData['client_id']) ? (int)$this->requestData['client_id'] : null,
             'client_name' => htmlspecialchars($this->requestData['client_name'] ?? ''),
-            'client_phone' => htmlspecialchars($this->requestData['client_phone'] ?? ''),
             'starts_at' => $this->requestData['starts_at'],
             'notes' => htmlspecialchars($this->requestData['notes'] ?? ''),
             'status' => 'scheduled'
         ];
+
+        $rawPhone = trim($this->requestData['client_phone'] ?? $this->requestData['phone'] ?? '');
+        $data['phone'] = $rawPhone !== '' ? $rawPhone : null;
 
         // Validate service ownership
         $service = $this->serviceModel->find($data['service_id']);
@@ -138,7 +143,7 @@ class AppointmentApiController extends ApiController
             $this->errorResponse('Failed to create appointment', 500);
         }
 
-        $appointment = $this->appointmentModel->find($appointmentId);
+        $appointment = $this->appendClientPhone($this->appointmentModel->find($appointmentId));
 
         $this->logApiAccess('/api/v1/appointments', 'POST', ['appointment_id' => $appointmentId]);
 
@@ -192,8 +197,9 @@ class AppointmentApiController extends ApiController
             $data['client_name'] = htmlspecialchars($this->requestData['client_name']);
         }
 
-        if (isset($this->requestData['client_phone'])) {
-            $data['client_phone'] = htmlspecialchars($this->requestData['client_phone']);
+        if (isset($this->requestData['client_phone']) || isset($this->requestData['phone'])) {
+            $rawPhone = trim($this->requestData['client_phone'] ?? $this->requestData['phone']);
+            $data['phone'] = $rawPhone !== '' ? $rawPhone : null;
         }
 
         if (empty($data)) {
@@ -207,6 +213,7 @@ class AppointmentApiController extends ApiController
         }
 
         $appointment = $this->appointmentModel->find($id);
+        $appointment = $this->appendClientPhone($appointment);
 
         $this->logApiAccess('/api/v1/appointments/' . $id, 'PUT', $data);
 
@@ -233,6 +240,17 @@ class AppointmentApiController extends ApiController
         $this->logApiAccess('/api/v1/appointments/' . $id, 'DELETE', null);
 
         $this->successResponse(null, 'Appointment canceled successfully');
+    }
+
+    private function appendClientPhone(?array $appointment): ?array
+    {
+        if ($appointment === null) {
+            return null;
+        }
+
+        $appointment['client_phone'] = $appointment['phone'] ?? null;
+
+        return $appointment;
     }
 
     public function checkAvailability(): void

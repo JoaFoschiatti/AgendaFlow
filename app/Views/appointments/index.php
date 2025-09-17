@@ -307,9 +307,9 @@ $view = $viewType ?? 'day';
                         <select class="form-select" id="service_id" name="service_id" required onchange="updatePrice()">
                             <option value="">Seleccionar servicio...</option>
                             <?php foreach ($services as $service): ?>
-                                <option value="<?php echo $service['id']; ?>" 
-                                        data-price="<?php echo $service['price_default']; ?>"
-                                        data-duration="<?php echo $service['duration_min'] ?? 30; ?>">
+                                        <option value="<?php echo $service['id']; ?>"
+                                                data-price="<?php echo $service['price']; ?>"
+                                                data-duration="<?php echo $service['duration'] ?? 30; ?>">
                                     <?php echo htmlspecialchars($service['name']); ?>
                                 </option>
                             <?php endforeach; ?>

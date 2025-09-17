@@ -1,6 +1,5 @@
 <?php
 $title = 'Suscripción - AgendaFlow';
-$config = require dirname(__DIR__, 3) . '/config/config.php';
 ?>
 
 <div class="row mb-4">

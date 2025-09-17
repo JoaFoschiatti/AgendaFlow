@@ -34,34 +34,34 @@ $title = 'Editar Servicio - AgendaFlow';
                     </div>
                     
                     <div class="mb-3">
-                        <label for="price_default" class="form-label">Precio por defecto *</label>
+                        <label for="price" class="form-label">Precio por defecto *</label>
                         <div class="input-group">
                             <span class="input-group-text">$</span>
-                            <input type="number" 
-                                   class="form-control <?php echo isset($_SESSION['errors']['price_default']) ? 'is-invalid' : ''; ?>" 
-                                   id="price_default" 
-                                   name="price_default" 
-                                   value="<?php echo $_SESSION['old']['price_default'] ?? $service['price_default']; ?>"
+                            <input type="number"
+                                   class="form-control <?php echo isset($_SESSION['errors']['price']) ? 'is-invalid' : ''; ?>"
+                                   id="price"
+                                   name="price"
+                                   value="<?php echo $_SESSION['old']['price'] ?? $service['price']; ?>"
                                    step="0.01"
                                    min="0"
                                    required>
-                            <?php if (isset($_SESSION['errors']['price_default'])): ?>
+                            <?php if (isset($_SESSION['errors']['price'])): ?>
                                 <div class="invalid-feedback">
-                                    <?php echo $_SESSION['errors']['price_default']; ?>
+                                    <?php echo $_SESSION['errors']['price']; ?>
                                 </div>
                             <?php endif; ?>
                         </div>
                         <small class="text-muted">Este precio se usará por defecto al crear turnos</small>
                     </div>
-                    
+
                     <div class="mb-3">
-                        <label for="duration_min" class="form-label">Duración estimada (opcional)</label>
+                        <label for="duration" class="form-label">Duración estimada (opcional)</label>
                         <div class="input-group">
-                            <input type="number" 
-                                   class="form-control" 
-                                   id="duration_min" 
-                                   name="duration_min" 
-                                   value="<?php echo $_SESSION['old']['duration_min'] ?? $service['duration_min']; ?>"
+                            <input type="number"
+                                   class="form-control"
+                                   id="duration"
+                                   name="duration"
+                                   value="<?php echo $_SESSION['old']['duration'] ?? $service['duration']; ?>"
                                    placeholder="30"
                                    min="5"
                                    max="480"
@@ -84,13 +84,13 @@ $title = 'Editar Servicio - AgendaFlow';
                     
                     <div class="mb-4">
                         <div class="form-check form-switch">
-                            <input class="form-check-input" 
-                                   type="checkbox" 
-                                   id="active" 
-                                   name="active" 
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   id="is_active"
+                                   name="is_active"
                                    value="1"
-                                   <?php echo (isset($_SESSION['old']['active']) ? $_SESSION['old']['active'] : $service['active']) ? 'checked' : ''; ?>>
-                            <label class="form-check-label" for="active">
+                                   <?php echo (isset($_SESSION['old']['is_active']) ? $_SESSION['old']['is_active'] : $service['is_active']) ? 'checked' : ''; ?>>
+                            <label class="form-check-label" for="is_active">
                                 Servicio activo
                             </label>
                         </div>
@@ -125,7 +125,7 @@ $title = 'Editar Servicio - AgendaFlow';
                     
                     <dt class="col-sm-4">Estado actual:</dt>
                     <dd class="col-sm-8">
-                        <?php if ($service['active']): ?>
+                        <?php if ($service['is_active']): ?>
                             <span class="badge bg-success">Activo</span>
                         <?php else: ?>
                             <span class="badge bg-secondary">Inactivo</span>
