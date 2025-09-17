@@ -182,9 +182,10 @@
   "client_id": 2,
   "starts_at": "2025-09-20 10:00:00",
   "client_name": "Jane Doe",
-  "client_phone": "+541234567890",
+  "phone": "+541234567890",
   "notes": "First consultation"
 }</code></pre>
+                        <p class="text-muted small">También se admite el alias <code>client_phone</code> para compatibilidad con versiones anteriores.</p>
                     </div>
 
                     <!-- Update Appointment -->

@@ -66,6 +66,8 @@ cd /xampp/htdocs/
 cp config/config.example.php config/config.php
 ```
 
+> **Nota:** Si omites este paso, AgendaFlow cargará automáticamente `config/config.example.php`, pero deberías crear tu propio `config/config.php` con las credenciales y ajustes de tu entorno antes de usarlo en producción.
+
 Edita `config/config.php` con tus credenciales de MySQL:
 
 ```php

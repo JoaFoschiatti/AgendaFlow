@@ -54,7 +54,7 @@ class DashboardController extends Controller
         $upcomingAppointments = $this->appointmentModel->getUpcoming($userId, 7, 5);
         
         // Get services count
-        $servicesCount = $this->serviceModel->count(['user_id' => $userId, 'active' => 1]);
+        $servicesCount = $this->serviceModel->count(['user_id' => $userId, 'is_active' => 1]);
         
         // Get clients count
         $clientsCount = $this->clientModel->count(['user_id' => $userId]);

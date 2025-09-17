@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Core\Model;
 use App\Core\Auth;
+use App\Core\Config;
+use App\Core\Helpers;
 
 class User extends Model
 {
@@ -43,19 +45,19 @@ class User extends Model
         $data['trial_starts_at'] = $now->format('Y-m-d H:i:s');
         
         $trialEnd = clone $now;
-        $config = require dirname(__DIR__, 2) . '/config/config.php';
-        $trialEnd->add(new \DateInterval('P' . $config['business']['trial_days'] . 'D'));
+        $trialDays = (int) Config::get('business.trial_days', 14);
+        $trialEnd->add(new \DateInterval('P' . $trialDays . 'D'));
         $data['trial_ends_at'] = $trialEnd->format('Y-m-d H:i:s');
-        
+
         // Set default status
         $data['subscription_status'] = 'trialing';
-        
+
         // Set default timezone and currency
         if (!isset($data['timezone'])) {
-            $data['timezone'] = $config['app']['timezone'];
+            $data['timezone'] = Config::get('app.timezone');
         }
         if (!isset($data['currency'])) {
-            $data['currency'] = $config['app']['currency'];
+            $data['currency'] = Config::get('app.currency');
         }
         
         return $this->create($data);
@@ -111,14 +113,6 @@ class User extends Model
             return 0;
         }
         
-        $now = new \DateTime();
-        $trialEnd = new \DateTime($user['trial_ends_at']);
-        
-        if ($now >= $trialEnd) {
-            return 0;
-        }
-        
-        $diff = $now->diff($trialEnd);
-        return $diff->days;
+        return Helpers::getTrialDaysRemaining($user['trial_ends_at']);
     }
 }

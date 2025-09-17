@@ -5,7 +5,8 @@
 echo "=== AgendaFlow Database Migration Tool ===\n\n";
 
 // Load configuration
-$config = require __DIR__ . '/config/config.php';
+require_once __DIR__ . '/app/Core/Config.php';
+$config = \App\Core\Config::get();
 
 // Connect to MySQL server (without database selection)
 try {

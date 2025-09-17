@@ -128,7 +128,7 @@ class AppointmentController extends Controller
             $_SESSION['old'] = $_POST;
             $this->redirect('/appointments/create');
         }
-        $duration = $service['duration_min'] ?? 30;
+        $duration = $service['duration'] ?? 30;
         
         $endsAt = date('Y-m-d H:i:s', strtotime($startsAt . ' +' . $duration . ' minutes'));
         
@@ -232,7 +232,7 @@ class AppointmentController extends Controller
         // Calculate times
         $startsAt = $_POST['date'] . ' ' . $_POST['time'] . ':00';
         $service = $this->serviceModel->find($_POST['service_id']);
-        $duration = $service['duration_min'] ?? 30;
+        $duration = $service['duration'] ?? 30;
         $endsAt = date('Y-m-d H:i:s', strtotime($startsAt . ' +' . $duration . ' minutes'));
         
         // Check for overlaps

@@ -25,8 +25,7 @@ class ApiController extends Controller
 
     protected function enableCORS(): void
     {
-        $config = require dirname(__DIR__, 2) . '/config/config.php';
-        $allowedOrigins = $config['api']['allowed_origins'] ?? ['*'];
+        $allowedOrigins = Config::get('api.allowed_origins', ['*']);
 
         $origin = $_SERVER['HTTP_ORIGIN'] ?? '*';
 

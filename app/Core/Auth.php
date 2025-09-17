@@ -67,15 +67,13 @@ class Auth
     
     public static function hashPassword(string $password): string
     {
-        $config = require dirname(__DIR__, 2) . '/config/config.php';
-        
         // Try to use Argon2id if available
         if (defined('PASSWORD_ARGON2ID')) {
             return password_hash($password, PASSWORD_ARGON2ID);
         }
-        
+
         // Fallback to default (bcrypt)
-        return password_hash($password, $config['security']['password_algo']);
+        return password_hash($password, Config::get('security.password_algo', PASSWORD_DEFAULT));
     }
     
     public static function verifyPassword(string $password, string $hash): bool

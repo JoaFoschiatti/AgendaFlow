@@ -67,13 +67,13 @@ class View
     
     public static function asset(string $path): string
     {
-        $config = require dirname(__DIR__, 2) . '/config/config.php';
-        return $config['app']['url'] . '/' . ltrim($path, '/');
+        $baseUrl = rtrim(Config::get('app.url'), '/');
+        return $baseUrl . '/' . ltrim($path, '/');
     }
-    
+
     public static function url(string $path = ''): string
     {
-        $config = require dirname(__DIR__, 2) . '/config/config.php';
-        return $config['app']['url'] . '/' . ltrim($path, '/');
+        $baseUrl = rtrim(Config::get('app.url'), '/');
+        return $baseUrl . '/' . ltrim($path, '/');
     }
 }

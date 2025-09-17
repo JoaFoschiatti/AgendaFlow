@@ -8,10 +8,33 @@ ini_set('display_errors', 1);
 date_default_timezone_set('America/Argentina/Cordoba');
 
 // Autoloader
-require_once dirname(__DIR__) . '/vendor/autoload.php';
+$autoloadPath = dirname(__DIR__) . '/vendor/autoload.php';
+
+if (file_exists($autoloadPath)) {
+    require_once $autoloadPath;
+} else {
+    spl_autoload_register(function ($class) {
+        $prefix = 'App\\';
+        if (strpos($class, $prefix) !== 0) {
+            return;
+        }
+
+        $relative = substr($class, strlen($prefix));
+        $file = dirname(__DIR__) . '/app/' . str_replace('\\', '/', $relative) . '.php';
+
+        if (file_exists($file)) {
+            require_once $file;
+        }
+    });
+}
 
 // Load configuration
-$config = require dirname(__DIR__) . '/config/config.php';
+$config = \App\Core\Config::get();
+
+// Adjust timezone if configured
+if (!empty($config['app']['timezone'])) {
+    date_default_timezone_set($config['app']['timezone']);
+}
 
 // Start session
 session_start([
