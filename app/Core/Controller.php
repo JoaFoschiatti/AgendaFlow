@@ -75,7 +75,9 @@ abstract class Controller
 
     protected function resolveBasePath(): string
     {
+
         return Url::basePath();
+
     }
     
     protected function json(array $data, int $statusCode = 200): void

@@ -67,11 +67,15 @@ class View
     
     public static function asset(string $path): string
     {
+
         return Url::full($path);
+
     }
 
     public static function url(string $path = ''): string
     {
+
         return Url::full($path);
+
     }
 }
