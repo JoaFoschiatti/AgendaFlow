@@ -36,7 +36,7 @@ $title = 'Configuración - AgendaFlow';
                         <h5 class="mb-0">Información de Cuenta</h5>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="/AgendaFlow/public/settings/update">
+                        <form method="POST" action="<?= $basePath ?>/settings/update">
                             <?php echo \App\Core\CSRF::field(); ?>
                             
                             <div class="mb-3">
@@ -139,7 +139,7 @@ $title = 'Configuración - AgendaFlow';
                         <h5 class="mb-0">Horarios de Atención</h5>
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="/AgendaFlow/public/settings/hours">
+                        <form method="POST" action="<?= $basePath ?>/settings/hours">
                             <?php echo \App\Core\CSRF::field(); ?>
                             
                             <div class="table-responsive">

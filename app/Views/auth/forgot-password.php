@@ -19,7 +19,7 @@ $title = 'Recuperar Contraseña - AgendaFlow';
                     Ingresa tu email y te enviaremos instrucciones para restablecer tu contraseña.
                 </p>
                 
-                <form method="POST" action="/AgendaFlow/public/forgot-password">
+                <form method="POST" action="<?= $basePath ?>/forgot-password">
                     <?php echo \App\Core\CSRF::field(); ?>
                     
                     <div class="mb-3">
@@ -50,7 +50,7 @@ $title = 'Recuperar Contraseña - AgendaFlow';
                 <div class="text-center">
                     <p>
                         ¿Recordaste tu contraseña? 
-                        <a href="/AgendaFlow/public/login" class="text-decoration-none">
+                        <a href="<?= $basePath ?>/login" class="text-decoration-none">
                             Volver a iniciar sesión
                         </a>
                     </p>

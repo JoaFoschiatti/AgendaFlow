@@ -14,7 +14,7 @@ $title = 'Editar Cliente - AgendaFlow';
     <div class="col-md-6">
         <div class="card">
             <div class="card-body">
-                <form method="POST" action="/AgendaFlow/public/clients/<?php echo $client['id']; ?>/update">
+                <form method="POST" action="<?= $basePath ?>/clients/<?php echo $client['id']; ?>/update">
                     <?php echo \App\Core\CSRF::field(); ?>
                     
                     <div class="mb-3">
@@ -55,7 +55,7 @@ $title = 'Editar Cliente - AgendaFlow';
                         <button type="submit" class="btn btn-primary">
                             <i class="bi bi-check-circle"></i> Guardar Cambios
                         </button>
-                        <a href="/AgendaFlow/public/clients" class="btn btn-outline-secondary">
+                        <a href="<?= $basePath ?>/clients" class="btn btn-outline-secondary">
                             Cancelar
                         </a>
                     </div>

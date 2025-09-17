@@ -25,11 +25,11 @@ $view = $viewType ?? 'day';
         <div class="row align-items-center">
             <div class="col-md-4">
                 <div class="btn-group" role="group">
-                    <a href="/AgendaFlow/public/appointments?view=day&date=<?php echo $date; ?>" 
+                    <a href="<?= $basePath ?>/appointments?view=day&date=<?php echo $date; ?>" 
                        class="btn <?php echo $view === 'day' ? 'btn-primary' : 'btn-outline-primary'; ?>">
                         <i class="bi bi-calendar-day"></i> Día
                     </a>
-                    <a href="/AgendaFlow/public/appointments?view=week&date=<?php echo $date; ?>" 
+                    <a href="<?= $basePath ?>/appointments?view=week&date=<?php echo $date; ?>" 
                        class="btn <?php echo $view === 'week' ? 'btn-primary' : 'btn-outline-primary'; ?>">
                         <i class="bi bi-calendar-week"></i> Semana
                     </a>
@@ -42,7 +42,7 @@ $view = $viewType ?? 'day';
                     $prevDate = date('Y-m-d', strtotime($date . ' -1 ' . ($view === 'week' ? 'week' : 'day')));
                     $nextDate = date('Y-m-d', strtotime($date . ' +1 ' . ($view === 'week' ? 'week' : 'day')));
                     ?>
-                    <a href="/AgendaFlow/public/appointments?view=<?php echo $view; ?>&date=<?php echo $prevDate; ?>" 
+                    <a href="<?= $basePath ?>/appointments?view=<?php echo $view; ?>&date=<?php echo $prevDate; ?>" 
                        class="btn btn-outline-secondary btn-sm">
                         <i class="bi bi-chevron-left"></i>
                     </a>
@@ -59,7 +59,7 @@ $view = $viewType ?? 'day';
                         <?php endif; ?>
                     </h5>
                     
-                    <a href="/AgendaFlow/public/appointments?view=<?php echo $view; ?>&date=<?php echo $nextDate; ?>" 
+                    <a href="<?= $basePath ?>/appointments?view=<?php echo $view; ?>&date=<?php echo $nextDate; ?>" 
                        class="btn btn-outline-secondary btn-sm">
                         <i class="bi bi-chevron-right"></i>
                     </a>
@@ -70,9 +70,9 @@ $view = $viewType ?? 'day';
                 <input type="date" 
                        class="form-control d-inline-block w-auto" 
                        value="<?php echo $date; ?>"
-                       onchange="window.location.href='/AgendaFlow/public/appointments?view=<?php echo $view; ?>&date=' + this.value">
+                       onchange="window.location.href='<?= $basePath ?>/appointments?view=<?php echo $view; ?>&date=' + this.value">
                        
-                <a href="/AgendaFlow/public/appointments?view=<?php echo $view; ?>&date=<?php echo date('Y-m-d'); ?>" 
+                <a href="<?= $basePath ?>/appointments?view=<?php echo $view; ?>&date=<?php echo date('Y-m-d'); ?>" 
                    class="btn btn-outline-primary">
                     Hoy
                 </a>
@@ -213,14 +213,14 @@ $view = $viewType ?? 'day';
                                         </button>
                                         <ul class="dropdown-menu">
                                             <li>
-                                                <a class="dropdown-item" href="/AgendaFlow/public/appointments/<?php echo $appointment['id']; ?>/edit">
+                                                <a class="dropdown-item" href="<?= $basePath ?>/appointments/<?php echo $appointment['id']; ?>/edit">
                                                     <i class="bi bi-pencil"></i> Editar
                                                 </a>
                                             </li>
                                             
                                             <?php if ($appointment['status'] === 'scheduled'): ?>
                                                 <li>
-                                                    <form method="POST" action="/AgendaFlow/public/appointments/<?php echo $appointment['id']; ?>/complete" style="display: inline;">
+                                                    <form method="POST" action="<?= $basePath ?>/appointments/<?php echo $appointment['id']; ?>/complete" style="display: inline;">
                                                         <?php echo \App\Core\CSRF::field(); ?>
                                                         <button type="submit" class="dropdown-item">
                                                             <i class="bi bi-check-circle"></i> Marcar completado
@@ -228,7 +228,7 @@ $view = $viewType ?? 'day';
                                                     </form>
                                                 </li>
                                                 <li>
-                                                    <form method="POST" action="/AgendaFlow/public/appointments/<?php echo $appointment['id']; ?>/cancel" style="display: inline;">
+                                                    <form method="POST" action="<?= $basePath ?>/appointments/<?php echo $appointment['id']; ?>/cancel" style="display: inline;">
                                                         <?php echo \App\Core\CSRF::field(); ?>
                                                         <button type="submit" class="dropdown-item text-danger">
                                                             <i class="bi bi-x-circle"></i> Cancelar
@@ -240,7 +240,7 @@ $view = $viewType ?? 'day';
                                             <?php if ($appointment['phone']): ?>
                                                 <li><hr class="dropdown-divider"></li>
                                                 <li>
-                                                    <a class="dropdown-item" href="/AgendaFlow/public/appointments/<?php echo $appointment['id']; ?>/whatsapp" target="_blank">
+                                                    <a class="dropdown-item" href="<?= $basePath ?>/appointments/<?php echo $appointment['id']; ?>/whatsapp" target="_blank">
                                                         <i class="bi bi-whatsapp"></i> Enviar WhatsApp
                                                     </a>
                                                 </li>
@@ -267,7 +267,7 @@ $view = $viewType ?? 'day';
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form method="POST" action="/AgendaFlow/public/appointments/store">
+            <form method="POST" action="<?= $basePath ?>/appointments/store">
                 <div class="modal-body">
                     <?php echo \App\Core\CSRF::field(); ?>
                     
@@ -307,9 +307,9 @@ $view = $viewType ?? 'day';
                         <select class="form-select" id="service_id" name="service_id" required onchange="updatePrice()">
                             <option value="">Seleccionar servicio...</option>
                             <?php foreach ($services as $service): ?>
-                                <option value="<?php echo $service['id']; ?>" 
-                                        data-price="<?php echo $service['price_default']; ?>"
-                                        data-duration="<?php echo $service['duration_min'] ?? 30; ?>">
+                                        <option value="<?php echo $service['id']; ?>"
+                                                data-price="<?php echo $service['price']; ?>"
+                                                data-duration="<?php echo $service['duration'] ?? 30; ?>">
                                     <?php echo htmlspecialchars($service['name']); ?>
                                 </option>
                             <?php endforeach; ?>
@@ -383,6 +383,6 @@ function updatePrice() {
 
 function showAppointmentDetails(id) {
     // Could open a modal with appointment details
-    window.location.href = '/AgendaFlow/public/appointments/' + id + '/edit';
+    window.location.href = '<?= $basePath ?>/appointments/' + id + '/edit';
 }
 </script>

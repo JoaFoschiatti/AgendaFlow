@@ -8,10 +8,33 @@ ini_set('display_errors', 1);
 date_default_timezone_set('America/Argentina/Cordoba');
 
 // Autoloader
-require_once dirname(__DIR__) . '/vendor/autoload.php';
+$autoloadPath = dirname(__DIR__) . '/vendor/autoload.php';
+
+if (file_exists($autoloadPath)) {
+    require_once $autoloadPath;
+} else {
+    spl_autoload_register(function ($class) {
+        $prefix = 'App\\';
+        if (strpos($class, $prefix) !== 0) {
+            return;
+        }
+
+        $relative = substr($class, strlen($prefix));
+        $file = dirname(__DIR__) . '/app/' . str_replace('\\', '/', $relative) . '.php';
+
+        if (file_exists($file)) {
+            require_once $file;
+        }
+    });
+}
 
 // Load configuration
-$config = require dirname(__DIR__) . '/config/config.php';
+$config = \App\Core\Config::get();
+
+// Adjust timezone if configured
+if (!empty($config['app']['timezone'])) {
+    date_default_timezone_set($config['app']['timezone']);
+}
 
 // Start session
 session_start([
@@ -102,21 +125,18 @@ $uri = explode('?', $uri)[0];
 echo "URI without query: $uri\n";
 
 // Remove base path - FIXED FOR WINDOWS
-$basePath = '/AgendaFlow/public';
-if (strpos($uri, $basePath) === 0) {
+$basePath = \App\Core\Url::basePath();
+if ($basePath !== '' && strpos($uri, $basePath) === 0) {
     $uri = substr($uri, strlen($basePath));
-    // If empty, set to root
-    if (empty($uri)) {
-        $uri = '/';
-    }
 }
 
 // Alternative: Try with index.php in the path
-if (strpos($uri, '/index.php') !== false) {
-    $uri = str_replace('/AgendaFlow/public/index.php', '', $uri);
-    if (empty($uri)) {
-        $uri = '/';
-    }
+if (strpos($uri, '/index.php') === 0) {
+    $uri = substr($uri, strlen('/index.php'));
+}
+
+if ($uri === '') {
+    $uri = '/';
 }
 
 echo "Final URI for routing: $uri\n";
@@ -131,5 +151,5 @@ try {
     echo "<p>URI: $uri</p>";
     echo "<p>Method: $method</p>";
     echo "<hr>";
-    echo "<p><a href='/AgendaFlow/public/index.php'>Volver al inicio</a></p>";
+    echo "<p><a href='" . \App\Core\Url::to('') . "'>Volver al inicio</a></p>";
 }

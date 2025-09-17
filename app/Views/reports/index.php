@@ -14,7 +14,7 @@ $title = 'Reportes - AgendaFlow';
 <!-- Filters -->
 <div class="card mb-4">
     <div class="card-body">
-        <form method="GET" action="/AgendaFlow/public/reports">
+        <form method="GET" action="<?= $basePath ?>/reports">
             <div class="row g-3">
                 <div class="col-md-3">
                     <label for="start_date" class="form-label">Fecha desde</label>
@@ -48,7 +48,7 @@ $title = 'Reportes - AgendaFlow';
                     <button type="submit" class="btn btn-primary me-2">
                         <i class="bi bi-funnel"></i> Filtrar
                     </button>
-                    <a href="/AgendaFlow/public/reports/export?start_date=<?php echo $startDate; ?>&end_date=<?php echo $endDate; ?>&service_id=<?php echo $selectedService; ?>" 
+                    <a href="<?= $basePath ?>/reports/export?start_date=<?php echo $startDate; ?>&end_date=<?php echo $endDate; ?>&service_id=<?php echo $selectedService; ?>" 
                        class="btn btn-success">
                         <i class="bi bi-download"></i> Exportar CSV
                     </a>
@@ -216,7 +216,7 @@ $title = 'Reportes - AgendaFlow';
                 <?php if (count($appointments) > 20): ?>
                     <p class="text-center text-muted">
                         Mostrando 20 de <?php echo count($appointments); ?> turnos. 
-                        <a href="/AgendaFlow/public/reports/export?start_date=<?php echo $startDate; ?>&end_date=<?php echo $endDate; ?>&service_id=<?php echo $selectedService; ?>">
+                        <a href="<?= $basePath ?>/reports/export?start_date=<?php echo $startDate; ?>&end_date=<?php echo $endDate; ?>&service_id=<?php echo $selectedService; ?>">
                             Exportar todos en CSV
                         </a>
                     </p>

@@ -16,7 +16,7 @@ $title = 'Clientes - AgendaFlow';
     <div class="card-body">
         <div class="row">
             <div class="col-md-6">
-                <form method="GET" action="/AgendaFlow/public/clients">
+                <form method="GET" action="<?= $basePath ?>/clients">
                     <div class="input-group">
                         <input type="text" 
                                class="form-control" 
@@ -27,7 +27,7 @@ $title = 'Clientes - AgendaFlow';
                             <i class="bi bi-search"></i> Buscar
                         </button>
                         <?php if (!empty($search)): ?>
-                            <a href="/AgendaFlow/public/clients" class="btn btn-outline-secondary">
+                            <a href="<?= $basePath ?>/clients" class="btn btn-outline-secondary">
                                 <i class="bi bi-x"></i> Limpiar
                             </a>
                         <?php endif; ?>
@@ -112,7 +112,7 @@ $title = 'Clientes - AgendaFlow';
                                 </small>
                             </td>
                             <td class="text-end">
-                                <a href="/AgendaFlow/public/clients/<?php echo $client['id']; ?>/edit" 
+                                <a href="<?= $basePath ?>/clients/<?php echo $client['id']; ?>/edit" 
                                    class="btn btn-sm btn-outline-primary"
                                    data-bs-toggle="tooltip" 
                                    title="Editar">
@@ -160,7 +160,7 @@ $title = 'Clientes - AgendaFlow';
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form method="POST" action="/AgendaFlow/public/clients/store">
+            <form method="POST" action="<?= $basePath ?>/clients/store">
                 <div class="modal-body">
                     <?php echo \App\Core\CSRF::field(); ?>
                     

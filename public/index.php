@@ -8,10 +8,33 @@ ini_set('display_errors', 1);
 date_default_timezone_set('America/Argentina/Cordoba');
 
 // Autoloader
-require_once dirname(__DIR__) . '/vendor/autoload.php';
+$autoloadPath = dirname(__DIR__) . '/vendor/autoload.php';
+
+if (file_exists($autoloadPath)) {
+    require_once $autoloadPath;
+} else {
+    spl_autoload_register(function ($class) {
+        $prefix = 'App\\';
+        if (strpos($class, $prefix) !== 0) {
+            return;
+        }
+
+        $relative = substr($class, strlen($prefix));
+        $file = dirname(__DIR__) . '/app/' . str_replace('\\', '/', $relative) . '.php';
+
+        if (file_exists($file)) {
+            require_once $file;
+        }
+    });
+}
 
 // Load configuration
-$config = require dirname(__DIR__) . '/config/config.php';
+$config = \App\Core\Config::get();
+
+// Adjust timezone if configured
+if (!empty($config['app']['timezone'])) {
+    date_default_timezone_set($config['app']['timezone']);
+}
 
 // Start session
 session_start([
@@ -137,10 +160,24 @@ $uri = $_SERVER['REQUEST_URI'];
 // Remove query string
 $uri = explode('?', $uri)[0];
 
-// Remove base path if needed
-$basePath = '/AgendaFlow/public';
-if (strpos($uri, $basePath) === 0) {
+// Remove configured base path if present
+$basePath = \App\Core\Url::basePath();
+if ($basePath !== '' && strpos($uri, $basePath) === 0) {
     $uri = substr($uri, strlen($basePath));
+}
+
+// Remove script name if included in the URI
+$scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
+if ($scriptName !== '' && strpos($uri, $scriptName) === 0) {
+    $uri = substr($uri, strlen($scriptName));
+}
+
+if (strpos($uri, '/index.php') === 0) {
+    $uri = substr($uri, strlen('/index.php'));
+}
+
+if ($uri === '') {
+    $uri = '/';
 }
 
 try {

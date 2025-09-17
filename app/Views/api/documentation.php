@@ -54,7 +54,8 @@
                 <p>Welcome to the AgendaFlow API. This RESTful API allows you to manage appointments, services, and clients programmatically.</p>
 
                 <div class="alert alert-info">
-                    <strong>Base URL:</strong> <code>http://localhost/AgendaFlow/public/api/v1</code><br>
+                    <?php $apiBase = rtrim($config['app']['url'], '/') . '/api/v1'; ?>
+                    <strong>Base URL:</strong> <code><?php echo htmlspecialchars($apiBase, ENT_QUOTES, 'UTF-8'); ?></code><br>
                     <strong>Authentication:</strong> Bearer Token (JWT)<br>
                     <strong>Content-Type:</strong> application/json
                 </div>
@@ -182,9 +183,10 @@
   "client_id": 2,
   "starts_at": "2025-09-20 10:00:00",
   "client_name": "Jane Doe",
-  "client_phone": "+541234567890",
+  "phone": "+541234567890",
   "notes": "First consultation"
 }</code></pre>
+                        <p class="text-muted small">También se admite el alias <code>client_phone</code> para compatibilidad con versiones anteriores.</p>
                     </div>
 
                     <!-- Update Appointment -->
