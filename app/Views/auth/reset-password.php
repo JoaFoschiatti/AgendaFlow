@@ -13,7 +13,9 @@ $title = 'Restablecer Contraseña - AgendaFlow';
 
         <div class="card">
             <div class="card-body p-4">
-                <form method="POST" action="/AgendaFlow/public/reset-password">
+
+                <form method="POST" action="<?= $basePath ?>/reset-password">
+
                     <?php echo \App\Core\CSRF::field(); ?>
                     <input type="hidden" name="token" value="<?php echo htmlspecialchars($token); ?>">
 
@@ -56,7 +58,9 @@ $title = 'Restablecer Contraseña - AgendaFlow';
         </div>
 
         <div class="text-center mt-4">
-            <a href="/AgendaFlow/public/login" class="text-decoration-none">
+
+            <a href="<?= $basePath ?>/login" class="text-decoration-none">
+
                 <i class="bi bi-box-arrow-in-right"></i> Volver al inicio de sesión
             </a>
         </div>

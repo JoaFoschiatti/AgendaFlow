@@ -11,7 +11,7 @@ $title = 'Servicios - AgendaFlow';
     </div>
     <div class="col-auto">
         <?php if ($user && \App\Core\Helpers::getTrialDaysRemaining($user['trial_ends_at']) > 0 || $user['subscription_status'] === 'active'): ?>
-        <a href="/AgendaFlow/public/services/create" class="btn btn-primary">
+        <a href="<?= $basePath ?>/services/create" class="btn btn-primary">
             <i class="bi bi-plus-circle"></i> Nuevo Servicio
         </a>
         <?php endif; ?>
@@ -25,7 +25,7 @@ $title = 'Servicios - AgendaFlow';
             <h5 class="mt-3">No hay servicios creados</h5>
             <p class="text-muted">Comienza creando tu primer servicio</p>
             <?php if ($user && \App\Core\Helpers::getTrialDaysRemaining($user['trial_ends_at']) > 0 || $user['subscription_status'] === 'active'): ?>
-            <a href="/AgendaFlow/public/services/create" class="btn btn-primary mt-3">
+            <a href="<?= $basePath ?>/services/create" class="btn btn-primary mt-3">
                 <i class="bi bi-plus-circle"></i> Crear primer servicio
             </a>
             <?php endif; ?>
@@ -72,7 +72,7 @@ $title = 'Servicios - AgendaFlow';
                                 <?php endif; ?>
                             </td>
                             <td class="text-end">
-                                <a href="/AgendaFlow/public/services/<?php echo $service['id']; ?>/edit" 
+                                <a href="<?= $basePath ?>/services/<?php echo $service['id']; ?>/edit" 
                                    class="btn btn-sm btn-outline-primary"
                                    data-bs-toggle="tooltip" 
                                    title="Editar">

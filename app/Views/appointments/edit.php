@@ -14,7 +14,7 @@ $title = 'Editar Turno - AgendaFlow';
     <div class="col-md-6">
         <div class="card">
             <div class="card-body">
-                <form method="POST" action="/AgendaFlow/public/appointments/<?php echo $appointment['id']; ?>/update">
+                <form method="POST" action="<?= $basePath ?>/appointments/<?php echo $appointment['id']; ?>/update">
                     <?php echo \App\Core\CSRF::field(); ?>
                     
                     <div class="mb-3">
@@ -143,7 +143,7 @@ $title = 'Editar Turno - AgendaFlow';
                         <button type="submit" class="btn btn-primary">
                             <i class="bi bi-check-circle"></i> Guardar Cambios
                         </button>
-                        <a href="/AgendaFlow/public/appointments?date=<?php echo date('Y-m-d', strtotime($appointment['starts_at'])); ?>" 
+                        <a href="<?= $basePath ?>/appointments?date=<?php echo date('Y-m-d', strtotime($appointment['starts_at'])); ?>" 
                            class="btn btn-outline-secondary">
                             Cancelar
                         </a>
@@ -185,14 +185,14 @@ $title = 'Editar Turno - AgendaFlow';
                 <hr>
                 <h6>Acciones rápidas</h6>
                 <div class="d-flex gap-2">
-                    <form method="POST" action="/AgendaFlow/public/appointments/<?php echo $appointment['id']; ?>/complete" style="display: inline;">
+                    <form method="POST" action="<?= $basePath ?>/appointments/<?php echo $appointment['id']; ?>/complete" style="display: inline;">
                         <?php echo \App\Core\CSRF::field(); ?>
                         <button type="submit" class="btn btn-success btn-sm">
                             <i class="bi bi-check-circle"></i> Marcar completado
                         </button>
                     </form>
                     
-                    <form method="POST" action="/AgendaFlow/public/appointments/<?php echo $appointment['id']; ?>/cancel" style="display: inline;">
+                    <form method="POST" action="<?= $basePath ?>/appointments/<?php echo $appointment['id']; ?>/cancel" style="display: inline;">
                         <?php echo \App\Core\CSRF::field(); ?>
                         <button type="submit" class="btn btn-danger btn-sm">
                             <i class="bi bi-x-circle"></i> Cancelar turno
@@ -200,7 +200,7 @@ $title = 'Editar Turno - AgendaFlow';
                     </form>
                     
                     <?php if ($appointment['phone']): ?>
-                        <a href="/AgendaFlow/public/appointments/<?php echo $appointment['id']; ?>/whatsapp" 
+                        <a href="<?= $basePath ?>/appointments/<?php echo $appointment['id']; ?>/whatsapp" 
                            target="_blank"
                            class="btn btn-success btn-sm">
                             <i class="bi bi-whatsapp"></i> WhatsApp
@@ -224,6 +224,7 @@ $title = 'Editar Turno - AgendaFlow';
 </div>
 
 <script>
+const BASE_PATH = <?php echo json_encode($basePath); ?>;
 function updatePrice() {
     const select = document.getElementById('service_id');
     const priceInput = document.getElementById('price');
@@ -251,7 +252,7 @@ function checkOverlap() {
     const duration = serviceSelect.options[serviceSelect.selectedIndex]?.getAttribute('data-duration') || 30;
     
     if (date && time) {
-        fetch(`/AgendaFlow/public/api/appointments/check-overlap?date=${date}&time=${time}&duration=${duration}&exclude=<?php echo $appointment['id']; ?>`)
+        fetch(`${BASE_PATH}/api/appointments/check-overlap?date=${date}&time=${time}&duration=${duration}&exclude=<?php echo $appointment['id']; ?>`)
             .then(response => response.json())
             .then(data => {
                 const overlapDiv = document.getElementById('overlapCheck');

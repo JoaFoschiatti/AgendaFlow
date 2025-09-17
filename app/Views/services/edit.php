@@ -14,7 +14,7 @@ $title = 'Editar Servicio - AgendaFlow';
     <div class="col-md-6">
         <div class="card">
             <div class="card-body">
-                <form method="POST" action="/AgendaFlow/public/services/<?php echo $service['id']; ?>/update">
+                <form method="POST" action="<?= $basePath ?>/services/<?php echo $service['id']; ?>/update">
                     <?php echo \App\Core\CSRF::field(); ?>
                     
                     <div class="mb-3">
@@ -101,7 +101,7 @@ $title = 'Editar Servicio - AgendaFlow';
                         <button type="submit" class="btn btn-primary">
                             <i class="bi bi-check-circle"></i> Guardar Cambios
                         </button>
-                        <a href="/AgendaFlow/public/services" class="btn btn-outline-secondary">
+                        <a href="<?= $basePath ?>/services" class="btn btn-outline-secondary">
                             Cancelar
                         </a>
                     </div>

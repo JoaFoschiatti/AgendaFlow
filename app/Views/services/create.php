@@ -14,7 +14,7 @@ $title = 'Crear Servicio - AgendaFlow';
     <div class="col-md-6">
         <div class="card">
             <div class="card-body">
-                <form method="POST" action="/AgendaFlow/public/services/store">
+                <form method="POST" action="<?= $basePath ?>/services/store">
                     <?php echo \App\Core\CSRF::field(); ?>
                     
                     <div class="mb-3">
@@ -88,7 +88,7 @@ $title = 'Crear Servicio - AgendaFlow';
                         <button type="submit" class="btn btn-primary">
                             <i class="bi bi-check-circle"></i> Crear Servicio
                         </button>
-                        <a href="/AgendaFlow/public/services" class="btn btn-outline-secondary">
+                        <a href="<?= $basePath ?>/services" class="btn btn-outline-secondary">
                             Cancelar
                         </a>
                     </div>

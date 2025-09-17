@@ -10,6 +10,8 @@ date_default_timezone_set('America/Argentina/Cordoba');
 // Autoloader
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+$config = \App\Core\Config::get();
+
 // Create router instance
 $router = new \App\Core\Router();
 
@@ -65,7 +67,7 @@ $router->get($apiPrefix . '/clients/{id}/appointments', 'Api\ClientApiController
 // ===========================
 // API DOCUMENTATION
 // ===========================
-$router->get($apiPrefix . '/docs', function() {
+$router->get($apiPrefix . '/docs', function() use ($config) {
     header('Content-Type: text/html; charset=utf-8');
     include dirname(__DIR__) . '/app/Views/api/documentation.php';
 });
@@ -98,10 +100,24 @@ $uri = $_SERVER['REQUEST_URI'];
 // Remove query string
 $uri = explode('?', $uri)[0];
 
-// Remove base path if needed
-$basePath = '/AgendaFlow/public';
-if (strpos($uri, $basePath) === 0) {
+// Remove configured base path if needed
+$basePath = \App\Core\Url::basePath();
+if ($basePath !== '' && strpos($uri, $basePath) === 0) {
     $uri = substr($uri, strlen($basePath));
+}
+
+// Remove script name if present
+$scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
+if ($scriptName !== '' && strpos($uri, $scriptName) === 0) {
+    $uri = substr($uri, strlen($scriptName));
+}
+
+if (strpos($uri, '/index.php') === 0) {
+    $uri = substr($uri, strlen('/index.php'));
+}
+
+if ($uri === '') {
+    $uri = '/';
 }
 
 try {

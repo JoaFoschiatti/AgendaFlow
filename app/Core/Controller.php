@@ -2,6 +2,8 @@
 
 namespace App\Core;
 
+use App\Core\Url;
+
 abstract class Controller
 {
     protected array $config;
@@ -22,9 +24,21 @@ abstract class Controller
     
     protected function render(string $view, array $data = []): void
     {
+        $urlGenerator = function (string $path = ''): string {
+            return Url::to($path);
+        };
+
+        $fullUrlGenerator = function (string $path = ''): string {
+            return Url::full($path);
+        };
+
         View::render($view, array_merge($data, [
             'user' => $this->user,
-            'config' => $this->config
+            'config' => $this->config,
+            'basePath' => Url::basePath(),
+            'baseUrl' => Url::full(),
+            'url' => $urlGenerator,
+            'fullUrl' => $fullUrlGenerator,
         ]));
     }
     
@@ -61,17 +75,9 @@ abstract class Controller
 
     protected function resolveBasePath(): string
     {
-        $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
 
-        if ($scriptName !== '') {
-            $directory = str_replace('\\', '/', dirname($scriptName));
+        return Url::basePath();
 
-            if ($directory !== '/' && $directory !== '\\' && $directory !== '.') {
-                return rtrim($directory, '/');
-            }
-        }
-
-        return '';
     }
     
     protected function json(array $data, int $statusCode = 200): void

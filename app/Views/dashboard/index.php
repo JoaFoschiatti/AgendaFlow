@@ -10,7 +10,7 @@ $title = 'Dashboard - AgendaFlow';
         <p class="text-muted">Bienvenido, <?php echo htmlspecialchars($user['business_name']); ?></p>
     </div>
     <div class="col-auto">
-        <a href="/AgendaFlow/public/appointments/create" class="btn btn-primary">
+        <a href="<?= $basePath ?>/appointments/create" class="btn btn-primary">
             <i class="bi bi-plus-circle"></i> Nuevo Turno
         </a>
     </div>
@@ -25,7 +25,7 @@ $title = 'Dashboard - AgendaFlow';
         Activa tu suscripción para seguir usando AgendaFlow sin interrupciones.
     </p>
     <hr>
-    <a href="/AgendaFlow/public/subscription" class="btn btn-warning">
+    <a href="<?= $basePath ?>/subscription" class="btn btn-warning">
         <i class="bi bi-credit-card"></i> Activar Suscripción
     </a>
 </div>
@@ -146,7 +146,7 @@ $title = 'Dashboard - AgendaFlow';
                 <?php endif; ?>
             </div>
             <div class="card-footer bg-white">
-                <a href="/AgendaFlow/public/appointments" class="btn btn-sm btn-outline-primary">
+                <a href="<?= $basePath ?>/appointments" class="btn btn-sm btn-outline-primary">
                     Ver agenda completa →
                 </a>
             </div>
@@ -247,22 +247,22 @@ $title = 'Dashboard - AgendaFlow';
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-3 mb-3">
-                        <a href="/AgendaFlow/public/appointments/create" class="btn btn-outline-primary w-100">
+                        <a href="<?= $basePath ?>/appointments/create" class="btn btn-outline-primary w-100">
                             <i class="bi bi-plus-circle"></i> Nuevo Turno
                         </a>
                     </div>
                     <div class="col-md-3 mb-3">
-                        <a href="/AgendaFlow/public/services/create" class="btn btn-outline-success w-100">
+                        <a href="<?= $basePath ?>/services/create" class="btn btn-outline-success w-100">
                             <i class="bi bi-scissors"></i> Nuevo Servicio
                         </a>
                     </div>
                     <div class="col-md-3 mb-3">
-                        <a href="/AgendaFlow/public/clients" class="btn btn-outline-info w-100">
+                        <a href="<?= $basePath ?>/clients" class="btn btn-outline-info w-100">
                             <i class="bi bi-person-plus"></i> Nuevo Cliente
                         </a>
                     </div>
                     <div class="col-md-3 mb-3">
-                        <a href="/AgendaFlow/public/reports" class="btn btn-outline-warning w-100">
+                        <a href="<?= $basePath ?>/reports" class="btn btn-outline-warning w-100">
                             <i class="bi bi-graph-up"></i> Ver Reportes
                         </a>
                     </div>

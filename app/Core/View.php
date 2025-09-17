@@ -67,13 +67,15 @@ class View
     
     public static function asset(string $path): string
     {
-        $baseUrl = rtrim(Config::get('app.url'), '/');
-        return $baseUrl . '/' . ltrim($path, '/');
+
+        return Url::full($path);
+
     }
 
     public static function url(string $path = ''): string
     {
-        $baseUrl = rtrim(Config::get('app.url'), '/');
-        return $baseUrl . '/' . ltrim($path, '/');
+
+        return Url::full($path);
+
     }
 }

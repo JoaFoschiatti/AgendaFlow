@@ -79,6 +79,8 @@ Edita `config/config.php` con tus credenciales de MySQL:
 ],
 ```
 
+Además ajusta la sección `'app'` para que la clave `url` apunte a la URL pública real de la aplicación (incluyendo la carpeta `public` si la app no está montada en la raíz del dominio). Esto asegura que los enlaces generados y las redirecciones funcionen con cualquier subcarpeta.
+
 ### 3. Ejecutar las migraciones
 
 ```bash

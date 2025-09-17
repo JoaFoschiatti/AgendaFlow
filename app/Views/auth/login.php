@@ -15,7 +15,7 @@ $title = 'Iniciar Sesión - AgendaFlow';
             <div class="card-body p-4">
                 <h2 class="h5 mb-4">Iniciar Sesión</h2>
                 
-                <form method="POST" action="/AgendaFlow/public/login">
+                <form method="POST" action="<?= $basePath ?>/login">
                     <?php echo \App\Core\CSRF::field(); ?>
                     
                     <div class="mb-3">
@@ -66,13 +66,13 @@ $title = 'Iniciar Sesión - AgendaFlow';
                 
                 <div class="text-center">
                     <p class="mb-2">
-                        <a href="/AgendaFlow/public/forgot-password" class="text-decoration-none">
+                        <a href="<?= $basePath ?>/forgot-password" class="text-decoration-none">
                             ¿Olvidaste tu contraseña?
                         </a>
                     </p>
                     <p>
                         ¿No tienes cuenta? 
-                        <a href="/AgendaFlow/public/register" class="text-decoration-none fw-bold">
+                        <a href="<?= $basePath ?>/register" class="text-decoration-none fw-bold">
                             Regístrate gratis
                         </a>
                     </p>

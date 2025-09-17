@@ -21,7 +21,7 @@ $title = 'Crear Cuenta - AgendaFlow';
                     <small>Sin tarjeta de crédito. Sin compromisos.</small>
                 </div>
                 
-                <form method="POST" action="/AgendaFlow/public/register">
+                <form method="POST" action="<?= $basePath ?>/register">
                     <?php echo \App\Core\CSRF::field(); ?>
                     
                     <div class="mb-3">
@@ -139,7 +139,7 @@ $title = 'Crear Cuenta - AgendaFlow';
                 <div class="text-center">
                     <p>
                         ¿Ya tienes cuenta? 
-                        <a href="/AgendaFlow/public/login" class="text-decoration-none fw-bold">
+                        <a href="<?= $basePath ?>/login" class="text-decoration-none fw-bold">
                             Iniciar sesión
                         </a>
                     </p>

@@ -287,7 +287,7 @@ $title = 'Suscripción - AgendaFlow';
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mantener Suscripción</button>
-                <form method="POST" action="/AgendaFlow/public/subscription/cancel" style="display: inline;">
+                <form method="POST" action="<?= $basePath ?>/subscription/cancel" style="display: inline;">
                     <?php echo \App\Core\CSRF::field(); ?>
                     <button type="submit" class="btn btn-danger">
                         <i class="bi bi-x-circle"></i> Confirmar Cancelación
@@ -315,7 +315,7 @@ async function initMercadoPagoCheckout() {
         const csrfToken = document.querySelector('input[name="_token"]').value;
         
         // Create preference
-        const response = await fetch('/AgendaFlow/public/api/payment/preference', {
+        const response = await fetch('<?= $basePath ?>/api/payment/preference', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
