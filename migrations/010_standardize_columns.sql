@@ -1,17 +1,8 @@
 -- Standardize column names across tables
 USE agendaflow;
 
--- Rename duration_min to duration in services table
-ALTER TABLE services
-CHANGE COLUMN duration_min duration INT UNSIGNED DEFAULT 60;
-
--- Rename price_default to price in services table
-ALTER TABLE services
-CHANGE COLUMN price_default price DECIMAL(12,2) DEFAULT 0.00;
-
--- Rename active to is_active in services table
-ALTER TABLE services
-CHANGE COLUMN active is_active TINYINT(1) DEFAULT 1;
+-- Note: Column renames have already been applied in earlier migrations
+-- Only adding missing columns if they don't exist
 
 -- Add description column to services if it doesn't exist
 ALTER TABLE services

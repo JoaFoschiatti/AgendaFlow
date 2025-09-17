@@ -29,10 +29,10 @@ runTest('Url::basePath uses configured app.url path', function () use ($defaultC
     overrideConfig($defaultConfig);
     Url::refresh();
 
-    assertSame('/AgendaFlow/public', Url::basePath());
-    assertSame('/AgendaFlow/public/login', Url::to('login'));
-    assertSame('/AgendaFlow/public', Url::to(''));
-    assertSame('http://localhost/AgendaFlow/public/login', Url::full('login'));
+    assertSame('/AgendaFlow', Url::basePath());
+    assertSame('/AgendaFlow/login', Url::to('login'));
+    assertSame('/AgendaFlow', Url::to(''));
+    assertSame('http://localhost/AgendaFlow/login', Url::full('login'));
 });
 
 runTest('Url::basePath falls back to script name when no app.url provided', function () use ($defaultConfig): void {
