@@ -40,6 +40,10 @@ class ApiController extends Controller
         // Handle preflight requests
         if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
             http_response_code(204);
+            $isCliTest = (PHP_SAPI === 'cli') && (($_ENV['APP_ENV'] ?? getenv('APP_ENV')) === 'test');
+            if ($isCliTest) {
+                throw new \App\Core\Http\HaltRequest('options');
+            }
             exit;
         }
     }
@@ -50,7 +54,11 @@ class ApiController extends Controller
 
         if (strpos($contentType, 'application/json') !== false) {
             $rawData = file_get_contents('php://input');
-            $this->requestData = json_decode($rawData, true) ?? [];
+            $data = json_decode($rawData, true);
+            if (!is_array($data) && isset($GLOBALS['__SIM_INPUT__'])) {
+                $data = json_decode($GLOBALS['__SIM_INPUT__'], true);
+            }
+            $this->requestData = is_array($data) ? $data : [];
         } else {
             $this->requestData = $_REQUEST;
         }
@@ -91,6 +99,7 @@ class ApiController extends Controller
 
     protected function successResponse($data = null, string $message = 'Success', int $code = 200): void
     {
+        $isCliTest = (PHP_SAPI === 'cli') && (($_ENV['APP_ENV'] ?? getenv('APP_ENV')) === 'test');
         http_response_code($code);
         echo json_encode([
             'success' => true,
@@ -98,11 +107,15 @@ class ApiController extends Controller
             'data' => $data,
             'timestamp' => date('Y-m-d H:i:s')
         ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        if ($isCliTest) {
+            throw new \App\Core\Http\HaltRequest('success');
+        }
         exit;
     }
 
     protected function errorResponse(string $message = 'Error', int $code = 400, array $errors = []): void
     {
+        $isCliTest = (PHP_SAPI === 'cli') && (($_ENV['APP_ENV'] ?? getenv('APP_ENV')) === 'test');
         http_response_code($code);
         echo json_encode([
             'success' => false,
@@ -110,6 +123,9 @@ class ApiController extends Controller
             'errors' => $errors,
             'timestamp' => date('Y-m-d H:i:s')
         ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        if ($isCliTest) {
+            throw new \App\Core\Http\HaltRequest('error');
+        }
         exit;
     }
 

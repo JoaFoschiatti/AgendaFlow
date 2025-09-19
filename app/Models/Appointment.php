@@ -19,12 +19,21 @@ class Appointment extends Model
         'ends_at',
         'status',
         'notes',
-        'phone'
+        'client_phone'
     ];
+
+    public function find(int $id): ?array
+    {
+        $row = parent::find($id);
+        if ($row && !isset($row['phone']) && isset($row['client_phone'])) {
+            $row['phone'] = $row['client_phone'];
+        }
+        return $row ?: null;
+    }
     
     public function getByDateRange(int $userId, string $startDate, string $endDate, ?string $status = null): array
     {
-        $sql = "SELECT a.*, s.name as service_name, s.color as service_color, c.name as saved_client_name 
+        $sql = "SELECT a.*, a.client_phone AS phone, s.name as service_name, s.color as service_color, c.name as saved_client_name 
                 FROM {$this->table} a
                 LEFT JOIN services s ON a.service_id = s.id
                 LEFT JOIN clients c ON a.client_id = c.id
@@ -51,7 +60,7 @@ class Appointment extends Model
     
     public function getUpcoming(int $userId, int $days = 7, ?int $limit = null): array
     {
-        $sql = "SELECT a.*, s.name as service_name, s.color as service_color, c.name as saved_client_name 
+        $sql = "SELECT a.*, a.client_phone AS phone, s.name as service_name, s.color as service_color, c.name as saved_client_name 
                 FROM {$this->table} a
                 LEFT JOIN services s ON a.service_id = s.id
                 LEFT JOIN clients c ON a.client_id = c.id
@@ -128,7 +137,7 @@ class Appointment extends Model
     
     public function getByClient(int $userId, int $clientId): array
     {
-        $sql = "SELECT a.*, s.name as service_name, s.color as service_color 
+        $sql = "SELECT a.*, a.client_phone AS phone, s.name as service_name, s.color as service_color 
                 FROM {$this->table} a
                 LEFT JOIN services s ON a.service_id = s.id
                 WHERE a.user_id = :user_id AND a.client_id = :client_id
@@ -202,7 +211,7 @@ class Appointment extends Model
         $startDate = $date . ' 00:00:00';
         $endDate = $date . ' 23:59:59';
 
-        $sql = "SELECT * FROM {$this->table}
+        $sql = "SELECT *, client_phone AS phone FROM {$this->table}
                 WHERE user_id = :user_id
                 AND starts_at >= :start_date
                 AND starts_at <= :end_date
@@ -220,8 +229,8 @@ class Appointment extends Model
 
     public function getByUserWithDetails(int $userId, ?string $startDate = null, ?string $endDate = null): array
     {
-        $sql = "SELECT a.*, s.name as service_name, s.color as service_color,
-                       s.duration as service_duration, c.name as saved_client_name
+        $sql = "SELECT a.*, a.client_phone AS phone, s.name as service_name, s.color as service_color,
+                       s.duration_min as service_duration, c.name as saved_client_name
                 FROM {$this->table} a
                 LEFT JOIN services s ON a.service_id = s.id
                 LEFT JOIN clients c ON a.client_id = c.id

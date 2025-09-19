@@ -69,26 +69,30 @@ class ServiceApiController extends ApiController
         // Apply rate limiting
         RateLimiter::middleware($_SERVER['REMOTE_ADDR'], 30, 1);
 
-        // Validate required fields
+        // Validate required fields (accept legacy keys and map)
         $this->validateRequired(['name', 'duration', 'price']);
+
+        // Map legacy keys duration/price to duration_min/price_default
+        $duration = (int)$this->requestData['duration'];
+        $price = (float)$this->requestData['price'];
 
         $data = [
             'user_id' => $this->currentUser['id'],
             'name' => htmlspecialchars($this->requestData['name']),
             'description' => htmlspecialchars($this->requestData['description'] ?? ''),
-            'duration' => (int)$this->requestData['duration'],
-            'price' => (float)$this->requestData['price'],
+            'duration_min' => $duration,
+            'price_default' => $price,
             'is_active' => isset($this->requestData['is_active']) ?
                 ($this->requestData['is_active'] ? 1 : 0) : 1
         ];
 
         // Validate duration
-        if ($data['duration'] < 15 || $data['duration'] > 480) {
+        if ($data['duration_min'] < 15 || $data['duration_min'] > 480) {
             $this->errorResponse('Duration must be between 15 and 480 minutes', 422);
         }
 
         // Validate price
-        if ($data['price'] < 0) {
+        if ($data['price_default'] < 0) {
             $this->errorResponse('Price cannot be negative', 422);
         }
 
@@ -106,6 +110,11 @@ class ServiceApiController extends ApiController
         }
 
         $service = $this->serviceModel->find($serviceId);
+        // Include legacy aliases for compatibility
+        if ($service) {
+            $service['duration'] = $service['duration_min'] ?? null;
+            $service['price'] = $service['price_default'] ?? null;
+        }
 
         $this->logApiAccess('/api/v1/services', 'POST', ['service_id' => $serviceId]);
 
@@ -137,15 +146,15 @@ class ServiceApiController extends ApiController
         }
 
         if (isset($this->requestData['duration'])) {
-            $data['duration'] = (int)$this->requestData['duration'];
-            if ($data['duration'] < 15 || $data['duration'] > 480) {
+            $data['duration_min'] = (int)$this->requestData['duration'];
+            if ($data['duration_min'] < 15 || $data['duration_min'] > 480) {
                 $this->errorResponse('Duration must be between 15 and 480 minutes', 422);
             }
         }
 
         if (isset($this->requestData['price'])) {
-            $data['price'] = (float)$this->requestData['price'];
-            if ($data['price'] < 0) {
+            $data['price_default'] = (float)$this->requestData['price'];
+            if ($data['price_default'] < 0) {
                 $this->errorResponse('Price cannot be negative', 422);
             }
         }
@@ -165,6 +174,10 @@ class ServiceApiController extends ApiController
         }
 
         $service = $this->serviceModel->find($id);
+        if ($service) {
+            $service['duration'] = $service['duration_min'] ?? null;
+            $service['price'] = $service['price_default'] ?? null;
+        }
 
         $this->logApiAccess('/api/v1/services/' . $id, 'PUT', $data);
 

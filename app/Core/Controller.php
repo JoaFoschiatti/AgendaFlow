@@ -50,8 +50,12 @@ abstract class Controller
     protected function redirect(string $url): void
     {
         $target = $this->prepareRedirectUrl($url);
-
+        $isCliTest = (PHP_SAPI === 'cli') && (($_ENV['APP_ENV'] ?? getenv('APP_ENV')) === 'test');
+        http_response_code(302);
         header("Location: {$target}");
+        if ($isCliTest) {
+            throw new \App\Core\Http\HaltRequest('redirect');
+        }
         exit;
     }
 
@@ -87,9 +91,13 @@ abstract class Controller
     
     protected function json(array $data, int $statusCode = 200): void
     {
+        $isCliTest = (PHP_SAPI === 'cli') && (($_ENV['APP_ENV'] ?? getenv('APP_ENV')) === 'test');
         http_response_code($statusCode);
         header('Content-Type: application/json');
         echo json_encode($data);
+        if ($isCliTest) {
+            throw new \App\Core\Http\HaltRequest('json');
+        }
         exit;
     }
     

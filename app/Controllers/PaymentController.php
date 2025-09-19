@@ -28,7 +28,14 @@ class PaymentController extends Controller
     public function createPreference(): void
     {
         $this->requireAuth();
-        
+
+        // If payments are disabled, fail fast with a friendly message
+        $config = \App\Core\Config::get();
+        if (!($config['mercadopago']['enabled'] ?? false)) {
+            $this->json(['error' => 'Pagos no habilitados en este entorno.'], 503);
+            return;
+        }
+
         // Check for JSON request
         $isJsonRequest = strpos($_SERVER['CONTENT_TYPE'] ?? '', 'application/json') !== false;
         

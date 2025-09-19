@@ -85,8 +85,14 @@ class JWT
 
     public static function extractTokenFromHeader(): ?string
     {
-        $headers = getallheaders();
+        // Try to read Authorization header in both web and CLI contexts
+        $headers = function_exists('getallheaders') ? getallheaders() : [];
         $authHeader = $headers['Authorization'] ?? $headers['authorization'] ?? null;
+
+        if (!$authHeader) {
+            // Fallback to $_SERVER variables
+            $authHeader = $_SERVER['HTTP_AUTHORIZATION'] ?? $_SERVER['Authorization'] ?? null;
+        }
 
         if (!$authHeader) {
             return null;
