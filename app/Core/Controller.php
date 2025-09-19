@@ -2,6 +2,8 @@
 
 namespace App\Core;
 
+use App\Core\Url;
+
 abstract class Controller
 {
     protected array $config;
@@ -9,7 +11,7 @@ abstract class Controller
     
     public function __construct()
     {
-        $this->config = require dirname(__DIR__, 2) . '/config/config.php';
+        $this->config = Config::get();
         
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
@@ -22,22 +24,60 @@ abstract class Controller
     
     protected function render(string $view, array $data = []): void
     {
+        $urlGenerator = function (string $path = ''): string {
+            return Url::to($path);
+        };
+
+        $fullUrlGenerator = function (string $path = ''): string {
+            return Url::full($path);
+        };
+
         View::render($view, array_merge($data, [
             'user' => $this->user,
-            'config' => $this->config
+            'config' => $this->config,
+            'basePath' => Url::basePath(),
+            'baseUrl' => Url::full(),
+            'url' => $urlGenerator,
+            'fullUrl' => $fullUrlGenerator,
         ]));
     }
     
     protected function redirect(string $url): void
     {
-        // Si la URL comienza con /, agregar el prefijo de la aplicación
-        if (strpos($url, '/') === 0) {
-            $config = require dirname(__DIR__, 2) . '/config/config.php';
-            $baseUrl = $config['app']['url'] . '/public';
-            $url = $baseUrl . $url;
-        }
-        header("Location: {$url}");
+        $target = $this->prepareRedirectUrl($url);
+
+        header("Location: {$target}");
         exit;
+    }
+
+    private function prepareRedirectUrl(string $url): string
+    {
+        if (filter_var($url, FILTER_VALIDATE_URL)) {
+            return $url;
+        }
+
+        $path = $url;
+
+        if ($path === '' || $path === null) {
+            $path = '/';
+        } elseif ($path[0] !== '/') {
+            $path = '/' . ltrim($path, '/');
+        }
+
+        $basePath = $this->resolveBasePath();
+
+        if ($basePath === '') {
+            return $path;
+        }
+
+        return rtrim($basePath, '/') . $path;
+    }
+
+    protected function resolveBasePath(): string
+    {
+
+        return Url::basePath();
+
     }
     
     protected function json(array $data, int $statusCode = 200): void

@@ -7,14 +7,14 @@ $title = 'Reportes - AgendaFlow';
         <h1 class="h3">
             <i class="bi bi-graph-up"></i> Reportes
         </h1>
-        <p class="text-muted">Análisis de tu negocio</p>
+        <p class="text-muted">An&aacute;lisis de tu negocio</p>
     </div>
 </div>
 
 <!-- Filters -->
 <div class="card mb-4">
     <div class="card-body">
-        <form method="GET" action="/AgendaFlow/public/reports">
+        <form method="GET" action="<?= $basePath ?>/reports">
             <div class="row g-3">
                 <div class="col-md-3">
                     <label for="start_date" class="form-label">Fecha desde</label>
@@ -48,7 +48,7 @@ $title = 'Reportes - AgendaFlow';
                     <button type="submit" class="btn btn-primary me-2">
                         <i class="bi bi-funnel"></i> Filtrar
                     </button>
-                    <a href="/AgendaFlow/public/reports/export?start_date=<?php echo $startDate; ?>&end_date=<?php echo $endDate; ?>&service_id=<?php echo $selectedService; ?>" 
+                    <a href="<?= $basePath ?>/reports/export?start_date=<?php echo $startDate; ?>&end_date=<?php echo $endDate; ?>&service_id=<?php echo $selectedService; ?>" 
                        class="btn btn-success">
                         <i class="bi bi-download"></i> Exportar CSV
                     </a>
@@ -152,7 +152,7 @@ $title = 'Reportes - AgendaFlow';
         <div class="card">
             <div class="card-header bg-white">
                 <h5 class="mb-0">
-                    <i class="bi bi-pie-chart"></i> Distribución por Servicio
+                    <i class="bi bi-pie-chart"></i> Distribuci&oacute;n por Servicio
                 </h5>
             </div>
             <div class="card-body">
@@ -171,7 +171,7 @@ $title = 'Reportes - AgendaFlow';
     </div>
     <div class="card-body">
         <?php if (empty($appointments)): ?>
-            <p class="text-center text-muted py-4">No hay turnos en el período seleccionado</p>
+            <p class="text-center text-muted py-4">No hay turnos en el per&iacute;odo seleccionado</p>
         <?php else: ?>
             <div class="table-responsive">
                 <table class="table table-hover">
@@ -205,7 +205,7 @@ $title = 'Reportes - AgendaFlow';
                                 <?php elseif ($appointment['status'] === 'canceled'): ?>
                                     <span class="badge bg-danger">Cancelado</span>
                                 <?php elseif ($appointment['status'] === 'no_show'): ?>
-                                    <span class="badge bg-warning">No asistió</span>
+                                    <span class="badge bg-warning">No asisti&oacute;</span>
                                 <?php endif; ?>
                             </td>
                         </tr>
@@ -216,7 +216,7 @@ $title = 'Reportes - AgendaFlow';
                 <?php if (count($appointments) > 20): ?>
                     <p class="text-center text-muted">
                         Mostrando 20 de <?php echo count($appointments); ?> turnos. 
-                        <a href="/AgendaFlow/public/reports/export?start_date=<?php echo $startDate; ?>&end_date=<?php echo $endDate; ?>&service_id=<?php echo $selectedService; ?>">
+                        <a href="<?= $basePath ?>/reports/export?start_date=<?php echo $startDate; ?>&end_date=<?php echo $endDate; ?>&service_id=<?php echo $selectedService; ?>">
                             Exportar todos en CSV
                         </a>
                     </p>

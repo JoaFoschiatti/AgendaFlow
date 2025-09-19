@@ -16,18 +16,18 @@ $title = 'Clientes - AgendaFlow';
     <div class="card-body">
         <div class="row">
             <div class="col-md-6">
-                <form method="GET" action="/AgendaFlow/public/clients">
+                <form method="GET" action="<?= $basePath ?>/clients">
                     <div class="input-group">
                         <input type="text" 
                                class="form-control" 
                                name="search" 
-                               placeholder="Buscar por nombre o teléfono..."
+                               placeholder="Buscar por nombre o telÃ©fono..."
                                value="<?php echo htmlspecialchars($search); ?>">
                         <button class="btn btn-outline-secondary" type="submit">
                             <i class="bi bi-search"></i> Buscar
                         </button>
                         <?php if (!empty($search)): ?>
-                            <a href="/AgendaFlow/public/clients" class="btn btn-outline-secondary">
+                            <a href="<?= $basePath ?>/clients" class="btn btn-outline-secondary">
                                 <i class="bi bi-x"></i> Limpiar
                             </a>
                         <?php endif; ?>
@@ -59,9 +59,9 @@ $title = 'Clientes - AgendaFlow';
             </h5>
             <p class="text-muted">
                 <?php if (!empty($search)): ?>
-                    Intenta con otros términos de búsqueda
+                    Intenta con otros tÃ©rminos de bÃºsqueda
                 <?php else: ?>
-                    Los clientes se crean automáticamente al guardarlos en los turnos
+                    Los clientes se crean automÃ&iexcl;ticamente al guardarlos en los turnos
                 <?php endif; ?>
             </p>
         </div>
@@ -74,7 +74,7 @@ $title = 'Clientes - AgendaFlow';
                     <thead>
                         <tr>
                             <th>Nombre</th>
-                            <th>Teléfono</th>
+                            <th>TelÃ©fono</th>
                             <th>Turnos</th>
                             <th>Registrado</th>
                             <th class="text-end">Acciones</th>
@@ -112,7 +112,7 @@ $title = 'Clientes - AgendaFlow';
                                 </small>
                             </td>
                             <td class="text-end">
-                                <a href="/AgendaFlow/public/clients/<?php echo $client['id']; ?>/edit" 
+                                <a href="<?= $basePath ?>/clients/<?php echo $client['id']; ?>/edit" 
                                    class="btn btn-sm btn-outline-primary"
                                    data-bs-toggle="tooltip" 
                                    title="Editar">
@@ -160,7 +160,7 @@ $title = 'Clientes - AgendaFlow';
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
-            <form method="POST" action="/AgendaFlow/public/clients/store">
+            <form method="POST" action="<?= $basePath ?>/clients/store">
                 <div class="modal-body">
                     <?php echo \App\Core\CSRF::field(); ?>
                     
@@ -175,7 +175,7 @@ $title = 'Clientes - AgendaFlow';
                     </div>
                     
                     <div class="mb-3">
-                        <label for="phone" class="form-label">Teléfono (opcional)</label>
+                        <label for="phone" class="form-label">TelÃ©fono (opcional)</label>
                         <input type="tel" 
                                class="form-control" 
                                id="phone" 
@@ -189,7 +189,7 @@ $title = 'Clientes - AgendaFlow';
                                   id="notes" 
                                   name="notes" 
                                   rows="3"
-                                  placeholder="Información adicional del cliente..."></textarea>
+                                  placeholder="InformaciÃ³n adicional del cliente..."></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -208,12 +208,12 @@ $title = 'Clientes - AgendaFlow';
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Confirmar eliminación</h5>
+                <h5 class="modal-title">Confirmar eliminaciÃ³n</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <p>¿Estás seguro de que deseas eliminar al cliente <strong id="clientName"></strong>?</p>
-                <p class="text-muted">Esta acción no se puede deshacer.</p>
+                <p>&iquest;Est&aacute;s seguro de que deseas eliminar al cliente <strong id="clientName"></strong>?</p>
+                <p class="text-muted">Esta acciÃ³n no se puede deshacer.</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -231,7 +231,10 @@ $title = 'Clientes - AgendaFlow';
 <script>
 function deleteClient(id, name) {
     document.getElementById('clientName').textContent = name;
-    document.getElementById('deleteForm').action = '/clients/' + id + '/delete';
+    const basePath = window.APP_BASE_PATH || '';
+    const action = (basePath ? basePath : '') + '/clients/' + id + '/delete';
+    document.getElementById('deleteForm').action = action || '/clients/' + id + '/delete';
     new bootstrap.Modal(document.getElementById('deleteModal')).show();
 }
 </script>
+

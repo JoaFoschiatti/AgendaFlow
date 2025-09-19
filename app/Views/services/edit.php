@@ -14,7 +14,7 @@ $title = 'Editar Servicio - AgendaFlow';
     <div class="col-md-6">
         <div class="card">
             <div class="card-body">
-                <form method="POST" action="/AgendaFlow/public/services/<?php echo $service['id']; ?>/update">
+                <form method="POST" action="<?= $basePath ?>/services/<?php echo $service['id']; ?>/update">
                     <?php echo \App\Core\CSRF::field(); ?>
                     
                     <div class="mb-3">
@@ -34,34 +34,34 @@ $title = 'Editar Servicio - AgendaFlow';
                     </div>
                     
                     <div class="mb-3">
-                        <label for="price_default" class="form-label">Precio por defecto *</label>
+                        <label for="price" class="form-label">Precio por defecto *</label>
                         <div class="input-group">
                             <span class="input-group-text">$</span>
-                            <input type="number" 
-                                   class="form-control <?php echo isset($_SESSION['errors']['price_default']) ? 'is-invalid' : ''; ?>" 
-                                   id="price_default" 
-                                   name="price_default" 
-                                   value="<?php echo $_SESSION['old']['price_default'] ?? $service['price_default']; ?>"
+                            <input type="number"
+                                   class="form-control <?php echo isset($_SESSION['errors']['price']) ? 'is-invalid' : ''; ?>"
+                                   id="price"
+                                   name="price"
+                                   value="<?php echo $_SESSION['old']['price'] ?? $service['price']; ?>"
                                    step="0.01"
                                    min="0"
                                    required>
-                            <?php if (isset($_SESSION['errors']['price_default'])): ?>
+                            <?php if (isset($_SESSION['errors']['price'])): ?>
                                 <div class="invalid-feedback">
-                                    <?php echo $_SESSION['errors']['price_default']; ?>
+                                    <?php echo $_SESSION['errors']['price']; ?>
                                 </div>
                             <?php endif; ?>
                         </div>
-                        <small class="text-muted">Este precio se usará por defecto al crear turnos</small>
+                        <small class="text-muted">Este precio se usar&aacute; por defecto al crear turnos</small>
                     </div>
-                    
+
                     <div class="mb-3">
-                        <label for="duration_min" class="form-label">Duración estimada (opcional)</label>
+                        <label for="duration" class="form-label">Duraci&oacute;n estimada (opcional)</label>
                         <div class="input-group">
-                            <input type="number" 
-                                   class="form-control" 
-                                   id="duration_min" 
-                                   name="duration_min" 
-                                   value="<?php echo $_SESSION['old']['duration_min'] ?? $service['duration_min']; ?>"
+                            <input type="number"
+                                   class="form-control"
+                                   id="duration"
+                                   name="duration"
+                                   value="<?php echo $_SESSION['old']['duration'] ?? $service['duration']; ?>"
                                    placeholder="30"
                                    min="5"
                                    max="480"
@@ -79,29 +79,29 @@ $title = 'Editar Servicio - AgendaFlow';
                                name="color" 
                                value="<?php echo $_SESSION['old']['color'] ?? $service['color'] ?? '#6c757d'; ?>"
                                title="Elige un color">
-                        <small class="text-muted">Este color se usará para identificar el servicio en la agenda</small>
+                        <small class="text-muted">Este color se usar&aacute; para identificar el servicio en la agenda</small>
                     </div>
                     
                     <div class="mb-4">
                         <div class="form-check form-switch">
-                            <input class="form-check-input" 
-                                   type="checkbox" 
-                                   id="active" 
-                                   name="active" 
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   id="is_active"
+                                   name="is_active"
                                    value="1"
-                                   <?php echo (isset($_SESSION['old']['active']) ? $_SESSION['old']['active'] : $service['active']) ? 'checked' : ''; ?>>
-                            <label class="form-check-label" for="active">
+                                   <?php echo (isset($_SESSION['old']['is_active']) ? $_SESSION['old']['is_active'] : $service['is_active']) ? 'checked' : ''; ?>>
+                            <label class="form-check-label" for="is_active">
                                 Servicio activo
                             </label>
                         </div>
-                        <small class="text-muted">Los servicios inactivos no aparecerán al crear nuevos turnos</small>
+                        <small class="text-muted">Los servicios inactivos no aparecer&aacute;n al crear nuevos turnos</small>
                     </div>
                     
                     <div class="d-flex gap-2">
                         <button type="submit" class="btn btn-primary">
                             <i class="bi bi-check-circle"></i> Guardar Cambios
                         </button>
-                        <a href="/AgendaFlow/public/services" class="btn btn-outline-secondary">
+                        <a href="<?= $basePath ?>/services" class="btn btn-outline-secondary">
                             Cancelar
                         </a>
                     </div>
@@ -114,18 +114,18 @@ $title = 'Editar Servicio - AgendaFlow';
         <div class="card bg-light">
             <div class="card-body">
                 <h5 class="card-title">
-                    <i class="bi bi-info-circle"></i> Información del servicio
+                    <i class="bi bi-info-circle"></i> Informaci&oacute;n del servicio
                 </h5>
                 <dl class="row">
                     <dt class="col-sm-4">Creado:</dt>
                     <dd class="col-sm-8"><?php echo \App\Core\Helpers::formatDateTime($service['created_at']); ?></dd>
                     
-                    <dt class="col-sm-4">Última actualización:</dt>
+                    <dt class="col-sm-4">&Uacute;ltima actualizaci&oacute;n:</dt>
                     <dd class="col-sm-8"><?php echo \App\Core\Helpers::formatDateTime($service['updated_at']); ?></dd>
                     
                     <dt class="col-sm-4">Estado actual:</dt>
                     <dd class="col-sm-8">
-                        <?php if ($service['active']): ?>
+                        <?php if ($service['is_active']): ?>
                             <span class="badge bg-success">Activo</span>
                         <?php else: ?>
                             <span class="badge bg-secondary">Inactivo</span>
@@ -136,7 +136,7 @@ $title = 'Editar Servicio - AgendaFlow';
                 <hr>
                 
                 <p class="mb-0">
-                    <strong>Nota:</strong> Los cambios en el precio no afectarán a los turnos ya creados.
+                    <strong>Nota:</strong> Los cambios en el precio no afectar&aacute;n a los turnos ya creados.
                 </p>
             </div>
         </div>

@@ -9,7 +9,7 @@ $title = 'Nuevo Turno - AgendaFlow';
         </h1>
     </div>
     <div class="col-auto">
-        <a href="/AgendaFlow/public/appointments" class="btn btn-outline-secondary">
+        <a href="<?= $basePath ?>/appointments" class="btn btn-outline-secondary">
             <i class="bi bi-arrow-left"></i> Volver
         </a>
     </div>
@@ -19,12 +19,12 @@ $title = 'Nuevo Turno - AgendaFlow';
     <div class="col-lg-8">
         <div class="card">
             <div class="card-body">
-                <form method="POST" action="/AgendaFlow/public/appointments/store" id="appointmentForm">
+                <form method="POST" action="<?= $basePath ?>/appointments/store" id="appointmentForm">
                     <?php echo \App\Core\CSRF::field(); ?>
                     
                     <div class="row">
                         <div class="col-md-6">
-                            <h5 class="mb-3">Información del Cliente</h5>
+                            <h5 class="mb-3">Informaci&oacute;n del Cliente</h5>
                             
                             <div class="mb-3">
                                 <label for="client_name" class="form-label">Nombre del cliente *</label>
@@ -43,7 +43,7 @@ $title = 'Nuevo Turno - AgendaFlow';
                             </div>
                             
                             <div class="mb-3">
-                                <label for="phone" class="form-label">Teléfono (opcional)</label>
+                                <label for="phone" class="form-label">Tel&eacute;fono (opcional)</label>
                                 <input type="tel" 
                                        class="form-control" 
                                        id="phone" 
@@ -78,9 +78,9 @@ $title = 'Nuevo Turno - AgendaFlow';
                                         onchange="updateServiceDetails()">
                                     <option value="">Seleccionar servicio...</option>
                                     <?php foreach ($services as $service): ?>
-                                        <option value="<?php echo $service['id']; ?>" 
-                                                data-price="<?php echo $service['price_default']; ?>"
-                                                data-duration="<?php echo $service['duration_min'] ?? 30; ?>"
+                                        <option value="<?php echo $service['id']; ?>"
+                                                data-price="<?php echo $service['price']; ?>"
+                                                data-duration="<?php echo $service['duration'] ?? 30; ?>"
                                                 data-color="<?php echo $service['color'] ?? '#6c757d'; ?>"
                                                 <?php echo (isset($_SESSION['old']['service_id']) && $_SESSION['old']['service_id'] == $service['id']) ? 'selected' : ''; ?>>
                                             <?php echo htmlspecialchars($service['name']); ?>
@@ -177,7 +177,7 @@ $title = 'Nuevo Turno - AgendaFlow';
                 <h5 class="card-title">Detalles del Servicio</h5>
                 <div id="serviceDetails">
                     <p class="mb-2">
-                        <i class="bi bi-clock"></i> Duración: <span id="serviceDuration">-</span> minutos
+                        <i class="bi bi-clock"></i> Duraci&oacute;n: <span id="serviceDuration">-</span> minutos
                     </p>
                     <p class="mb-2">
                         <i class="bi bi-cash"></i> Precio sugerido: $<span id="servicePrice">-</span>
@@ -217,6 +217,8 @@ $title = 'Nuevo Turno - AgendaFlow';
 </div>
 
 <script>
+const BASE_PATH = <?php echo json_encode($basePath); ?>;
+
 function updateServiceDetails() {
     const select = document.getElementById('service_id');
     const priceInput = document.getElementById('price');
@@ -266,7 +268,7 @@ function checkOverlap() {
     const duration = selectedOption.getAttribute('data-duration') || 30;
     
     // Make AJAX request to check overlap
-    fetch(`/AgendaFlow/public/api/appointments/check-overlap?date=${date}&time=${time}&duration=${duration}`)
+    fetch(`${BASE_PATH}/api/appointments/check-overlap?date=${date}&time=${time}&duration=${duration}`)
         .then(response => response.json())
         .then(data => {
             if (data.overlap) {

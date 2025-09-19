@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 $title = 'Servicios - AgendaFlow';
 ?>
 
@@ -11,7 +11,7 @@ $title = 'Servicios - AgendaFlow';
     </div>
     <div class="col-auto">
         <?php if ($user && \App\Core\Helpers::getTrialDaysRemaining($user['trial_ends_at']) > 0 || $user['subscription_status'] === 'active'): ?>
-        <a href="/AgendaFlow/public/services/create" class="btn btn-primary">
+        <a href="<?= $basePath ?>/services/create" class="btn btn-primary">
             <i class="bi bi-plus-circle"></i> Nuevo Servicio
         </a>
         <?php endif; ?>
@@ -25,7 +25,7 @@ $title = 'Servicios - AgendaFlow';
             <h5 class="mt-3">No hay servicios creados</h5>
             <p class="text-muted">Comienza creando tu primer servicio</p>
             <?php if ($user && \App\Core\Helpers::getTrialDaysRemaining($user['trial_ends_at']) > 0 || $user['subscription_status'] === 'active'): ?>
-            <a href="/AgendaFlow/public/services/create" class="btn btn-primary mt-3">
+            <a href="<?= $basePath ?>/services/create" class="btn btn-primary mt-3">
                 <i class="bi bi-plus-circle"></i> Crear primer servicio
             </a>
             <?php endif; ?>
@@ -40,7 +40,7 @@ $title = 'Servicios - AgendaFlow';
                         <tr>
                             <th>Servicio</th>
                             <th>Precio</th>
-                            <th>Duración</th>
+                            <th>DuraciÃ³n</th>
                             <th>Estado</th>
                             <th class="text-end">Acciones</th>
                         </tr>
@@ -55,24 +55,24 @@ $title = 'Servicios - AgendaFlow';
                                 </div>
                             </td>
                             <td>
-                                <?php echo \App\Core\Helpers::formatPrice($service['price_default']); ?>
+                                <?php echo \App\Core\Helpers::formatPrice($service['price']); ?>
                             </td>
                             <td>
-                                <?php if ($service['duration_min']): ?>
-                                    <?php echo $service['duration_min']; ?> min
+                                <?php if ($service['duration']): ?>
+                                    <?php echo $service['duration']; ?> min
                                 <?php else: ?>
                                     <span class="text-muted">-</span>
                                 <?php endif; ?>
                             </td>
                             <td>
-                                <?php if ($service['active']): ?>
+                                <?php if ($service['is_active']): ?>
                                     <span class="badge bg-success">Activo</span>
                                 <?php else: ?>
                                     <span class="badge bg-secondary">Inactivo</span>
                                 <?php endif; ?>
                             </td>
                             <td class="text-end">
-                                <a href="/AgendaFlow/public/services/<?php echo $service['id']; ?>/edit" 
+                                <a href="<?= $basePath ?>/services/<?php echo $service['id']; ?>/edit" 
                                    class="btn btn-sm btn-outline-primary"
                                    data-bs-toggle="tooltip" 
                                    title="Editar">
@@ -102,12 +102,12 @@ $title = 'Servicios - AgendaFlow';
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Confirmar eliminación</h5>
+                <h5 class="modal-title">Confirmar eliminaciÃ³n</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <p>¿Estás seguro de que deseas eliminar el servicio <strong id="serviceName"></strong>?</p>
-                <p class="text-muted">Si el servicio tiene turnos asociados, será desactivado en lugar de eliminado.</p>
+                <p>&iquest;Est&aacute;s seguro de que deseas eliminar el servicio <strong id="serviceName"></strong>?</p>
+                <p class="text-muted">Si el servicio tiene turnos asociados, ser&aacute; desactivado en lugar de eliminado.</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -122,10 +122,21 @@ $title = 'Servicios - AgendaFlow';
     </div>
 </div>
 
+
+
+
+
 <script>
 function deleteService(id, name) {
     document.getElementById('serviceName').textContent = name;
-    document.getElementById('deleteForm').action = '/services/' + id + '/delete';
+    const basePath = window.APP_BASE_PATH || '';
+    const action = (basePath ? basePath : '') + '/services/' + id + '/delete';
+    document.getElementById('deleteForm').action = action || '/services/' + id + '/delete';
     new bootstrap.Modal(document.getElementById('deleteModal')).show();
 }
 </script>
+
+
+
+
+

@@ -19,7 +19,7 @@ return [
     'app' => [
         'name' => 'AgendaFlow',
         'slogan' => 'Fluye con tu agenda digital',
-        'url' => 'http://localhost/AgendaFlow',
+        'url' => 'http://localhost/AgendaFlow/public',
         'timezone' => 'America/Argentina/Cordoba',
         'locale' => 'es-AR',
         'currency' => 'ARS',

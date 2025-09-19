@@ -14,7 +14,7 @@ $title = 'Crear Servicio - AgendaFlow';
     <div class="col-md-6">
         <div class="card">
             <div class="card-body">
-                <form method="POST" action="/AgendaFlow/public/services/store">
+                <form method="POST" action="<?= $basePath ?>/services/store">
                     <?php echo \App\Core\CSRF::field(); ?>
                     
                     <div class="mb-3">
@@ -35,35 +35,35 @@ $title = 'Crear Servicio - AgendaFlow';
                     </div>
                     
                     <div class="mb-3">
-                        <label for="price_default" class="form-label">Precio por defecto *</label>
+                        <label for="price" class="form-label">Precio por defecto *</label>
                         <div class="input-group">
                             <span class="input-group-text">$</span>
-                            <input type="number" 
-                                   class="form-control <?php echo isset($_SESSION['errors']['price_default']) ? 'is-invalid' : ''; ?>" 
-                                   id="price_default" 
-                                   name="price_default" 
-                                   value="<?php echo $_SESSION['old']['price_default'] ?? ''; ?>"
+                            <input type="number"
+                                   class="form-control <?php echo isset($_SESSION['errors']['price']) ? 'is-invalid' : ''; ?>"
+                                   id="price"
+                                   name="price"
+                                   value="<?php echo $_SESSION['old']['price'] ?? ''; ?>"
                                    placeholder="0.00"
                                    step="0.01"
                                    min="0"
                                    required>
-                            <?php if (isset($_SESSION['errors']['price_default'])): ?>
+                            <?php if (isset($_SESSION['errors']['price'])): ?>
                                 <div class="invalid-feedback">
-                                    <?php echo $_SESSION['errors']['price_default']; ?>
+                                    <?php echo $_SESSION['errors']['price']; ?>
                                 </div>
                             <?php endif; ?>
                         </div>
-                        <small class="text-muted">Este precio se usará por defecto al crear turnos</small>
+                        <small class="text-muted">Este precio se usar&aacute; por defecto al crear turnos</small>
                     </div>
-                    
+
                     <div class="mb-3">
-                        <label for="duration_min" class="form-label">Duración estimada (opcional)</label>
+                        <label for="duration" class="form-label">Duraci&oacute;n estimada (opcional)</label>
                         <div class="input-group">
-                            <input type="number" 
-                                   class="form-control" 
-                                   id="duration_min" 
-                                   name="duration_min" 
-                                   value="<?php echo $_SESSION['old']['duration_min'] ?? ''; ?>"
+                            <input type="number"
+                                   class="form-control"
+                                   id="duration"
+                                   name="duration"
+                                   value="<?php echo $_SESSION['old']['duration'] ?? ''; ?>"
                                    placeholder="30"
                                    min="5"
                                    max="480"
@@ -81,14 +81,14 @@ $title = 'Crear Servicio - AgendaFlow';
                                name="color" 
                                value="<?php echo $_SESSION['old']['color'] ?? '#6c757d'; ?>"
                                title="Elige un color">
-                        <small class="text-muted">Este color se usará para identificar el servicio en la agenda</small>
+                        <small class="text-muted">Este color se usar&aacute; para identificar el servicio en la agenda</small>
                     </div>
                     
                     <div class="d-flex gap-2">
                         <button type="submit" class="btn btn-primary">
                             <i class="bi bi-check-circle"></i> Crear Servicio
                         </button>
-                        <a href="/AgendaFlow/public/services" class="btn btn-outline-secondary">
+                        <a href="<?= $basePath ?>/services" class="btn btn-outline-secondary">
                             Cancelar
                         </a>
                     </div>
@@ -101,13 +101,13 @@ $title = 'Crear Servicio - AgendaFlow';
         <div class="card bg-light">
             <div class="card-body">
                 <h5 class="card-title">
-                    <i class="bi bi-info-circle"></i> Información
+                    <i class="bi bi-info-circle"></i> Informaci&oacute;n
                 </h5>
                 <p>Los servicios te permiten:</p>
                 <ul>
                     <li>Organizar mejor tu agenda</li>
                     <li>Establecer precios predeterminados</li>
-                    <li>Calcular automáticamente la duración de los turnos</li>
+                    <li>Calcular autom&aacute;ticamente la duraci&oacute;n de los turnos</li>
                     <li>Generar reportes por tipo de servicio</li>
                     <li>Identificar visualmente los turnos con colores</li>
                 </ul>

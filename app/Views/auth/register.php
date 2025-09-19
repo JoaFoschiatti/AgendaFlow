@@ -16,12 +16,12 @@ $title = 'Crear Cuenta - AgendaFlow';
                 <h2 class="h5 mb-3">Crear Cuenta</h2>
                 
                 <div class="alert alert-success" role="alert">
-                    <i class="bi bi-gift"></i> <strong>14 días de prueba gratis</strong>
+                    <i class="bi bi-gift"></i> <strong>14 d&iacute;as de prueba gratis</strong>
                     <br>
-                    <small>Sin tarjeta de crédito. Sin compromisos.</small>
+                    <small>Sin tarjeta de cr&eacute;dito. Sin compromisos.</small>
                 </div>
                 
-                <form method="POST" action="/AgendaFlow/public/register">
+                <form method="POST" action="<?= $basePath ?>/register">
                     <?php echo \App\Core\CSRF::field(); ?>
                     
                     <div class="mb-3">
@@ -47,7 +47,7 @@ $title = 'Crear Cuenta - AgendaFlow';
                                id="business_name" 
                                name="business_name" 
                                value="<?php echo $_SESSION['old']['business_name'] ?? ''; ?>"
-                               placeholder="Ej: Barbería El Estilo"
+                               placeholder="Ej: Barber&iacute;a El Estilo"
                                required>
                         <?php if (isset($_SESSION['errors']['business_name'])): ?>
                             <div class="invalid-feedback">
@@ -72,7 +72,7 @@ $title = 'Crear Cuenta - AgendaFlow';
                     </div>
                     
                     <div class="mb-3">
-                        <label for="phone" class="form-label">Teléfono (opcional)</label>
+                        <label for="phone" class="form-label">Tel&eacute;fono (opcional)</label>
                         <input type="tel" 
                                class="form-control" 
                                id="phone" 
@@ -82,14 +82,14 @@ $title = 'Crear Cuenta - AgendaFlow';
                     </div>
                     
                     <div class="mb-3">
-                        <label for="password" class="form-label">Contraseña *</label>
+                        <label for="password" class="form-label">Contrase&ntilde;a *</label>
                         <input type="password" 
                                class="form-control <?php echo isset($_SESSION['errors']['password']) ? 'is-invalid' : ''; ?>" 
                                id="password" 
                                name="password" 
                                required
                                minlength="6">
-                        <small class="text-muted">Mínimo 6 caracteres</small>
+                        <small class="text-muted">M&iacute;nimo 6 caracteres</small>
                         <?php if (isset($_SESSION['errors']['password'])): ?>
                             <div class="invalid-feedback">
                                 <?php echo $_SESSION['errors']['password']; ?>
@@ -98,7 +98,7 @@ $title = 'Crear Cuenta - AgendaFlow';
                     </div>
                     
                     <div class="mb-3">
-                        <label for="password_confirmation" class="form-label">Confirmar contraseña *</label>
+                        <label for="password_confirmation" class="form-label">Confirmar contrase&ntilde;a *</label>
                         <input type="password" 
                                class="form-control <?php echo isset($_SESSION['errors']['password_confirmation']) ? 'is-invalid' : ''; ?>" 
                                id="password_confirmation" 
@@ -118,7 +118,7 @@ $title = 'Crear Cuenta - AgendaFlow';
                                name="terms" 
                                required>
                         <label class="form-check-label" for="terms">
-                            Acepto los <a href="#" target="_blank">Términos y Condiciones</a> *
+                            Acepto los <a href="#" target="_blank">T&eacute;rminos y Condiciones</a> *
                         </label>
                         <?php if (isset($_SESSION['errors']['terms'])): ?>
                             <div class="invalid-feedback">
@@ -138,9 +138,9 @@ $title = 'Crear Cuenta - AgendaFlow';
                 
                 <div class="text-center">
                     <p>
-                        ¿Ya tienes cuenta? 
-                        <a href="/AgendaFlow/public/login" class="text-decoration-none fw-bold">
-                            Iniciar sesión
+                        &iquest;Ya tienes cuenta? 
+                        <a href="<?= $basePath ?>/login" class="text-decoration-none fw-bold">
+                            Iniciar sesi&oacute;n
                         </a>
                     </p>
                 </div>
@@ -155,7 +155,7 @@ $title = 'Crear Cuenta - AgendaFlow';
                 </div>
                 <div class="col-4">
                     <i class="bi bi-clock text-primary fs-3"></i>
-                    <p class="small mt-2">14 días gratis</p>
+                    <p class="small mt-2">14 d&iacute;as gratis</p>
                 </div>
                 <div class="col-4">
                     <i class="bi bi-x-circle text-primary fs-3"></i>

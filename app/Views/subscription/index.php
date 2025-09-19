@@ -1,14 +1,13 @@
 <?php
-$title = 'Suscripción - AgendaFlow';
-$config = require dirname(__DIR__, 3) . '/config/config.php';
+$title = 'Suscripci&oacute;n - AgendaFlow';
 ?>
 
 <div class="row mb-4">
     <div class="col">
         <h1 class="h3">
-            <i class="bi bi-credit-card"></i> Suscripción
+            <i class="bi bi-credit-card"></i> Suscripci&oacute;n
         </h1>
-        <p class="text-muted">Gestiona tu plan y métodos de pago</p>
+        <p class="text-muted">Gestiona tu plan y m&eacute;todos de pago</p>
     </div>
 </div>
 
@@ -19,18 +18,18 @@ $config = require dirname(__DIR__, 3) . '/config/config.php';
             <div class="row align-items-center">
                 <div class="col-md-8">
                     <h5 class="card-title">
-                        <i class="bi bi-gift"></i> Período de Prueba Gratis
+                        <i class="bi bi-gift"></i> Per&iacute;odo de Prueba Gratis
                     </h5>
                     <?php if ($trialDaysRemaining > 0): ?>
                         <p class="mb-2">
-                            Te quedan <strong><?php echo $trialDaysRemaining; ?> días</strong> de prueba gratis.
+                            Te quedan <strong><?php echo $trialDaysRemaining; ?> d&iacute;as</strong> de prueba gratis.
                         </p>
                         <p class="text-muted mb-0">
                             Tu prueba termina el <?php echo \App\Core\Helpers::formatDate($user['trial_ends_at'], 'd/m/Y'); ?>
                         </p>
                     <?php else: ?>
                         <p class="text-danger mb-0">
-                            Tu período de prueba ha terminado. Activa tu suscripción para continuar.
+                            Tu per&iacute;odo de prueba ha terminado. Activa tu suscripci&oacute;n para continuar.
                         </p>
                     <?php endif; ?>
                 </div>
@@ -45,7 +44,7 @@ $config = require dirname(__DIR__, 3) . '/config/config.php';
                             <div class="progress-bar bg-warning" style="width: <?php echo $percentage; ?>%"></div>
                         </div>
                         <small class="text-muted">
-                            <?php echo $usedDays; ?> de <?php echo $totalDays; ?> días usados
+                            <?php echo $usedDays; ?> de <?php echo $totalDays; ?> d&iacute;as usados
                         </small>
                     <?php endif; ?>
                 </div>
@@ -59,7 +58,7 @@ $config = require dirname(__DIR__, 3) . '/config/config.php';
             <div class="row align-items-center">
                 <div class="col-md-8">
                     <h5 class="card-title">
-                        <i class="bi bi-check-circle text-success"></i> Suscripción Activa
+                        <i class="bi bi-check-circle text-success"></i> Suscripci&oacute;n Activa
                     </h5>
                     <p class="mb-2">
                         Plan: <strong><?php echo $config['business']['plan_name']; ?></strong>
@@ -69,13 +68,13 @@ $config = require dirname(__DIR__, 3) . '/config/config.php';
                     </p>
                     <?php if ($subscription['next_charge_at']): ?>
                         <p class="text-muted mb-0">
-                            Próximo cobro: <?php echo \App\Core\Helpers::formatDate($subscription['next_charge_at'], 'd/m/Y'); ?>
+                            Pr&oacute;ximo cobro: <?php echo \App\Core\Helpers::formatDate($subscription['next_charge_at'], 'd/m/Y'); ?>
                         </p>
                     <?php endif; ?>
                 </div>
                 <div class="col-md-4 text-end">
                     <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#cancelModal">
-                        <i class="bi bi-x-circle"></i> Cancelar Suscripción
+                        <i class="bi bi-x-circle"></i> Cancelar Suscripci&oacute;n
                     </button>
                 </div>
             </div>
@@ -85,13 +84,13 @@ $config = require dirname(__DIR__, 3) . '/config/config.php';
     <!-- No Active Subscription -->
     <div class="alert alert-warning" role="alert">
         <h5 class="alert-heading">
-            <i class="bi bi-exclamation-triangle"></i> Sin Suscripción Activa
+            <i class="bi bi-exclamation-triangle"></i> Sin Suscripci&oacute;n Activa
         </h5>
         <p>
             <?php if (\App\Core\Helpers::isTrialExpired($user['trial_ends_at'])): ?>
-                Tu período de prueba ha terminado. Activa tu suscripción para continuar usando todas las funcionalidades de AgendaFlow.
+                Tu per&iacute;odo de prueba ha terminado. Activa tu suscripci&oacute;n para continuar usando todas las funcionalidades de AgendaFlow.
             <?php else: ?>
-                No tienes una suscripción activa. Puedes activarla cuando lo desees.
+                No tienes una suscripci&oacute;n activa. Puedes activarla cuando lo desees.
             <?php endif; ?>
         </p>
     </div>
@@ -133,7 +132,7 @@ $config = require dirname(__DIR__, 3) . '/config/config.php';
                     </li>
                     <li class="mb-2">
                         <i class="bi bi-check-circle text-success"></i> 
-                        Exportación de datos
+                        Exportaci&oacute;n de datos
                     </li>
                     <li class="mb-2">
                         <i class="bi bi-check-circle text-success"></i> 
@@ -144,7 +143,7 @@ $config = require dirname(__DIR__, 3) . '/config/config.php';
                 <?php if ($user['subscription_status'] !== 'active'): ?>
                     <?php echo \App\Core\CSRF::field(); ?>
                     <button type="button" id="checkout-btn" class="btn btn-primary btn-lg" onclick="initMercadoPagoCheckout()">
-                        <i class="bi bi-credit-card"></i> Activar Suscripción
+                        <i class="bi bi-credit-card"></i> Activar Suscripci&oacute;n
                     </button>
                     
                     <div id="checkout-loading" class="d-none">
@@ -174,7 +173,7 @@ $config = require dirname(__DIR__, 3) . '/config/config.php';
 <!-- Benefits -->
 <div class="row mt-5">
     <div class="col-12">
-        <h4 class="mb-4 text-center">¿Por qué elegir AgendaFlow?</h4>
+        <h4 class="mb-4 text-center">&iquest;Por qu&eacute; elegir AgendaFlow?</h4>
     </div>
     
     <div class="col-md-4 mb-3">
@@ -183,8 +182,8 @@ $config = require dirname(__DIR__, 3) . '/config/config.php';
                 <i class="bi bi-shield-check text-primary" style="font-size: 3rem;"></i>
                 <h5 class="mt-3">Seguro y Confiable</h5>
                 <p class="text-muted">
-                    Tus datos están protegidos con encriptación de nivel bancario. 
-                    Backups automáticos diarios.
+                    Tus datos est&aacute;n protegidos con encriptaci&oacute;n de nivel bancario. 
+                    Backups autom&aacute;ticos diarios.
                 </p>
             </div>
         </div>
@@ -226,13 +225,13 @@ $config = require dirname(__DIR__, 3) . '/config/config.php';
             <div class="accordion-item">
                 <h2 class="accordion-header">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
-                        ¿Puedo cancelar en cualquier momento?
+                        &iquest;Puedo cancelar en cualquier momento?
                     </button>
                 </h2>
                 <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                     <div class="accordion-body">
-                        Sí, puedes cancelar tu suscripción en cualquier momento. 
-                        Seguirás teniendo acceso hasta el final del período pagado.
+                        S&iacute;, puedes cancelar tu suscripci&oacute;n en cualquier momento. 
+                        Seguir&aacute;s teniendo acceso hasta el final del per&iacute;odo pagado.
                     </div>
                 </div>
             </div>
@@ -240,13 +239,13 @@ $config = require dirname(__DIR__, 3) . '/config/config.php';
             <div class="accordion-item">
                 <h2 class="accordion-header">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
-                        ¿Qué métodos de pago aceptan?
+                        &iquest;Qu&eacute; m&eacute;todos de pago aceptan?
                     </button>
                 </h2>
                 <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                     <div class="accordion-body">
                         Aceptamos todos los medios de pago disponibles en Mercado Pago: 
-                        tarjetas de crédito, débito, Mercado Pago, y efectivo en puntos de pago.
+                        tarjetas de cr&eacute;dito, d&eacute;bito, Mercado Pago, y efectivo en puntos de pago.
                     </div>
                 </div>
             </div>
@@ -254,14 +253,14 @@ $config = require dirname(__DIR__, 3) . '/config/config.php';
             <div class="accordion-item">
                 <h2 class="accordion-header">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
-                        ¿Mis datos están seguros?
+                        &iquest;Mis datos est&aacute;n seguros?
                     </button>
                 </h2>
                 <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                     <div class="accordion-body">
-                        Absolutamente. Usamos encriptación SSL para todas las comunicaciones 
+                        Absolutamente. Usamos encriptaci&oacute;n SSL para todas las comunicaciones 
                         y tus datos de pago son procesados directamente por Mercado Pago, 
-                        nunca almacenamos información de tarjetas.
+                        nunca almacenamos informaci&oacute;n de tarjetas.
                     </div>
                 </div>
             </div>
@@ -275,23 +274,23 @@ $config = require dirname(__DIR__, 3) . '/config/config.php';
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Cancelar Suscripción</h5>
+                <h5 class="modal-title">Cancelar Suscripci&oacute;n</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <p>¿Estás seguro de que deseas cancelar tu suscripción?</p>
-                <p>Podrás seguir usando AgendaFlow hasta el final del período pagado actual.</p>
+                <p>&iquest;Est&aacute;s seguro de que deseas cancelar tu suscripci&oacute;n?</p>
+                <p>Podr&aacute;s seguir usando AgendaFlow hasta el final del per&iacute;odo pagado actual.</p>
                 <div class="alert alert-info">
                     <i class="bi bi-info-circle"></i> 
-                    Siempre puedes reactivar tu suscripción más tarde.
+                    Siempre puedes reactivar tu suscripci&oacute;n m&aacute;s tarde.
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mantener Suscripción</button>
-                <form method="POST" action="/AgendaFlow/public/subscription/cancel" style="display: inline;">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Mantener Suscripci&oacute;n</button>
+                <form method="POST" action="<?= $basePath ?>/subscription/cancel" style="display: inline;">
                     <?php echo \App\Core\CSRF::field(); ?>
                     <button type="submit" class="btn btn-danger">
-                        <i class="bi bi-x-circle"></i> Confirmar Cancelación
+                        <i class="bi bi-x-circle"></i> Confirmar Cancelaci&oacute;n
                     </button>
                 </form>
             </div>
@@ -316,7 +315,7 @@ async function initMercadoPagoCheckout() {
         const csrfToken = document.querySelector('input[name="_token"]').value;
         
         // Create preference
-        const response = await fetch('/AgendaFlow/public/api/payment/preference', {
+        const response = await fetch('<?= $basePath ?>/api/payment/preference', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -336,7 +335,7 @@ async function initMercadoPagoCheckout() {
         } catch (parseError) {
             console.error('Error parseando JSON:', parseError);
             console.error('Respuesta recibida:', responseText.substring(0, 500));
-            throw new Error('La respuesta del servidor no es JSON válido. Revisa la consola para más detalles.');
+            throw new Error('La respuesta del servidor no es JSON v&aacute;lido. Revisa la consola para m&aacute;s detalles.');
         }
         
         if (!response.ok) {
@@ -350,7 +349,7 @@ async function initMercadoPagoCheckout() {
         // Verificar que tenemos los datos necesarios
         if (!data.preference_id || !data.init_point) {
             console.error('Datos recibidos:', data);
-            throw new Error('No se recibió ID de preferencia o URL de pago');
+            throw new Error('No se recibi&oacute; ID de preferencia o URL de pago');
         }
         
         console.log('Preferencia creada:', {

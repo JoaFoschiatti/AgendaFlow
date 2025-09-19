@@ -12,8 +12,7 @@ class DB
     public static function getInstance(): PDO
     {
         if (self::$instance === null) {
-            $config = require dirname(__DIR__, 2) . '/config/config.php';
-            $dbConfig = $config['database'];
+            $dbConfig = Config::get('database');
             
             try {
                 $dsn = "mysql:host={$dbConfig['host']};dbname={$dbConfig['dbname']};charset={$dbConfig['charset']}";

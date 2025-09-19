@@ -49,8 +49,8 @@ class PaymentController extends Controller
         }
         
         try {
-            $config = require dirname(__DIR__, 2) . '/config/config.php';
-            
+            $config = \App\Core\Config::get();
+
             // Initialize MercadoPago SDK
             \MercadoPago\SDK::setAccessToken($config['mercadopago']['access_token']);
             
@@ -270,10 +270,10 @@ class PaymentController extends Controller
      */
     private function processPaymentNotification(string $mpPaymentId): void
     {
-        $config = require dirname(__DIR__, 2) . '/config/config.php';
-        
+        $accessToken = \App\Core\Config::get('mercadopago.access_token');
+
         // Initialize SDK
-        \MercadoPago\SDK::setAccessToken($config['mercadopago']['access_token']);
+        \MercadoPago\SDK::setAccessToken($accessToken);
         
         // Get payment info from MercadoPago
         $payment = \MercadoPago\Payment::find_by_id($mpPaymentId);
@@ -396,10 +396,10 @@ class PaymentController extends Controller
      */
     private function validateWebhookSignature(string $body): bool
     {
-        $config = require dirname(__DIR__, 2) . '/config/config.php';
-        
         // If no secret configured, skip validation (not recommended for production)
-        if (empty($config['mercadopago']['webhook_secret'])) {
+        $secret = \App\Core\Config::get('mercadopago.webhook_secret', '');
+
+        if (empty($secret)) {
             return true;
         }
         
@@ -441,7 +441,7 @@ class PaymentController extends Controller
         
         // Build manifest and validate signature
         $manifest = "id:{$xRequestId};request-id:{$xRequestId};ts:{$ts};{$body}";
-        $expectedHash = hash_hmac('sha256', $manifest, $config['mercadopago']['webhook_secret']);
+        $expectedHash = hash_hmac('sha256', $manifest, $secret);
         
         if (!hash_equals($expectedHash, $hash)) {
             error_log('Invalid webhook signature');
