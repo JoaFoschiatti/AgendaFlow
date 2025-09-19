@@ -1,14 +1,14 @@
 <?php
-$title = 'Restablecer Contraseña - AgendaFlow';
+$title = 'Restablecer Contrase&ntilde;a - AgendaFlow';
 ?>
 
 <div class="row justify-content-center">
     <div class="col-md-5 col-lg-4">
         <div class="text-center mb-4">
             <h1 class="h3 text-primary fw-bold">
-                <i class="bi bi-shield-lock"></i> Restablecer Contraseña
+                <i class="bi bi-shield-lock"></i> Restablecer Contrase&ntilde;a
             </h1>
-            <p class="text-muted">Ingresa una nueva contraseña segura</p>
+            <p class="text-muted">Ingresa una nueva contrase&ntilde;a segura</p>
         </div>
 
         <div class="card">
@@ -20,7 +20,7 @@ $title = 'Restablecer Contraseña - AgendaFlow';
                     <input type="hidden" name="token" value="<?php echo htmlspecialchars($token); ?>">
 
                     <div class="mb-3">
-                        <label for="password" class="form-label">Nueva contraseña</label>
+                        <label for="password" class="form-label">Nueva contrase&ntilde;a</label>
                         <input type="password"
                                class="form-control <?php echo isset($_SESSION['errors']['password']) ? 'is-invalid' : ''; ?>"
                                id="password"
@@ -35,7 +35,7 @@ $title = 'Restablecer Contraseña - AgendaFlow';
                     </div>
 
                     <div class="mb-3">
-                        <label for="password_confirmation" class="form-label">Confirmar contraseña</label>
+                        <label for="password_confirmation" class="form-label">Confirmar contrase&ntilde;a</label>
                         <input type="password"
                                class="form-control <?php echo isset($_SESSION['errors']['password_confirmation']) ? 'is-invalid' : ''; ?>"
                                id="password_confirmation"
@@ -50,7 +50,7 @@ $title = 'Restablecer Contraseña - AgendaFlow';
 
                     <div class="d-grid">
                         <button type="submit" class="btn btn-primary">
-                            <i class="bi bi-arrow-repeat"></i> Restablecer contraseña
+                            <i class="bi bi-arrow-repeat"></i> Restablecer contrase&ntilde;a
                         </button>
                     </div>
                 </form>
@@ -61,7 +61,7 @@ $title = 'Restablecer Contraseña - AgendaFlow';
 
             <a href="<?= $basePath ?>/login" class="text-decoration-none">
 
-                <i class="bi bi-box-arrow-in-right"></i> Volver al inicio de sesión
+                <i class="bi bi-box-arrow-in-right"></i> Volver al inicio de sesi&oacute;n
             </a>
         </div>
     </div>

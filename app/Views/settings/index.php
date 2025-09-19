@@ -1,11 +1,11 @@
 <?php
-$title = 'Configuración - AgendaFlow';
+$title = 'Configuraci&oacute;n - AgendaFlow';
 ?>
 
 <div class="row mb-4">
     <div class="col">
         <h1 class="h3">
-            <i class="bi bi-gear"></i> Configuración
+            <i class="bi bi-gear"></i> Configuraci&oacute;n
         </h1>
         <p class="text-muted">Configura tu cuenta y preferencias</p>
     </div>
@@ -16,10 +16,10 @@ $title = 'Configuración - AgendaFlow';
         <!-- Settings Navigation -->
         <div class="list-group mb-4">
             <a href="#account" class="list-group-item list-group-item-action active" data-bs-toggle="list">
-                <i class="bi bi-person"></i> Información de Cuenta
+                <i class="bi bi-person"></i> Informaci&oacute;n de Cuenta
             </a>
             <a href="#business-hours" class="list-group-item list-group-item-action" data-bs-toggle="list">
-                <i class="bi bi-clock"></i> Horarios de Atención
+                <i class="bi bi-clock"></i> Horarios de Atenci&oacute;n
             </a>
             <a href="#preferences" class="list-group-item list-group-item-action" data-bs-toggle="list">
                 <i class="bi bi-sliders"></i> Preferencias
@@ -33,7 +33,7 @@ $title = 'Configuración - AgendaFlow';
             <div class="tab-pane fade show active" id="account">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="mb-0">Información de Cuenta</h5>
+                        <h5 class="mb-0">Informaci&oacute;n de Cuenta</h5>
                     </div>
                     <div class="card-body">
                         <form method="POST" action="<?= $basePath ?>/settings/update">
@@ -80,7 +80,7 @@ $title = 'Configuración - AgendaFlow';
                             </div>
                             
                             <div class="mb-3">
-                                <label for="phone" class="form-label">Teléfono</label>
+                                <label for="phone" class="form-label">Tel&eacute;fono</label>
                                 <input type="tel" 
                                        class="form-control" 
                                        id="phone" 
@@ -97,7 +97,7 @@ $title = 'Configuración - AgendaFlow';
                                             Buenos Aires (UTC-3)
                                         </option>
                                         <option value="America/Argentina/Cordoba" <?php echo $user['timezone'] == 'America/Argentina/Cordoba' ? 'selected' : ''; ?>>
-                                            Córdoba (UTC-3)
+                                            C&oacute;rdoba (UTC-3)
                                         </option>
                                         <option value="America/Argentina/Mendoza" <?php echo $user['timezone'] == 'America/Argentina/Mendoza' ? 'selected' : ''; ?>>
                                             Mendoza (UTC-3)
@@ -112,7 +112,7 @@ $title = 'Configuración - AgendaFlow';
                                             ARS - Peso Argentino
                                         </option>
                                         <option value="USD" <?php echo $user['currency'] == 'USD' ? 'selected' : ''; ?>>
-                                            USD - Dólar
+                                            USD - D&oacute;lar
                                         </option>
                                     </select>
                                 </div>
@@ -124,7 +124,7 @@ $title = 'Configuración - AgendaFlow';
                             </button>
                             <?php else: ?>
                             <div class="alert alert-warning">
-                                <i class="bi bi-lock"></i> Necesitas una suscripción activa para modificar la configuración.
+                                <i class="bi bi-lock"></i> Necesitas una suscripci&oacute;n activa para modificar la configuraci&oacute;n.
                             </div>
                             <?php endif; ?>
                         </form>
@@ -136,7 +136,7 @@ $title = 'Configuración - AgendaFlow';
             <div class="tab-pane fade" id="business-hours">
                 <div class="card">
                     <div class="card-header">
-                        <h5 class="mb-0">Horarios de Atención</h5>
+                        <h5 class="mb-0">Horarios de Atenci&oacute;n</h5>
                     </div>
                     <div class="card-body">
                         <form method="POST" action="<?= $basePath ?>/settings/hours">
@@ -146,7 +146,7 @@ $title = 'Configuración - AgendaFlow';
                                 <table class="table">
                                     <thead>
                                         <tr>
-                                            <th>Día</th>
+                                            <th>D&iacute;a</th>
                                             <th>Cerrado</th>
                                             <th>Apertura</th>
                                             <th>Cierre</th>
@@ -194,7 +194,7 @@ $title = 'Configuración - AgendaFlow';
                             
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label for="slot_minutes" class="form-label">Duración de franjas horarias</label>
+                                    <label for="slot_minutes" class="form-label">Duraci&oacute;n de franjas horarias</label>
                                     <select class="form-select" id="slot_minutes" name="slot_minutes">
                                         <option value="15" <?php echo ($businessHours[1]['slot_minutes'] ?? 15) == 15 ? 'selected' : ''; ?>>15 minutos</option>
                                         <option value="30" <?php echo ($businessHours[1]['slot_minutes'] ?? 15) == 30 ? 'selected' : ''; ?>>30 minutos</option>
@@ -204,7 +204,7 @@ $title = 'Configuración - AgendaFlow';
                                 </div>
                                 
                                 <div class="col-md-6 mb-3">
-                                    <label class="form-label">Configuración de turnos</label>
+                                    <label class="form-label">Configuraci&oacute;n de turnos</label>
                                     <div class="form-check">
                                         <input class="form-check-input" 
                                                type="checkbox" 
@@ -225,7 +225,7 @@ $title = 'Configuración - AgendaFlow';
                             </button>
                             <?php else: ?>
                             <div class="alert alert-warning">
-                                <i class="bi bi-lock"></i> Necesitas una suscripción activa para modificar los horarios.
+                                <i class="bi bi-lock"></i> Necesitas una suscripci&oacute;n activa para modificar los horarios.
                             </div>
                             <?php endif; ?>
                         </form>
@@ -242,14 +242,14 @@ $title = 'Configuración - AgendaFlow';
                     <div class="card-body">
                         <div class="alert alert-info">
                             <i class="bi bi-info-circle"></i> 
-                            Próximamente podrás configurar más opciones como:
+                            Pr&oacute;ximamente podr&aacute;s configurar m&aacute;s opciones como:
                         </div>
                         <ul>
                             <li>Notificaciones por email</li>
-                            <li>Recordatorios automáticos</li>
+                            <li>Recordatorios autom&aacute;ticos</li>
                             <li>Plantillas de mensajes</li>
-                            <li>Personalización de colores</li>
-                            <li>Integración con calendario</li>
+                            <li>Personalizaci&oacute;n de colores</li>
+                            <li>Integraci&oacute;n con calendario</li>
                         </ul>
                     </div>
                 </div>

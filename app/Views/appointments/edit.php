@@ -110,7 +110,7 @@ $title = 'Editar Turno - AgendaFlow';
                     </div>
                     
                     <div class="mb-3">
-                        <label for="phone" class="form-label">Teléfono</label>
+                        <label for="phone" class="form-label">Tel&eacute;fono</label>
                         <input type="tel" 
                                class="form-control" 
                                id="phone" 
@@ -157,7 +157,7 @@ $title = 'Editar Turno - AgendaFlow';
         <div class="card bg-light">
             <div class="card-body">
                 <h5 class="card-title">
-                    <i class="bi bi-info-circle"></i> Información del turno
+                    <i class="bi bi-info-circle"></i> Informaci&oacute;n del turno
                 </h5>
                 
                 <dl class="row">
@@ -170,20 +170,20 @@ $title = 'Editar Turno - AgendaFlow';
                         <?php elseif ($appointment['status'] === 'canceled'): ?>
                             <span class="badge bg-danger">Cancelado</span>
                         <?php elseif ($appointment['status'] === 'no_show'): ?>
-                            <span class="badge bg-warning">No asistió</span>
+                            <span class="badge bg-warning">No asisti&oacute;</span>
                         <?php endif; ?>
                     </dd>
                     
                     <dt class="col-sm-4">Creado:</dt>
                     <dd class="col-sm-8"><?php echo \App\Core\Helpers::formatDateTime($appointment['created_at']); ?></dd>
                     
-                    <dt class="col-sm-4">Última actualización:</dt>
+                    <dt class="col-sm-4">&Uacute;ltima actualizaci&oacute;n:</dt>
                     <dd class="col-sm-8"><?php echo \App\Core\Helpers::formatDateTime($appointment['updated_at']); ?></dd>
                 </dl>
                 
                 <?php if ($appointment['status'] === 'scheduled'): ?>
                 <hr>
-                <h6>Acciones rápidas</h6>
+                <h6>Acciones r&aacute;pidas</h6>
                 <div class="d-flex gap-2">
                     <form method="POST" action="<?= $basePath ?>/appointments/<?php echo $appointment['id']; ?>/complete" style="display: inline;">
                         <?php echo \App\Core\CSRF::field(); ?>
@@ -214,7 +214,7 @@ $title = 'Editar Turno - AgendaFlow';
         <!-- Check for conflicts -->
         <div class="card mt-3">
             <div class="card-body">
-                <h6>Verificación de disponibilidad</h6>
+                <h6>Verificaci&oacute;n de disponibilidad</h6>
                 <div id="overlapCheck">
                     <p class="text-muted">Selecciona fecha y hora para verificar disponibilidad</p>
                 </div>

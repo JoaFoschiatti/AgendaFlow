@@ -24,7 +24,7 @@ $title = 'Nuevo Turno - AgendaFlow';
                     
                     <div class="row">
                         <div class="col-md-6">
-                            <h5 class="mb-3">Información del Cliente</h5>
+                            <h5 class="mb-3">Informaci&oacute;n del Cliente</h5>
                             
                             <div class="mb-3">
                                 <label for="client_name" class="form-label">Nombre del cliente *</label>
@@ -43,7 +43,7 @@ $title = 'Nuevo Turno - AgendaFlow';
                             </div>
                             
                             <div class="mb-3">
-                                <label for="phone" class="form-label">Teléfono (opcional)</label>
+                                <label for="phone" class="form-label">Tel&eacute;fono (opcional)</label>
                                 <input type="tel" 
                                        class="form-control" 
                                        id="phone" 
@@ -177,7 +177,7 @@ $title = 'Nuevo Turno - AgendaFlow';
                 <h5 class="card-title">Detalles del Servicio</h5>
                 <div id="serviceDetails">
                     <p class="mb-2">
-                        <i class="bi bi-clock"></i> Duración: <span id="serviceDuration">-</span> minutos
+                        <i class="bi bi-clock"></i> Duraci&oacute;n: <span id="serviceDuration">-</span> minutos
                     </p>
                     <p class="mb-2">
                         <i class="bi bi-cash"></i> Precio sugerido: $<span id="servicePrice">-</span>

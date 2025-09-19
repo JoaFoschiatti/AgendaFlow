@@ -1,5 +1,5 @@
 <?php
-$title = 'Recuperar Contraseña - AgendaFlow';
+$title = 'Recuperar Contrase&ntilde;a - AgendaFlow';
 ?>
 
 <div class="row justify-content-center">
@@ -13,10 +13,10 @@ $title = 'Recuperar Contraseña - AgendaFlow';
         
         <div class="card">
             <div class="card-body p-4">
-                <h2 class="h5 mb-4">Recuperar Contraseña</h2>
+                <h2 class="h5 mb-4">Recuperar Contrase&ntilde;a</h2>
                 
                 <p class="text-muted mb-4">
-                    Ingresa tu email y te enviaremos instrucciones para restablecer tu contraseña.
+                    Ingresa tu email y te enviaremos instrucciones para restablecer tu contrase&ntilde;a.
                 </p>
                 
                 <form method="POST" action="<?= $basePath ?>/forgot-password">
@@ -49,9 +49,9 @@ $title = 'Recuperar Contraseña - AgendaFlow';
                 
                 <div class="text-center">
                     <p>
-                        ¿Recordaste tu contraseña? 
+                        &iquest;Recordaste tu contrase&ntilde;a? 
                         <a href="<?= $basePath ?>/login" class="text-decoration-none">
-                            Volver a iniciar sesión
+                            Volver a iniciar sesi&oacute;n
                         </a>
                     </p>
                 </div>

@@ -19,14 +19,14 @@ $title = 'Dashboard - AgendaFlow';
 <?php if ($trialDaysRemaining !== null && $trialDaysRemaining <= 7): ?>
 <div class="alert alert-warning" role="alert">
     <h5 class="alert-heading">
-        <i class="bi bi-clock"></i> Tu prueba gratis termina en <?php echo $trialDaysRemaining; ?> días
+        <i class="bi bi-clock"></i> Tu prueba gratis termina en <?php echo $trialDaysRemaining; ?> d&iacute;as
     </h5>
     <p class="mb-2">
-        Activa tu suscripción para seguir usando AgendaFlow sin interrupciones.
+        Activa tu suscripci&oacute;n para seguir usando AgendaFlow sin interrupciones.
     </p>
     <hr>
     <a href="<?= $basePath ?>/subscription" class="btn btn-warning">
-        <i class="bi bi-credit-card"></i> Activar Suscripción
+        <i class="bi bi-credit-card"></i> Activar Suscripci&oacute;n
     </a>
 </div>
 <?php endif; ?>
@@ -158,14 +158,14 @@ $title = 'Dashboard - AgendaFlow';
         <div class="card h-100">
             <div class="card-header bg-white">
                 <h5 class="mb-0">
-                    <i class="bi bi-clock"></i> Próximos Turnos
+                    <i class="bi bi-clock"></i> Pr&oacute;ximos Turnos
                 </h5>
             </div>
             <div class="card-body">
                 <?php if (empty($upcomingAppointments)): ?>
                     <p class="text-muted text-center py-4">
                         <i class="bi bi-calendar-plus fs-1"></i><br>
-                        No hay turnos próximos
+                        No hay turnos pr&oacute;ximos
                     </p>
                 <?php else: ?>
                     <div class="list-group list-group-flush">
@@ -204,7 +204,7 @@ $title = 'Dashboard - AgendaFlow';
         <div class="card">
             <div class="card-header bg-white">
                 <h5 class="mb-0">
-                    <i class="bi bi-star"></i> Servicios Más Solicitados (Este Mes)
+                    <i class="bi bi-star"></i> Servicios M&aacute;s Solicitados (Este Mes)
                 </h5>
             </div>
             <div class="card-body">
@@ -241,7 +241,7 @@ $title = 'Dashboard - AgendaFlow';
         <div class="card">
             <div class="card-header bg-white">
                 <h5 class="mb-0">
-                    <i class="bi bi-lightning"></i> Acciones Rápidas
+                    <i class="bi bi-lightning"></i> Acciones R&aacute;pidas
                 </h5>
             </div>
             <div class="card-body">

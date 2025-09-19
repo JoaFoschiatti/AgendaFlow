@@ -13,12 +13,38 @@ class Url
         }
 
         $configuredUrl = Config::get('app.url');
+        $requestUri = $_SERVER['REQUEST_URI'] ?? '';
+        if ($requestUri !== '') {
+            $requestUri = explode('?', $requestUri)[0];
+        }
 
         if (is_string($configuredUrl) && $configuredUrl !== '') {
             $parsed = parse_url($configuredUrl);
-            $path = $parsed['path'] ?? '';
+            $path = isset($parsed['path']) ? rtrim($parsed['path'], '/') : '';
+
             if ($path !== '' && $path !== '/') {
-                return self::$basePath = rtrim($path, '/');
+                $scriptFilename = $_SERVER['SCRIPT_FILENAME'] ?? '';
+                $publicPath = $path . '/public';
+
+                if ($requestUri !== '' && strpos($requestUri, $publicPath) === 0) {
+                    return self::$basePath = $publicPath;
+                }
+
+                if ($requestUri !== '' && strpos($requestUri, $path) !== 0) {
+                    $normalizedScript = $scriptFilename !== '' ? str_replace('\\', '/', $scriptFilename) : '';
+
+                    if ($normalizedScript !== '' && strpos($normalizedScript, '/public/index.php') !== false) {
+                        return self::$basePath = '';
+                    }
+
+                    $scriptName = $_SERVER['SCRIPT_NAME'] ?? '';
+                    $scriptDir = $scriptName !== '' ? rtrim(str_replace('\\', '/', dirname($scriptName)), '/') : '';
+                    if ($scriptDir !== '' && $scriptDir !== '/' && strpos($requestUri, $scriptDir) === 0) {
+                        return self::$basePath = $scriptDir;
+                    }
+                }
+
+                return self::$basePath = $path;
             }
         }
 

@@ -186,7 +186,7 @@
   "phone": "+541234567890",
   "notes": "First consultation"
 }</code></pre>
-                        <p class="text-muted small">También se admite el alias <code>client_phone</code> para compatibilidad con versiones anteriores.</p>
+                        <p class="text-muted small">Tambi&eacute;n se admite el alias <code>client_phone</code> para compatibilidad con versiones anteriores.</p>
                     </div>
 
                     <!-- Update Appointment -->

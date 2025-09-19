@@ -52,5 +52,33 @@ runTest('Url::basePath falls back to script name when no app.url provided', func
     overrideConfig($defaultConfig);
 });
 
+runTest('Url::basePath handles requests served from /public', function () use ($defaultConfig): void {
+    overrideConfig($defaultConfig);
+    $_SERVER['REQUEST_URI'] = '/AgendaFlow/public/services';
+    $_SERVER['SCRIPT_NAME'] = '/AgendaFlow/public/index.php';
+    $_SERVER['SCRIPT_FILENAME'] = __DIR__ . '/../public/index.php';
+    Url::refresh();
+
+    assertSame('/AgendaFlow/public', Url::basePath());
+    assertSame('/AgendaFlow/public/services', Url::to('services'));
+
+    unset($_SERVER['REQUEST_URI'], $_SERVER['SCRIPT_NAME'], $_SERVER['SCRIPT_FILENAME']);
+    overrideConfig($defaultConfig);
+});
+
+runTest('Url::basePath handles root document installations', function () use ($defaultConfig): void {
+    overrideConfig($defaultConfig);
+    $_SERVER['REQUEST_URI'] = '/services';
+    $_SERVER['SCRIPT_NAME'] = '/index.php';
+    $_SERVER['SCRIPT_FILENAME'] = __DIR__ . '/../public/index.php';
+    Url::refresh();
+
+    assertSame('', Url::basePath());
+    assertSame('/services', Url::to('services'));
+
+    unset($_SERVER['REQUEST_URI'], $_SERVER['SCRIPT_NAME'], $_SERVER['SCRIPT_FILENAME']);
+    overrideConfig($defaultConfig);
+});
+
 // Restore configuration to default after tests
 overrideConfig($defaultConfig);

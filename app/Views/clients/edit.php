@@ -34,7 +34,7 @@ $title = 'Editar Cliente - AgendaFlow';
                     </div>
                     
                     <div class="mb-3">
-                        <label for="phone" class="form-label">Teléfono</label>
+                        <label for="phone" class="form-label">Tel&eacute;fono</label>
                         <input type="tel" 
                                class="form-control" 
                                id="phone" 
@@ -115,7 +115,7 @@ $title = 'Editar Cliente - AgendaFlow';
         
         <div class="card mt-3 bg-light">
             <div class="card-body">
-                <h6>Información del cliente</h6>
+                <h6>Informaci&oacute;n del cliente</h6>
                 <dl class="row mb-0">
                     <dt class="col-sm-4">Registrado:</dt>
                     <dd class="col-sm-8"><?php echo \App\Core\Helpers::formatDateTime($client['created_at']); ?></dd>

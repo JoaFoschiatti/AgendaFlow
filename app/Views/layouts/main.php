@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -132,7 +132,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="<?= $basePath ?>/settings">
-                            <i class="bi bi-gear"></i> Configuración
+                            <i class="bi bi-gear"></i> ConfiguraciÃ³n
                         </a>
                     </li>
                 </ul>
@@ -145,7 +145,7 @@
                         <li class="nav-item me-3">
                             <a class="nav-link" href="<?= $basePath ?>/subscription">
                                 <span class="badge badge-trial">
-                                    <i class="bi bi-clock"></i> <?php echo $daysRemaining; ?> días de prueba
+                                    <i class="bi bi-clock"></i> <?php echo $daysRemaining; ?> dÃ­as de prueba
                                 </span>
                             </a>
                         </li>
@@ -153,14 +153,14 @@
                         <li class="nav-item me-3">
                             <a class="nav-link" href="<?= $basePath ?>/subscription">
                                 <span class="badge badge-active">
-                                    <i class="bi bi-check-circle"></i> Suscripción activa
+                                    <i class="bi bi-check-circle"></i> SuscripciÃ³n activa
                                 </span>
                             </a>
                         </li>
                     <?php else: ?>
                         <li class="nav-item me-3">
                             <a class="nav-link text-danger" href="<?= $basePath ?>/subscription">
-                                <i class="bi bi-exclamation-triangle"></i> Activar suscripción
+                                <i class="bi bi-exclamation-triangle"></i> Activar suscripciÃ³n
                             </a>
                         </li>
                     <?php endif; ?>
@@ -178,13 +178,13 @@
                             </li>
                             <li>
                                 <a class="dropdown-item" href="<?= $basePath ?>/subscription">
-                                    <i class="bi bi-credit-card"></i> Suscripción
+                                    <i class="bi bi-credit-card"></i> SuscripciÃ³n
                                 </a>
                             </li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <a class="dropdown-item" href="<?= $basePath ?>/logout">
-                                    <i class="bi bi-box-arrow-right"></i> Cerrar sesión
+                                    <i class="bi bi-box-arrow-right"></i> Cerrar sesiÃ³n
                                 </a>
                             </li>
                         </ul>
@@ -200,8 +200,8 @@
         <div class="trial-banner py-2 text-center">
             <small>
                 <i class="bi bi-exclamation-circle"></i>
-                Tu prueba gratis termina en <?php echo $daysRemaining; ?> días.
-                <a href="<?= $basePath ?>/subscription" class="text-white fw-bold">Activar suscripción →</a>
+                Tu prueba gratis termina en <?php echo $daysRemaining; ?> dÃ­as.
+                <a href="<?= $basePath ?>/subscription" class="text-white fw-bold">Activar suscripciÃ³n â†’</a>
             </small>
         </div>
         <?php endif; ?>
@@ -209,8 +209,8 @@
         <div class="bg-danger text-white py-2 text-center">
             <small>
                 <i class="bi bi-lock"></i>
-                Tu suscripción ha vencido. Solo puedes ver tus datos.
-                <a href="<?= $basePath ?>/subscription" class="text-white fw-bold">Reactivar ahora →</a>
+                Tu suscripciÃ³n ha vencido. Solo puedes ver tus datos.
+                <a href="<?= $basePath ?>/subscription" class="text-white fw-bold">Reactivar ahora â†’</a>
             </small>
         </div>
     <?php endif; ?>
@@ -268,6 +268,10 @@
     <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
+    <script>
+        window.APP_BASE_PATH = <?php echo json_encode($basePath ?? ''); ?>;
+    </script>
+
     <!-- Custom JS -->
     <script>
         // Initialize tooltips

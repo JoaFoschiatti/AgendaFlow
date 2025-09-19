@@ -51,11 +51,11 @@ $title = 'Editar Servicio - AgendaFlow';
                                 </div>
                             <?php endif; ?>
                         </div>
-                        <small class="text-muted">Este precio se usará por defecto al crear turnos</small>
+                        <small class="text-muted">Este precio se usar&aacute; por defecto al crear turnos</small>
                     </div>
 
                     <div class="mb-3">
-                        <label for="duration" class="form-label">Duración estimada (opcional)</label>
+                        <label for="duration" class="form-label">Duraci&oacute;n estimada (opcional)</label>
                         <div class="input-group">
                             <input type="number"
                                    class="form-control"
@@ -79,7 +79,7 @@ $title = 'Editar Servicio - AgendaFlow';
                                name="color" 
                                value="<?php echo $_SESSION['old']['color'] ?? $service['color'] ?? '#6c757d'; ?>"
                                title="Elige un color">
-                        <small class="text-muted">Este color se usará para identificar el servicio en la agenda</small>
+                        <small class="text-muted">Este color se usar&aacute; para identificar el servicio en la agenda</small>
                     </div>
                     
                     <div class="mb-4">
@@ -94,7 +94,7 @@ $title = 'Editar Servicio - AgendaFlow';
                                 Servicio activo
                             </label>
                         </div>
-                        <small class="text-muted">Los servicios inactivos no aparecerán al crear nuevos turnos</small>
+                        <small class="text-muted">Los servicios inactivos no aparecer&aacute;n al crear nuevos turnos</small>
                     </div>
                     
                     <div class="d-flex gap-2">
@@ -114,13 +114,13 @@ $title = 'Editar Servicio - AgendaFlow';
         <div class="card bg-light">
             <div class="card-body">
                 <h5 class="card-title">
-                    <i class="bi bi-info-circle"></i> Información del servicio
+                    <i class="bi bi-info-circle"></i> Informaci&oacute;n del servicio
                 </h5>
                 <dl class="row">
                     <dt class="col-sm-4">Creado:</dt>
                     <dd class="col-sm-8"><?php echo \App\Core\Helpers::formatDateTime($service['created_at']); ?></dd>
                     
-                    <dt class="col-sm-4">Última actualización:</dt>
+                    <dt class="col-sm-4">&Uacute;ltima actualizaci&oacute;n:</dt>
                     <dd class="col-sm-8"><?php echo \App\Core\Helpers::formatDateTime($service['updated_at']); ?></dd>
                     
                     <dt class="col-sm-4">Estado actual:</dt>
@@ -136,7 +136,7 @@ $title = 'Editar Servicio - AgendaFlow';
                 <hr>
                 
                 <p class="mb-0">
-                    <strong>Nota:</strong> Los cambios en el precio no afectarán a los turnos ya creados.
+                    <strong>Nota:</strong> Los cambios en el precio no afectar&aacute;n a los turnos ya creados.
                 </p>
             </div>
         </div>

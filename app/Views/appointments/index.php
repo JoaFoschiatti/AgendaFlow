@@ -27,7 +27,7 @@ $view = $viewType ?? 'day';
                 <div class="btn-group" role="group">
                     <a href="<?= $basePath ?>/appointments?view=day&date=<?php echo $date; ?>" 
                        class="btn <?php echo $view === 'day' ? 'btn-primary' : 'btn-outline-primary'; ?>">
-                        <i class="bi bi-calendar-day"></i> Día
+                        <i class="bi bi-calendar-day"></i> D&iacute;a
                     </a>
                     <a href="<?= $basePath ?>/appointments?view=week&date=<?php echo $date; ?>" 
                        class="btn <?php echo $view === 'week' ? 'btn-primary' : 'btn-outline-primary'; ?>">
@@ -147,7 +147,7 @@ $view = $viewType ?? 'day';
             <div class="card-body text-center py-5">
                 <i class="bi bi-calendar-x text-muted" style="font-size: 3rem;"></i>
                 <h5 class="mt-3">No hay turnos programados</h5>
-                <p class="text-muted">No tienes turnos para este día</p>
+                <p class="text-muted">No tienes turnos para este d&iacute;a</p>
                 <?php if ($user && \App\Core\Helpers::getTrialDaysRemaining($user['trial_ends_at']) > 0 || $user['subscription_status'] === 'active'): ?>
                 <button type="button" class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#quickAppointmentModal">
                     <i class="bi bi-plus-circle"></i> Crear primer turno
@@ -204,7 +204,7 @@ $view = $viewType ?? 'day';
                                     <?php elseif ($appointment['status'] === 'canceled'): ?>
                                         <span class="badge bg-danger mb-2">Cancelado</span>
                                     <?php elseif ($appointment['status'] === 'no_show'): ?>
-                                        <span class="badge bg-warning mb-2">No asistió</span>
+                                        <span class="badge bg-warning mb-2">No asisti&oacute;</span>
                                     <?php endif; ?>
                                     
                                     <div class="dropdown">
@@ -263,7 +263,7 @@ $view = $viewType ?? 'day';
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">
-                    <i class="bi bi-plus-circle"></i> Nuevo Turno Rápido
+                    <i class="bi bi-plus-circle"></i> Nuevo Turno R&aacute;pido
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
@@ -330,7 +330,7 @@ $view = $viewType ?? 'day';
                     </div>
                     
                     <div class="mb-3">
-                        <label for="phone" class="form-label">Teléfono (opcional)</label>
+                        <label for="phone" class="form-label">Tel&eacute;fono (opcional)</label>
                         <input type="tel" 
                                class="form-control" 
                                id="phone" 

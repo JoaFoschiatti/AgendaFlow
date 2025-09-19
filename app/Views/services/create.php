@@ -53,11 +53,11 @@ $title = 'Crear Servicio - AgendaFlow';
                                 </div>
                             <?php endif; ?>
                         </div>
-                        <small class="text-muted">Este precio se usará por defecto al crear turnos</small>
+                        <small class="text-muted">Este precio se usar&aacute; por defecto al crear turnos</small>
                     </div>
 
                     <div class="mb-3">
-                        <label for="duration" class="form-label">Duración estimada (opcional)</label>
+                        <label for="duration" class="form-label">Duraci&oacute;n estimada (opcional)</label>
                         <div class="input-group">
                             <input type="number"
                                    class="form-control"
@@ -81,7 +81,7 @@ $title = 'Crear Servicio - AgendaFlow';
                                name="color" 
                                value="<?php echo $_SESSION['old']['color'] ?? '#6c757d'; ?>"
                                title="Elige un color">
-                        <small class="text-muted">Este color se usará para identificar el servicio en la agenda</small>
+                        <small class="text-muted">Este color se usar&aacute; para identificar el servicio en la agenda</small>
                     </div>
                     
                     <div class="d-flex gap-2">
@@ -101,13 +101,13 @@ $title = 'Crear Servicio - AgendaFlow';
         <div class="card bg-light">
             <div class="card-body">
                 <h5 class="card-title">
-                    <i class="bi bi-info-circle"></i> Información
+                    <i class="bi bi-info-circle"></i> Informaci&oacute;n
                 </h5>
                 <p>Los servicios te permiten:</p>
                 <ul>
                     <li>Organizar mejor tu agenda</li>
                     <li>Establecer precios predeterminados</li>
-                    <li>Calcular automáticamente la duración de los turnos</li>
+                    <li>Calcular autom&aacute;ticamente la duraci&oacute;n de los turnos</li>
                     <li>Generar reportes por tipo de servicio</li>
                     <li>Identificar visualmente los turnos con colores</li>
                 </ul>
