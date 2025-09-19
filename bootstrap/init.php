@@ -27,6 +27,21 @@ if (file_exists($autoloadPath)) {
 
 $config = Config::get();
 
+$debug = (bool) ($config['app']['debug'] ?? false);
+
+error_reporting(E_ALL);
+ini_set('display_errors', $debug ? '1' : '0');
+ini_set('log_errors', '1');
+
+$logDirectory = $config['paths']['logs'] ?? $rootPath . '/storage/logs';
+if (!is_dir($logDirectory)) {
+    @mkdir($logDirectory, 0755, true);
+}
+$logDirectory = rtrim($logDirectory, '/\\');
+if ($logDirectory !== '') {
+    ini_set('error_log', $logDirectory . DIRECTORY_SEPARATOR . 'php-error.log');
+}
+
 $timezone = $config['app']['timezone'] ?? 'UTC';
 if (!empty($timezone) && is_string($timezone)) {
     date_default_timezone_set($timezone);
