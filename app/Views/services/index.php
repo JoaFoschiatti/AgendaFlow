@@ -40,7 +40,7 @@ $title = 'Servicios - AgendaFlow';
                         <tr>
                             <th>Servicio</th>
                             <th>Precio</th>
-                            <th>DuraciÃ³n</th>
+                            <th>Duración</th>
                             <th>Estado</th>
                             <th class="text-end">Acciones</th>
                         </tr>
@@ -55,11 +55,11 @@ $title = 'Servicios - AgendaFlow';
                                 </div>
                             </td>
                             <td>
-                                <?php echo \App\Core\Helpers::formatPrice($service['price']); ?>
+                                <?php echo \App\Core\Helpers::formatPrice($service['price_default'] ?? 0); ?>
                             </td>
                             <td>
-                                <?php if ($service['duration']): ?>
-                                    <?php echo $service['duration']; ?> min
+                                <?php if ($service['duration_min']): ?>
+                                    <?php echo $service['duration_min']; ?> min
                                 <?php else: ?>
                                     <span class="text-muted">-</span>
                                 <?php endif; ?>
@@ -72,17 +72,23 @@ $title = 'Servicios - AgendaFlow';
                                 <?php endif; ?>
                             </td>
                             <td class="text-end">
-                                <a href="<?= $basePath ?>/services/<?php echo $service['id']; ?>/edit" 
+                                <a href="<?= $basePath ?>/appointments/create?service_id=<?php echo $service['id']; ?>"
+                                   class="btn btn-sm btn-success"
+                                   data-bs-toggle="tooltip"
+                                   title="Crear turno con este servicio">
+                                    <i class="bi bi-calendar-plus"></i>
+                                </a>
+                                <a href="<?= $basePath ?>/services/<?php echo $service['id']; ?>/edit"
                                    class="btn btn-sm btn-outline-primary"
-                                   data-bs-toggle="tooltip" 
+                                   data-bs-toggle="tooltip"
                                    title="Editar">
                                     <i class="bi bi-pencil"></i>
                                 </a>
                                 <?php if ($user && \App\Core\Helpers::getTrialDaysRemaining($user['trial_ends_at']) > 0 || $user['subscription_status'] === 'active'): ?>
-                                <button type="button" 
+                                <button type="button"
                                         class="btn btn-sm btn-outline-danger"
                                         onclick="deleteService(<?php echo $service['id']; ?>, '<?php echo htmlspecialchars($service['name']); ?>')"
-                                        data-bs-toggle="tooltip" 
+                                        data-bs-toggle="tooltip"
                                         title="Eliminar">
                                     <i class="bi bi-trash"></i>
                                 </button>
@@ -102,7 +108,7 @@ $title = 'Servicios - AgendaFlow';
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Confirmar eliminaciÃ³n</h5>
+                <h5 class="modal-title">Confirmar eliminación</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">

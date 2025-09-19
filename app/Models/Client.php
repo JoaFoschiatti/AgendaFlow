@@ -88,4 +88,9 @@ class Client extends Model
         $stmt = DB::query($sql, ['user_id' => $userId]);
         return $stmt->fetchAll();
     }
+
+    public function getAllByUser(int $userId): array
+    {
+        return parent::all(['user_id' => $userId]);
+    }
 }

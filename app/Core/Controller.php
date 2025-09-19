@@ -24,6 +24,11 @@ abstract class Controller
     
     protected function render(string $view, array $data = []): void
     {
+        // Prevent browser caching for dynamic pages
+        header('Cache-Control: no-cache, no-store, must-revalidate');
+        header('Pragma: no-cache');
+        header('Expires: 0');
+
         $urlGenerator = function (string $path = ''): string {
             return Url::to($path);
         };

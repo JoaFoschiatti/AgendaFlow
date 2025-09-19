@@ -47,8 +47,8 @@ class ServiceController extends Controller
         // Validate input
         $errors = $this->validate($_POST, [
             'name' => 'required|min:2|max:100',
-            'price' => 'required|numeric',
-            'duration' => 'numeric'
+            'price_default' => 'required|numeric',
+            'duration_min' => 'numeric'
         ]);
         
         if (!empty($errors)) {
@@ -61,8 +61,8 @@ class ServiceController extends Controller
         $serviceId = $this->serviceModel->create([
             'user_id' => $this->user['id'],
             'name' => $_POST['name'],
-            'price' => (float) $_POST['price'],
-            'duration' => !empty($_POST['duration']) ? (int) $_POST['duration'] : null,
+            'price_default' => (float) $_POST['price_default'],
+            'duration_min' => !empty($_POST['duration_min']) ? (int) $_POST['duration_min'] : null,
             'color' => !empty($_POST['color']) ? $_POST['color'] : '#6c757d',
             'is_active' => 1
         ]);
@@ -106,8 +106,8 @@ class ServiceController extends Controller
         // Validate input
         $errors = $this->validate($_POST, [
             'name' => 'required|min:2|max:100',
-            'price' => 'required|numeric',
-            'duration' => 'numeric'
+            'price_default' => 'required|numeric',
+            'duration_min' => 'numeric'
         ]);
         
         if (!empty($errors)) {
@@ -119,8 +119,8 @@ class ServiceController extends Controller
         // Update service
         $updated = $this->serviceModel->update((int)$id, [
             'name' => $_POST['name'],
-            'price' => (float) $_POST['price'],
-            'duration' => !empty($_POST['duration']) ? (int) $_POST['duration'] : null,
+            'price_default' => (float) $_POST['price_default'],
+            'duration_min' => !empty($_POST['duration_min']) ? (int) $_POST['duration_min'] : null,
             'color' => !empty($_POST['color']) ? $_POST['color'] : '#6c757d',
             'is_active' => isset($_POST['is_active']) ? 1 : 0
         ]);
@@ -184,8 +184,8 @@ class ServiceController extends Controller
         }
         
         $this->json([
-            'price' => $service['price'],
-            'duration' => $service['duration']
+            'price' => $service['price_default'] ?? 0,
+            'duration' => $service['duration_min'] ?? 30
         ]);
     }
 }

@@ -41,14 +41,21 @@ class SubscriptionController extends Controller
     public function checkout(): void
     {
         $this->requireAuth();
-        
+
         if (!$this->validateCSRF()) {
             $this->json(['error' => 'Token de seguridad inválido.'], 403);
         }
-        
+
         try {
             // Create MercadoPago preapproval
             $config = \App\Core\Config::get();
+
+            // Check if MercadoPago is enabled
+            if (!isset($config['mercadopago']['enabled']) || !$config['mercadopago']['enabled']) {
+                $this->setFlash('warning', 'Los pagos en línea no están habilitados temporalmente. Por favor, contacta al administrador para activar tu suscripción manualmente.');
+                $this->redirect('/subscription');
+                return;
+            }
 
             $preapprovalData = [
                 'reason' => $config['business']['plan_name'],

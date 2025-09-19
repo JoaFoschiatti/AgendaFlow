@@ -81,15 +81,17 @@ class AppointmentController extends Controller
         $services = $this->serviceModel->getActiveByUser($this->user['id']);
         $clients = $this->clientModel->getByUser($this->user['id']);
         
-        // Pre-fill date/time if provided
+        // Pre-fill date/time and service if provided
         $defaultDate = $_GET['date'] ?? date('Y-m-d');
         $defaultTime = $_GET['time'] ?? date('H:00');
-        
+        $defaultServiceId = $_GET['service_id'] ?? null;
+
         $this->render('appointments/create', [
             'services' => $services,
             'clients' => $clients,
             'defaultDate' => $defaultDate,
-            'defaultTime' => $defaultTime
+            'defaultTime' => $defaultTime,
+            'defaultServiceId' => $defaultServiceId
         ]);
     }
     
