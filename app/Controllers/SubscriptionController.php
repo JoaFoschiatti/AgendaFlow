@@ -48,8 +48,8 @@ class SubscriptionController extends Controller
         
         try {
             // Create MercadoPago preapproval
-            $config = require dirname(__DIR__, 2) . '/config/config.php';
-            
+            $config = \App\Core\Config::get();
+
             $preapprovalData = [
                 'reason' => $config['business']['plan_name'],
                 'amount' => $config['business']['plan_price'],

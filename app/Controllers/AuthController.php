@@ -211,7 +211,7 @@ class AuthController extends Controller
     public function forgotPassword(): void
     {
         $this->requireGuest();
-        
+
         if (!$this->validateCSRF()) {
             $this->setFlash('error', 'Token de seguridad inválido.');
             $this->redirect('/forgot-password');
@@ -260,10 +260,77 @@ class AuthController extends Controller
                 $_SERVER['HTTP_USER_AGENT'] ?? null
             );
         }
-        
+
         $this->redirect('/login');
     }
-    
+
+    public function showResetPassword(string $token): void
+    {
+        $this->requireGuest();
+
+        $userId = $this->getValidResetUserId($token);
+
+        if ($userId === null) {
+            $this->clearResetData();
+            $this->setFlash('error', 'El enlace para restablecer la contraseña no es válido o ha expirado.');
+            $this->redirect('/forgot-password');
+        }
+
+        $this->render('auth/reset-password', [
+            'token' => $token
+        ]);
+    }
+
+    public function resetPassword(): void
+    {
+        $this->requireGuest();
+
+        $token = $_POST['token'] ?? '';
+
+        if (!$this->validateCSRF()) {
+            $this->setFlash('error', 'Token de seguridad inválido.');
+            $this->redirect('/reset-password/' . $token);
+        }
+
+        $userId = $this->getValidResetUserId($token);
+
+        if ($userId === null) {
+            $this->clearResetData();
+            $this->setFlash('error', 'El enlace para restablecer la contraseña no es válido o ha expirado.');
+            $this->redirect('/forgot-password');
+        }
+
+        $errors = $this->validate($_POST, [
+            'password' => 'required|min:6',
+            'password_confirmation' => 'required'
+        ]);
+
+        if (($_POST['password'] ?? '') !== ($_POST['password_confirmation'] ?? '')) {
+            $errors['password_confirmation'] = 'Las contraseñas no coinciden.';
+        }
+
+        if (!empty($errors)) {
+            $_SESSION['errors'] = $errors;
+            $this->redirect('/reset-password/' . $token);
+        }
+
+        $updated = $this->userModel->update($userId, [
+            'password_hash' => Auth::hashPassword($_POST['password'])
+        ]);
+
+        if (!$updated) {
+            $this->setFlash('error', 'No se pudo actualizar la contraseña. Intenta nuevamente.');
+            $this->redirect('/reset-password/' . $token);
+        }
+
+        $this->clearResetData();
+
+        $this->auditLog('password_reset_completed', 'user', $userId);
+
+        $this->setFlash('success', 'Tu contraseña fue restablecida correctamente. Ya puedes iniciar sesión.');
+        $this->redirect('/login');
+    }
+
     private function createDefaultSettings(int $userId): void
     {
         $settingsModel = new \App\Models\Setting();
@@ -284,5 +351,31 @@ class AuthController extends Controller
                 'closed' => $isClosed ? 1 : 0
             ]);
         }
+    }
+
+    private function getValidResetUserId(string $token): ?int
+    {
+        $storedToken = $_SESSION['reset_token'] ?? null;
+        $userId = $_SESSION['reset_user_id'] ?? null;
+        $expiresAt = $_SESSION['reset_expires'] ?? 0;
+
+        if (!$storedToken || !$userId || !$expiresAt) {
+            return null;
+        }
+
+        if ($expiresAt < time()) {
+            return null;
+        }
+
+        if (!hash_equals($storedToken, $token)) {
+            return null;
+        }
+
+        return (int) $userId;
+    }
+
+    private function clearResetData(): void
+    {
+        unset($_SESSION['reset_token'], $_SESSION['reset_user_id'], $_SESSION['reset_expires']);
     }
 }

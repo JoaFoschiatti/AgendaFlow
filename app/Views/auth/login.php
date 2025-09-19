@@ -1,5 +1,5 @@
 <?php
-$title = 'Iniciar Sesión - AgendaFlow';
+$title = 'Iniciar Sesi&oacute;n - AgendaFlow';
 ?>
 
 <div class="row justify-content-center">
@@ -13,9 +13,9 @@ $title = 'Iniciar Sesión - AgendaFlow';
         
         <div class="card">
             <div class="card-body p-4">
-                <h2 class="h5 mb-4">Iniciar Sesión</h2>
+                <h2 class="h5 mb-4">Iniciar Sesi&oacute;n</h2>
                 
-                <form method="POST" action="/AgendaFlow/public/login">
+                <form method="POST" action="<?= $basePath ?>/login">
                     <?php echo \App\Core\CSRF::field(); ?>
                     
                     <div class="mb-3">
@@ -35,7 +35,7 @@ $title = 'Iniciar Sesión - AgendaFlow';
                     </div>
                     
                     <div class="mb-3">
-                        <label for="password" class="form-label">Contraseña</label>
+                        <label for="password" class="form-label">Contrase&ntilde;a</label>
                         <input type="password" 
                                class="form-control <?php echo isset($_SESSION['errors']['password']) ? 'is-invalid' : ''; ?>" 
                                id="password" 
@@ -66,14 +66,14 @@ $title = 'Iniciar Sesión - AgendaFlow';
                 
                 <div class="text-center">
                     <p class="mb-2">
-                        <a href="/AgendaFlow/public/forgot-password" class="text-decoration-none">
-                            ¿Olvidaste tu contraseña?
+                        <a href="<?= $basePath ?>/forgot-password" class="text-decoration-none">
+                            &iquest;Olvidaste tu contrase&ntilde;a?
                         </a>
                     </p>
                     <p>
-                        ¿No tienes cuenta? 
-                        <a href="/AgendaFlow/public/register" class="text-decoration-none fw-bold">
-                            Regístrate gratis
+                        &iquest;No tienes cuenta? 
+                        <a href="<?= $basePath ?>/register" class="text-decoration-none fw-bold">
+                            Reg&iacute;strate gratis
                         </a>
                     </p>
                 </div>
@@ -82,8 +82,8 @@ $title = 'Iniciar Sesión - AgendaFlow';
         
         <div class="text-center mt-4">
             <small class="text-muted">
-                Al iniciar sesión, aceptas nuestros 
-                <a href="#" class="text-decoration-none">Términos y Condiciones</a>
+                Al iniciar sesi&oacute;n, aceptas nuestros 
+                <a href="#" class="text-decoration-none">T&eacute;rminos y Condiciones</a>
             </small>
         </div>
     </div>

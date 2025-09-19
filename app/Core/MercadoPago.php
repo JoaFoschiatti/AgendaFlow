@@ -10,9 +10,9 @@ class MercadoPago
     
     public function __construct()
     {
-        $config = require dirname(__DIR__, 2) . '/config/config.php';
-        $this->accessToken = $config['mercadopago']['access_token'];
-        $this->sandbox = $config['mercadopago']['sandbox'];
+        $config = Config::get('mercadopago');
+        $this->accessToken = $config['access_token'];
+        $this->sandbox = $config['sandbox'];
         $this->baseUrl = 'https://api.mercadopago.com';
     }
     
@@ -57,24 +57,49 @@ class MercadoPago
         ]);
     }
     
-    public function validateWebhookSignature(string $signature, string $requestId, string $dataId): bool
+    public function validateWebhookSignature(string $signatureHeader, string $requestId, string $dataId): bool
     {
-        $config = require dirname(__DIR__, 2) . '/config/config.php';
-        $secret = $config['mercadopago']['webhook_secret'] ?? '';
+        $secret = Config::get('mercadopago.webhook_secret', '');
         
-        if (empty($secret)) {
-            // If no secret is configured, skip validation (development only)
+        if ($secret === '') {
+            // Development or test mode without secret configured
             return true;
         }
         
-        // Build the manifest string
-        $manifest = "id:{$dataId};request-id:{$requestId}";
+        if ($signatureHeader === '' || $requestId === '' || $dataId === '') {
+            return false;
+        }
         
-        // Calculate HMAC
-        $calculatedSignature = 'ts=' . time() . ',v1=' . hash_hmac('sha256', $manifest, $secret);
+        $parts = array_filter(array_map('trim', explode(',', $signatureHeader)));
+        $signatureValues = [];
         
-        // Compare signatures
-        return hash_equals($calculatedSignature, $signature);
+        foreach ($parts as $part) {
+            [$key, $value] = array_pad(explode('=', $part, 2), 2, null);
+            if ($key !== null && $value !== null) {
+                $signatureValues[$key] = $value;
+            }
+        }
+        
+        if (!isset($signatureValues['ts'], $signatureValues['v1'])) {
+            return false;
+        }
+        
+        $timestamp = $signatureValues['ts'];
+        $providedHash = $signatureValues['v1'];
+        
+        $manifests = [
+            sprintf('id:%s;request-id:%s;ts:%s', $dataId, $requestId, $timestamp),
+            sprintf('id:%s&request-id:%s&ts:%s', $dataId, $requestId, $timestamp),
+        ];
+        
+        foreach ($manifests as $manifest) {
+            $calculated = hash_hmac('sha256', $manifest, $secret);
+            if (hash_equals($calculated, $providedHash)) {
+                return true;
+            }
+        }
+        
+        return false;
     }
     
     private function makeRequest(string $method, string $endpoint, ?array $data = null): array

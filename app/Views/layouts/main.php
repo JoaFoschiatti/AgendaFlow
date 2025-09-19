@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     
     <!-- Custom Responsive CSS -->
-    <link rel="stylesheet" href="/AgendaFlow/public/css/responsive.css">
+    <link rel="stylesheet" href="<?= $basePath ?>/css/responsive.css">
     
     <!-- Custom CSS -->
     <style>
@@ -95,7 +95,7 @@
     <!-- Navbar for authenticated users -->
     <nav class="navbar navbar-expand-lg navbar-light bg-white">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/AgendaFlow/public/dashboard">
+            <a class="navbar-brand" href="<?= $basePath ?>/dashboard">
                 <i class="bi bi-calendar-check"></i> AgendaFlow
             </a>
             
@@ -106,33 +106,33 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="/AgendaFlow/public/dashboard">
+                        <a class="nav-link" href="<?= $basePath ?>/dashboard">
                             <i class="bi bi-speedometer2"></i> Dashboard
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/AgendaFlow/public/appointments">
+                        <a class="nav-link" href="<?= $basePath ?>/appointments">
                             <i class="bi bi-calendar-week"></i> Agenda
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/AgendaFlow/public/services">
+                        <a class="nav-link" href="<?= $basePath ?>/services">
                             <i class="bi bi-scissors"></i> Servicios
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/AgendaFlow/public/clients">
+                        <a class="nav-link" href="<?= $basePath ?>/clients">
                             <i class="bi bi-people"></i> Clientes
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/AgendaFlow/public/reports">
+                        <a class="nav-link" href="<?= $basePath ?>/reports">
                             <i class="bi bi-graph-up"></i> Reportes
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/AgendaFlow/public/settings">
-                            <i class="bi bi-gear"></i> Configuración
+                        <a class="nav-link" href="<?= $basePath ?>/settings">
+                            <i class="bi bi-gear"></i> ConfiguraciÃ³n
                         </a>
                     </li>
                 </ul>
@@ -143,24 +143,24 @@
                         $daysRemaining = \App\Core\Helpers::getTrialDaysRemaining($user['trial_ends_at']);
                         ?>
                         <li class="nav-item me-3">
-                            <a class="nav-link" href="/AgendaFlow/public/subscription">
+                            <a class="nav-link" href="<?= $basePath ?>/subscription">
                                 <span class="badge badge-trial">
-                                    <i class="bi bi-clock"></i> <?php echo $daysRemaining; ?> días de prueba
+                                    <i class="bi bi-clock"></i> <?php echo $daysRemaining; ?> dÃ­as de prueba
                                 </span>
                             </a>
                         </li>
                     <?php elseif ($user['subscription_status'] === 'active'): ?>
                         <li class="nav-item me-3">
-                            <a class="nav-link" href="/AgendaFlow/public/subscription">
+                            <a class="nav-link" href="<?= $basePath ?>/subscription">
                                 <span class="badge badge-active">
-                                    <i class="bi bi-check-circle"></i> Suscripción activa
+                                    <i class="bi bi-check-circle"></i> SuscripciÃ³n activa
                                 </span>
                             </a>
                         </li>
                     <?php else: ?>
                         <li class="nav-item me-3">
-                            <a class="nav-link text-danger" href="/AgendaFlow/public/subscription">
-                                <i class="bi bi-exclamation-triangle"></i> Activar suscripción
+                            <a class="nav-link text-danger" href="<?= $basePath ?>/subscription">
+                                <i class="bi bi-exclamation-triangle"></i> Activar suscripciÃ³n
                             </a>
                         </li>
                     <?php endif; ?>
@@ -172,19 +172,19 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li>
-                                <a class="dropdown-item" href="/AgendaFlow/public/settings">
+                                <a class="dropdown-item" href="<?= $basePath ?>/settings">
                                     <i class="bi bi-gear"></i> Mi cuenta
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-item" href="/AgendaFlow/public/subscription">
-                                    <i class="bi bi-credit-card"></i> Suscripción
+                                <a class="dropdown-item" href="<?= $basePath ?>/subscription">
+                                    <i class="bi bi-credit-card"></i> SuscripciÃ³n
                                 </a>
                             </li>
                             <li><hr class="dropdown-divider"></li>
                             <li>
-                                <a class="dropdown-item" href="/AgendaFlow/public/logout">
-                                    <i class="bi bi-box-arrow-right"></i> Cerrar sesión
+                                <a class="dropdown-item" href="<?= $basePath ?>/logout">
+                                    <i class="bi bi-box-arrow-right"></i> Cerrar sesiÃ³n
                                 </a>
                             </li>
                         </ul>
@@ -200,8 +200,8 @@
         <div class="trial-banner py-2 text-center">
             <small>
                 <i class="bi bi-exclamation-circle"></i>
-                Tu prueba gratis termina en <?php echo $daysRemaining; ?> días.
-                <a href="/AgendaFlow/public/subscription" class="text-white fw-bold">Activar suscripción →</a>
+                Tu prueba gratis termina en <?php echo $daysRemaining; ?> dÃ­as.
+                <a href="<?= $basePath ?>/subscription" class="text-white fw-bold">Activar suscripciÃ³n â†’</a>
             </small>
         </div>
         <?php endif; ?>
@@ -209,8 +209,8 @@
         <div class="bg-danger text-white py-2 text-center">
             <small>
                 <i class="bi bi-lock"></i>
-                Tu suscripción ha vencido. Solo puedes ver tus datos.
-                <a href="/AgendaFlow/public/subscription" class="text-white fw-bold">Reactivar ahora →</a>
+                Tu suscripciÃ³n ha vencido. Solo puedes ver tus datos.
+                <a href="<?= $basePath ?>/subscription" class="text-white fw-bold">Reactivar ahora â†’</a>
             </small>
         </div>
     <?php endif; ?>
@@ -268,6 +268,10 @@
     <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
+    <script>
+        window.APP_BASE_PATH = <?php echo json_encode($basePath ?? ''); ?>;
+    </script>
+
     <!-- Custom JS -->
     <script>
         // Initialize tooltips

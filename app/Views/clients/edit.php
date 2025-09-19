@@ -14,7 +14,7 @@ $title = 'Editar Cliente - AgendaFlow';
     <div class="col-md-6">
         <div class="card">
             <div class="card-body">
-                <form method="POST" action="/AgendaFlow/public/clients/<?php echo $client['id']; ?>/update">
+                <form method="POST" action="<?= $basePath ?>/clients/<?php echo $client['id']; ?>/update">
                     <?php echo \App\Core\CSRF::field(); ?>
                     
                     <div class="mb-3">
@@ -34,7 +34,7 @@ $title = 'Editar Cliente - AgendaFlow';
                     </div>
                     
                     <div class="mb-3">
-                        <label for="phone" class="form-label">Teléfono</label>
+                        <label for="phone" class="form-label">Tel&eacute;fono</label>
                         <input type="tel" 
                                class="form-control" 
                                id="phone" 
@@ -55,7 +55,7 @@ $title = 'Editar Cliente - AgendaFlow';
                         <button type="submit" class="btn btn-primary">
                             <i class="bi bi-check-circle"></i> Guardar Cambios
                         </button>
-                        <a href="/AgendaFlow/public/clients" class="btn btn-outline-secondary">
+                        <a href="<?= $basePath ?>/clients" class="btn btn-outline-secondary">
                             Cancelar
                         </a>
                     </div>
@@ -115,7 +115,7 @@ $title = 'Editar Cliente - AgendaFlow';
         
         <div class="card mt-3 bg-light">
             <div class="card-body">
-                <h6>Información del cliente</h6>
+                <h6>Informaci&oacute;n del cliente</h6>
                 <dl class="row mb-0">
                     <dt class="col-sm-4">Registrado:</dt>
                     <dd class="col-sm-8"><?php echo \App\Core\Helpers::formatDateTime($client['created_at']); ?></dd>

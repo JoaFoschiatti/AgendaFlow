@@ -47,7 +47,8 @@ class ServiceController extends Controller
         // Validate input
         $errors = $this->validate($_POST, [
             'name' => 'required|min:2|max:100',
-            'price_default' => 'required|numeric'
+            'price' => 'required|numeric',
+            'duration' => 'numeric'
         ]);
         
         if (!empty($errors)) {
@@ -60,10 +61,10 @@ class ServiceController extends Controller
         $serviceId = $this->serviceModel->create([
             'user_id' => $this->user['id'],
             'name' => $_POST['name'],
-            'price_default' => $_POST['price_default'],
-            'duration_min' => !empty($_POST['duration_min']) ? $_POST['duration_min'] : null,
+            'price' => (float) $_POST['price'],
+            'duration' => !empty($_POST['duration']) ? (int) $_POST['duration'] : null,
             'color' => !empty($_POST['color']) ? $_POST['color'] : '#6c757d',
-            'active' => isset($_POST['active']) ? 1 : 1
+            'is_active' => 1
         ]);
         
         if (!$serviceId) {
@@ -105,7 +106,8 @@ class ServiceController extends Controller
         // Validate input
         $errors = $this->validate($_POST, [
             'name' => 'required|min:2|max:100',
-            'price_default' => 'required|numeric'
+            'price' => 'required|numeric',
+            'duration' => 'numeric'
         ]);
         
         if (!empty($errors)) {
@@ -117,10 +119,10 @@ class ServiceController extends Controller
         // Update service
         $updated = $this->serviceModel->update((int)$id, [
             'name' => $_POST['name'],
-            'price_default' => $_POST['price_default'],
-            'duration_min' => !empty($_POST['duration_min']) ? $_POST['duration_min'] : null,
+            'price' => (float) $_POST['price'],
+            'duration' => !empty($_POST['duration']) ? (int) $_POST['duration'] : null,
             'color' => !empty($_POST['color']) ? $_POST['color'] : '#6c757d',
-            'active' => isset($_POST['active']) ? 1 : 0
+            'is_active' => isset($_POST['is_active']) ? 1 : 0
         ]);
         
         if (!$updated) {
@@ -158,7 +160,7 @@ class ServiceController extends Controller
         
         if ($hasAppointments) {
             // Soft delete (deactivate)
-            $this->serviceModel->update((int)$id, ['active' => 0]);
+            $this->serviceModel->update((int)$id, ['is_active' => 0]);
             $this->auditLog('service_deactivated', 'service', (int)$id);
             $this->setFlash('warning', 'El servicio ha sido desactivado porque tiene turnos asociados.');
         } else {
@@ -182,8 +184,8 @@ class ServiceController extends Controller
         }
         
         $this->json([
-            'price' => $service['price_default'],
-            'duration' => $service['duration_min']
+            'price' => $service['price'],
+            'duration' => $service['duration']
         ]);
     }
 }
