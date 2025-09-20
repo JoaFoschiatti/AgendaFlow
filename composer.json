@@ -1,20 +1,14 @@
 {
-    "name": "agendaflow/agendaflow",
-    "description": "Fluye con tu agenda digital - Sistema de turnos web para profesionales",
-    "type": "project",
-    "require": {
-        "php": ">=7.4",
-        "mercadopago/dx-php": "^2.5",
-        "firebase/php-jwt": "^6.11"
-    },
-    "autoload": {
-        "psr-4": {
-            "App\\": "app/"
-        }
-    },
-    "scripts": {
-        "post-install-cmd": [
-            "@php -r \"file_exists('config/config.php') || copy('config/config.example.php', 'config/config.php');\""
-        ]
+  "name": "agendaflow/agendaflow",
+  "description": "AgendaFlow - lightweight PHP scheduling app",
+  "type": "project",
+  "require": {
+    "php": ">=8.1",
+    "firebase/php-jwt": "^6.10"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/"
     }
+  }
 }

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#4F46E5">
+    <title>Sin Conexión - AgendaFlow</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        h1 {
+            color: #4F46E5;
+            margin-bottom: 15px;
+            font-size: 28px;
+        }
+
+        p {
+            color: #6b7280;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .status {
+            background: #f3f4f6;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .status-item:last-child {
+            border-bottom: none;
+        }
+
+        .status-label {
+            color: #4b5563;
+            font-weight: 500;
+        }
+
+        .status-value {
+            color: #9ca3af;
+            font-size: 14px;
+        }
+
+        button {
+            background: #4F46E5;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 5px;
+        }
+
+        button:hover {
+            background: #4338CA;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3);
+        }
+
+        .tips {
+            background: #fef3c7;
+            border: 2px solid #fbbf24;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .tips h3 {
+            color: #92400e;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .tips ul {
+            color: #92400e;
+            margin-left: 20px;
+        }
+
+        .tips li {
+            margin: 5px 0;
+        }
+
+        .logo {
+            display: inline-block;
+            padding: 15px;
+            background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+            border-radius: 15px;
+            color: white;
+            font-weight: bold;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">📅 AgendaFlow</div>
+
+        <div class="icon">📡</div>
+
+        <h1>Sin Conexión a Internet</h1>
+
+        <p>
+            No pudimos conectar con el servidor de AgendaFlow.
+            Por favor, verifica tu conexión a internet.
+        </p>
+
+        <div class="status">
+            <div class="status-item">
+                <span class="status-label">Estado de conexión:</span>
+                <span class="status-value" id="connection-status">Sin conexión</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Último acceso:</span>
+                <span class="status-value" id="last-access">No disponible</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Cache disponible:</span>
+                <span class="status-value" id="cache-status">Verificando...</span>
+            </div>
+        </div>
+
+        <button onclick="checkConnection()">🔄 Reintentar Conexión</button>
+        <button onclick="goBack()">⬅️ Volver</button>
+
+        <div class="tips">
+            <h3>💡 Consejos:</h3>
+            <ul>
+                <li>Verifica tu conexión WiFi o datos móviles</li>
+                <li>Intenta recargar la página con Ctrl+R (Cmd+R en Mac)</li>
+                <li>Si el problema persiste, intenta más tarde</li>
+                <li>Los datos guardados localmente están seguros</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Check connection status
+        function updateConnectionStatus() {
+            const statusEl = document.getElementById('connection-status');
+            if (navigator.onLine) {
+                statusEl.textContent = 'En línea';
+                statusEl.style.color = '#10b981';
+            } else {
+                statusEl.textContent = 'Sin conexión';
+                statusEl.style.color = '#ef4444';
+            }
+        }
+
+        // Update last access time
+        function updateLastAccess() {
+            const lastAccess = localStorage.getItem('lastAccess');
+            const lastAccessEl = document.getElementById('last-access');
+
+            if (lastAccess) {
+                const date = new Date(lastAccess);
+                lastAccessEl.textContent = date.toLocaleString('es-AR');
+            }
+        }
+
+        // Check cache status
+        async function checkCacheStatus() {
+            const cacheStatusEl = document.getElementById('cache-status');
+
+            if ('caches' in window) {
+                try {
+                    const cacheNames = await caches.keys();
+                    if (cacheNames.length > 0) {
+                        cacheStatusEl.textContent = 'Disponible';
+                        cacheStatusEl.style.color = '#10b981';
+                    } else {
+                        cacheStatusEl.textContent = 'No disponible';
+                        cacheStatusEl.style.color = '#ef4444';
+                    }
+                } catch (error) {
+                    cacheStatusEl.textContent = 'Error al verificar';
+                    cacheStatusEl.style.color = '#ef4444';
+                }
+            } else {
+                cacheStatusEl.textContent = 'No soportado';
+                cacheStatusEl.style.color = '#ef4444';
+            }
+        }
+
+        // Check connection
+        function checkConnection() {
+            updateConnectionStatus();
+
+            if (navigator.onLine) {
+                // Try to reload
+                location.reload();
+            } else {
+                alert('Aún no hay conexión a internet. Por favor, verifica tu conexión.');
+            }
+        }
+
+        // Go back
+        function goBack() {
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                // Try to go to home
+                location.href = '/AgendaFlow/public/';
+            }
+        }
+
+        // Listen for connection changes
+        window.addEventListener('online', () => {
+            updateConnectionStatus();
+            setTimeout(() => {
+                if (confirm('¡Conexión restaurada! ¿Deseas recargar la página?')) {
+                    location.reload();
+                }
+            }, 500);
+        });
+
+        window.addEventListener('offline', updateConnectionStatus);
+
+        // Initialize
+        window.addEventListener('load', () => {
+            updateConnectionStatus();
+            updateLastAccess();
+            checkCacheStatus();
+
+            // Set current time as last access for next time
+            if (navigator.onLine) {
+                localStorage.setItem('lastAccess', new Date().toISOString());
+            }
+        });
+
+        // Auto retry every 30 seconds
+        setInterval(() => {
+            if (!navigator.onLine) {
+                console.log('Verificando conexión...');
+                fetch('/AgendaFlow/public/manifest.json', { method: 'HEAD' })
+                    .then(() => {
+                        location.reload();
+                    })
+                    .catch(() => {
+                        console.log('Aún sin conexión');
+                    });
+            }
+        }, 30000);
+    </script>
+</body>
+</html>

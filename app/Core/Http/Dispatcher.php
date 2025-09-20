@@ -48,6 +48,9 @@ final class Dispatcher
 
         try {
             $router->dispatch($method, $uri);
+        } catch (\App\Core\Http\HaltRequest $halt) {
+            // Intended early stop for simulated/CLI tests
+            return;
         } catch (\Throwable $exception) {
             $onError($exception, $method, $uri);
         }

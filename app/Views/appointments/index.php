@@ -308,8 +308,8 @@ $view = $viewType ?? 'day';
                             <option value="">Seleccionar servicio...</option>
                             <?php foreach ($services as $service): ?>
                                         <option value="<?php echo $service['id']; ?>"
-                                                data-price="<?php echo $service['price']; ?>"
-                                                data-duration="<?php echo $service['duration'] ?? 30; ?>">
+                                                data-price="<?php echo $service['price_default'] ?? 0; ?>"
+                                                data-duration="<?php echo $service['duration_min'] ?? 30; ?>">
                                     <?php echo htmlspecialchars($service['name']); ?>
                                 </option>
                             <?php endforeach; ?>

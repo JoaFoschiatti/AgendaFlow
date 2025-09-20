@@ -107,25 +107,25 @@ class AppointmentApiController extends ApiController
         ];
 
         $rawPhone = trim($this->requestData['client_phone'] ?? $this->requestData['phone'] ?? '');
-        $data['phone'] = $rawPhone !== '' ? $rawPhone : null;
+        $data['client_phone'] = $rawPhone !== '' ? $rawPhone : null;
 
         // Validate service ownership
         $service = $this->serviceModel->find($data['service_id']);
         $this->validateOwnership($service);
 
         // Check if service has duration
-        if (!isset($service['duration']) || empty($service['duration'])) {
+        if (!isset($service['duration_min']) || empty($service['duration_min'])) {
             $this->errorResponse('Service does not have a valid duration', 422);
         }
 
         // Calculate end time
         $startsAt = new \DateTime($data['starts_at']);
         $endsAt = clone $startsAt;
-        $endsAt->add(new \DateInterval('PT' . $service['duration'] . 'M'));
+        $endsAt->add(new \DateInterval('PT' . $service['duration_min'] . 'M'));
         $data['ends_at'] = $endsAt->format('Y-m-d H:i:s');
 
         // Set price from service
-        $data['price'] = $service['price'];
+        $data['price'] = $service['price_default'] ?? 0;
 
         // Check for overlapping appointments
         if ($this->appointmentModel->hasOverlap(
@@ -167,7 +167,7 @@ class AppointmentApiController extends ApiController
             $service = $this->serviceModel->find($appointment['service_id']);
             $startsAt = new \DateTime($data['starts_at']);
             $endsAt = clone $startsAt;
-            $endsAt->add(new \DateInterval('PT' . $service['duration'] . 'M'));
+            $endsAt->add(new \DateInterval('PT' . ($service['duration_min'] ?? 30) . 'M'));
             $data['ends_at'] = $endsAt->format('Y-m-d H:i:s');
 
             // Check for overlapping appointments
@@ -199,7 +199,7 @@ class AppointmentApiController extends ApiController
 
         if (isset($this->requestData['client_phone']) || isset($this->requestData['phone'])) {
             $rawPhone = trim($this->requestData['client_phone'] ?? $this->requestData['phone']);
-            $data['phone'] = $rawPhone !== '' ? $rawPhone : null;
+            $data['client_phone'] = $rawPhone !== '' ? $rawPhone : null;
         }
 
         if (empty($data)) {
@@ -248,8 +248,15 @@ class AppointmentApiController extends ApiController
             return null;
         }
 
-        $appointment['client_phone'] = $appointment['phone'] ?? null;
-
+        // Always expose client_phone while keeping legacy alias
+        if (isset($appointment['client_phone'])) {
+            $appointment['phone'] = $appointment['client_phone'];
+        } elseif (isset($appointment['phone'])) {
+            $appointment['client_phone'] = $appointment['phone'];
+        } else {
+            $appointment['client_phone'] = null;
+        }
+        
         return $appointment;
     }
 

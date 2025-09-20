@@ -36,10 +36,14 @@ class Config
         }
 
         $basePath = dirname(__DIR__, 2) . '/config/';
+        $env = getenv('APP_ENV') ?: ($_ENV['APP_ENV'] ?? null);
         $primaryConfig = $basePath . 'config.php';
+        $testConfig = $basePath . 'config.test.php';
         $exampleConfig = $basePath . 'config.example.php';
 
-        if (file_exists($primaryConfig)) {
+        if ($env === 'test' && file_exists($testConfig)) {
+            $config = require $testConfig;
+        } elseif (file_exists($primaryConfig)) {
             $config = require $primaryConfig;
         } elseif (file_exists($exampleConfig)) {
             $config = require $exampleConfig;

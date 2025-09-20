@@ -13,7 +13,7 @@ class AuditLog extends Model
         'action',
         'entity',
         'entity_id',
-        'payload',
+        'data',
         'ip_address',
         'user_agent'
     ];
@@ -32,7 +32,7 @@ class AuditLog extends Model
             'action' => $action,
             'entity' => $entity,
             'entity_id' => $entityId,
-            'payload' => !empty($payload) ? json_encode($payload) : null,
+            'data' => !empty($payload) ? json_encode($payload) : null,
             'ip_address' => $ipAddress,
             'user_agent' => $userAgent
         ];

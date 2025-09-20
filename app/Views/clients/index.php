@@ -21,7 +21,7 @@ $title = 'Clientes - AgendaFlow';
                         <input type="text" 
                                class="form-control" 
                                name="search" 
-                               placeholder="Buscar por nombre o telÃ©fono..."
+                               placeholder="Buscar por nombre o teléfono..."
                                value="<?php echo htmlspecialchars($search); ?>">
                         <button class="btn btn-outline-secondary" type="submit">
                             <i class="bi bi-search"></i> Buscar
@@ -59,9 +59,9 @@ $title = 'Clientes - AgendaFlow';
             </h5>
             <p class="text-muted">
                 <?php if (!empty($search)): ?>
-                    Intenta con otros tÃ©rminos de bÃºsqueda
+                    Intenta con otros términos de búsqueda
                 <?php else: ?>
-                    Los clientes se crean automÃ&iexcl;ticamente al guardarlos en los turnos
+                    Los clientes se crean automáticamente al guardarlos en los turnos
                 <?php endif; ?>
             </p>
         </div>
@@ -74,7 +74,7 @@ $title = 'Clientes - AgendaFlow';
                     <thead>
                         <tr>
                             <th>Nombre</th>
-                            <th>TelÃ©fono</th>
+                            <th>Teléfono</th>
                             <th>Turnos</th>
                             <th>Registrado</th>
                             <th class="text-end">Acciones</th>
@@ -175,7 +175,7 @@ $title = 'Clientes - AgendaFlow';
                     </div>
                     
                     <div class="mb-3">
-                        <label for="phone" class="form-label">TelÃ©fono (opcional)</label>
+                        <label for="phone" class="form-label">Teléfono (opcional)</label>
                         <input type="tel" 
                                class="form-control" 
                                id="phone" 
@@ -189,7 +189,7 @@ $title = 'Clientes - AgendaFlow';
                                   id="notes" 
                                   name="notes" 
                                   rows="3"
-                                  placeholder="InformaciÃ³n adicional del cliente..."></textarea>
+                                  placeholder="Información adicional del cliente..."></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -208,12 +208,12 @@ $title = 'Clientes - AgendaFlow';
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Confirmar eliminaciÃ³n</h5>
+                <h5 class="modal-title">Confirmar eliminación</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
                 <p>&iquest;Est&aacute;s seguro de que deseas eliminar al cliente <strong id="clientName"></strong>?</p>
-                <p class="text-muted">Esta acciÃ³n no se puede deshacer.</p>
+                <p class="text-muted">Esta acción no se puede deshacer.</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>

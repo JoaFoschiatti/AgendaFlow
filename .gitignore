@@ -18,9 +18,19 @@
 .DS_Store
 Thumbs.db
 
-# Legacy helper scripts
+# Development and test files
 debug*.php
 check*.php
+test*.php
+test*.html
+*-test.php
+*-test.html
+*-debug.php
+*-debug.html
+generate-*.php
+generate-*.html
+generate-*.js
+create-*.php
 
 # Backup files
 *.bak

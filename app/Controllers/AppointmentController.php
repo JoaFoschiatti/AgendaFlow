@@ -81,15 +81,17 @@ class AppointmentController extends Controller
         $services = $this->serviceModel->getActiveByUser($this->user['id']);
         $clients = $this->clientModel->getByUser($this->user['id']);
         
-        // Pre-fill date/time if provided
+        // Pre-fill date/time and service if provided
         $defaultDate = $_GET['date'] ?? date('Y-m-d');
         $defaultTime = $_GET['time'] ?? date('H:00');
-        
+        $defaultServiceId = $_GET['service_id'] ?? null;
+
         $this->render('appointments/create', [
             'services' => $services,
             'clients' => $clients,
             'defaultDate' => $defaultDate,
-            'defaultTime' => $defaultTime
+            'defaultTime' => $defaultTime,
+            'defaultServiceId' => $defaultServiceId
         ]);
     }
     
@@ -128,7 +130,7 @@ class AppointmentController extends Controller
             $_SESSION['old'] = $_POST;
             $this->redirect('/appointments/create');
         }
-        $duration = $service['duration'] ?? 30;
+        $duration = $service['duration_min'] ?? 30;
         
         $endsAt = date('Y-m-d H:i:s', strtotime($startsAt . ' +' . $duration . ' minutes'));
         
@@ -162,7 +164,8 @@ class AppointmentController extends Controller
             'ends_at' => $endsAt,
             'status' => 'scheduled',
             'notes' => $_POST['notes'] ?? null,
-            'phone' => $_POST['phone'] ?? null
+            // Accept both client_phone and legacy phone
+            'client_phone' => $_POST['client_phone'] ?? ($_POST['phone'] ?? null)
         ]);
         
         if (!$appointmentId) {
@@ -232,7 +235,7 @@ class AppointmentController extends Controller
         // Calculate times
         $startsAt = $_POST['date'] . ' ' . $_POST['time'] . ':00';
         $service = $this->serviceModel->find($_POST['service_id']);
-        $duration = $service['duration'] ?? 30;
+        $duration = $service['duration_min'] ?? 30;
         $endsAt = date('Y-m-d H:i:s', strtotime($startsAt . ' +' . $duration . ' minutes'));
         
         // Check for overlaps
@@ -250,7 +253,7 @@ class AppointmentController extends Controller
             $clientId = $this->clientModel->findOrCreate(
                 $this->user['id'],
                 $_POST['client_name'],
-                $_POST['phone'] ?? null
+                $_POST['client_phone'] ?? ($_POST['phone'] ?? null)
             );
         }
         
@@ -332,7 +335,7 @@ class AppointmentController extends Controller
             $this->redirect('/appointments');
         }
         
-        if (!$appointment['phone']) {
+        if (!($appointment['phone'] ?? $appointment['client_phone'] ?? null)) {
             $this->setFlash('error', 'Este turno no tiene teléfono asociado.');
             $this->redirect('/appointments');
         }
@@ -345,11 +348,18 @@ class AppointmentController extends Controller
         $message .= "Te recordamos tu turno:\n";
         $message .= "📅 Fecha: {$date}\n";
         $message .= "⏰ Hora: {$time}\n";
-        $message .= "✂️ Servicio: {$appointment['service_name']}\n\n";
+        // Ensure service name is available
+        $serviceName = $appointment['service_name'] ?? null;
+        if (!$serviceName && !empty($appointment['service_id'])) {
+            $service = $this->serviceModel->find((int)$appointment['service_id']);
+            $serviceName = $service['name'] ?? '';
+        }
+        $message .= "✂️ Servicio: {$serviceName}\n\n";
         $message .= "Te esperamos!\n";
         $message .= "{$this->user['business_name']}";
         
-        $whatsappUrl = \App\Core\Helpers::generateWhatsAppLink($appointment['phone'], $message);
+        $phone = $appointment['phone'] ?? $appointment['client_phone'];
+        $whatsappUrl = \App\Core\Helpers::generateWhatsAppLink($phone, $message);
         
         $this->redirect($whatsappUrl);
     }

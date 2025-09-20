@@ -35,21 +35,21 @@ $title = 'Crear Servicio - AgendaFlow';
                     </div>
                     
                     <div class="mb-3">
-                        <label for="price" class="form-label">Precio por defecto *</label>
+                        <label for="price_default" class="form-label">Precio por defecto *</label>
                         <div class="input-group">
                             <span class="input-group-text">$</span>
                             <input type="number"
                                    class="form-control <?php echo isset($_SESSION['errors']['price']) ? 'is-invalid' : ''; ?>"
-                                   id="price"
-                                   name="price"
-                                   value="<?php echo $_SESSION['old']['price'] ?? ''; ?>"
+                                   id="price_default"
+                                   name="price_default"
+                                   value="<?php echo $_SESSION['old']['price_default'] ?? ''; ?>"
                                    placeholder="0.00"
                                    step="0.01"
                                    min="0"
                                    required>
-                            <?php if (isset($_SESSION['errors']['price'])): ?>
+                            <?php if (isset($_SESSION['errors']['price_default'])): ?>
                                 <div class="invalid-feedback">
-                                    <?php echo $_SESSION['errors']['price']; ?>
+                                    <?php echo $_SESSION['errors']['price_default']; ?>
                                 </div>
                             <?php endif; ?>
                         </div>
@@ -57,13 +57,13 @@ $title = 'Crear Servicio - AgendaFlow';
                     </div>
 
                     <div class="mb-3">
-                        <label for="duration" class="form-label">Duraci&oacute;n estimada (opcional)</label>
+                        <label for="duration_min" class="form-label">Duraci&oacute;n estimada (opcional)</label>
                         <div class="input-group">
                             <input type="number"
                                    class="form-control"
-                                   id="duration"
-                                   name="duration"
-                                   value="<?php echo $_SESSION['old']['duration'] ?? ''; ?>"
+                                   id="duration_min"
+                                   name="duration_min"
+                                   value="<?php echo $_SESSION['old']['duration_min'] ?? ''; ?>"
                                    placeholder="30"
                                    min="5"
                                    max="480"

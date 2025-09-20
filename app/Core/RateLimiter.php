@@ -132,6 +132,7 @@ class RateLimiter
     public static function middleware(string $identifier = null, int $maxAttempts = 60, int $windowMinutes = 1): void
     {
         $identifier = $identifier ?? $_SERVER['REMOTE_ADDR'] ?? 'unknown';
+        $isCliTest = (PHP_SAPI === 'cli') && (($_ENV['APP_ENV'] ?? getenv('APP_ENV')) === 'test');
 
         if (!self::check($identifier, $maxAttempts, $windowMinutes)) {
             $resetTime = self::getResetTime($identifier);
@@ -147,6 +148,9 @@ class RateLimiter
                 'message' => 'Too many requests. Please try again later.',
                 'retry_after' => $resetTime
             ]);
+            if ($isCliTest) {
+                throw new \App\Core\Http\HaltRequest('rate_limited');
+            }
             exit;
         }
 

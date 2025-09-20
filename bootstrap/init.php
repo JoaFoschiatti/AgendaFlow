@@ -47,7 +47,9 @@ if (!empty($timezone) && is_string($timezone)) {
     date_default_timezone_set($timezone);
 }
 
-if (PHP_SAPI !== 'cli' && session_status() === PHP_SESSION_NONE) {
+// Start session in web; also allow in CLI when running tests
+$appEnv = $_ENV['APP_ENV'] ?? getenv('APP_ENV') ?: null;
+if ((PHP_SAPI !== 'cli' || $appEnv === 'test') && session_status() === PHP_SESSION_NONE) {
     $sessionConfig = $config['session'] ?? [];
 
     session_start([

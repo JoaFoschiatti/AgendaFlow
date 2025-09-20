@@ -12,8 +12,8 @@ class Service extends Model
         'user_id',
         'name',
         'description',
-        'price',
-        'duration',
+        'price_default',
+        'duration_min',
         'color',
         'is_active'
     ];
